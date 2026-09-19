@@ -263,6 +263,18 @@ describe('payments', () => {
     expect((await access()).discountedPriceKopecks).toBe(24_950);
   });
 
+  it('reports access to all tours of the app in one call', async () => {
+    const free = (await createTour(t, admin, spb, { slug: 'free', priceKopecks: 0 })).id;
+    const { orderId } = (await checkout().expect(201)).body;
+    await bank.notify(t, orderId, 'CONFIRMED').expect(200);
+    const all = await asUser('get', '/v1/payments/tours/access').expect(200);
+    const byTour = Object.fromEntries(
+      all.body.items.map((item: { tourId: string }) => [item.tourId, item]),
+    );
+    expect(byTour[tourId]).toMatchObject({ purchased: true, accessible: true });
+    expect(byTour[free]).toMatchObject({ purchased: false, accessible: true, priceKopecks: 0 });
+  });
+
   it('shows the share code only after purchase', async () => {
     await request(t.server)
       .post('/v1/admin/promo-codes')

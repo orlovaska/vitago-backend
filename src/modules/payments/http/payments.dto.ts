@@ -44,17 +44,20 @@ export class OrderStatusDto extends createZodDto(
 
 export class TourIdParamDto extends createZodDto(z.object({ tourId: z.uuid() })) {}
 
-export class TourAccessDto extends createZodDto(
-  z.object({
-    tourId: z.uuid(),
-    accessible: z.boolean(),
-    purchased: z.boolean(),
-    priceKopecks: z.number().int(),
-    /** The price this user pays now, with their applied promo code. */
-    discountedPriceKopecks: z.number().int(),
-    appliedPromoCode: z.object({ code: z.string(), discountPercent: z.number().int() }).nullable(),
-    shareCode: z.object({ code: z.string(), discountPercent: z.number().int() }).nullable(),
-  }),
+const tourAccessSchema = z.object({
+  tourId: z.uuid(),
+  accessible: z.boolean(),
+  purchased: z.boolean(),
+  priceKopecks: z.number().int(),
+  /** The price this user pays now, with their applied promo code. */
+  discountedPriceKopecks: z.number().int(),
+  appliedPromoCode: z.object({ code: z.string(), discountPercent: z.number().int() }).nullable(),
+  shareCode: z.object({ code: z.string(), discountPercent: z.number().int() }).nullable(),
+});
+
+export class TourAccessDto extends createZodDto(tourAccessSchema) {}
+export class TourAccessListDto extends createZodDto(
+  z.object({ items: z.array(tourAccessSchema) }),
 ) {}
 
 export class PurchaseListDto extends createZodDto(

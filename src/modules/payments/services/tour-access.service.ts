@@ -44,6 +44,12 @@ export class TourAccessService {
     };
   }
 
+  /** Access to every published tour of the app, in one call for the tour list. */
+  async allForApp(userId: string, appId: string): Promise<TourAccess[]> {
+    const tourIds = await this.tours.publishedTourIds(appId);
+    return Promise.all(tourIds.map((tourId) => this.forTour(userId, appId, tourId)));
+  }
+
   /** The user's purchases of this app's published tours. */
   async forApp(userId: string, appId: string): Promise<PurchaseRow[]> {
     return this.purchases.active(userId, await this.tours.publishedTourIds(appId));

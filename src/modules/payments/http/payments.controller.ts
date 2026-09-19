@@ -14,6 +14,7 @@ import {
   OrderStatusDto,
   PurchaseListDto,
   TourAccessDto,
+  TourAccessListDto,
   TourIdParamDto,
 } from './payments.dto';
 
@@ -60,6 +61,13 @@ export class PaymentsController {
   async orderStatus(@CurrentUserId() userId: string, @Param() { id }: IdParamDto) {
     const { order, retryAfterMs } = await this.statuses.status(userId, id);
     return { orderId: order.id, status: clientStatus(order.status), retryAfterMs };
+  }
+
+  /** Access to every published tour of the app: purchase and price with the applied code. */
+  @Get('tours/access')
+  @ZodResponse({ status: 200, type: TourAccessListDto })
+  async allTourAccess(@CurrentUserId() userId: string, @CurrentApp() app: AppContext) {
+    return { items: await this.access.allForApp(userId, app.id) };
   }
 
   /** Whether the user may play the tour, its price and the code to share after buying. */
