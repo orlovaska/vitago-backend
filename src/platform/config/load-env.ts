@@ -33,7 +33,10 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): Env {
 
   const env = parsed.data;
   if (env.NODE_ENV === 'production') {
-    const weak = SECRET_KEYS.filter((key) => isWeakSecret(String(env[key] ?? '')));
+    const weak = SECRET_KEYS.filter((key) => {
+      const value = env[key];
+      return isWeakSecret(typeof value === 'string' ? value : '');
+    });
     if (weak.length > 0) {
       throw new Error(`Refusing to start in production with weak secrets: ${weak.join(', ')}`);
     }

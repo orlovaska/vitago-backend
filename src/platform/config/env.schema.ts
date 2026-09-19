@@ -2,6 +2,19 @@ import { z } from 'zod';
 
 const booleanFlag = z.enum(['true', 'false']).transform((value) => value === 'true');
 
+const terminalsSchema = z.record(
+  z.string(),
+  z.object({ terminalKey: z.string().min(1), password: z.string().min(1) }),
+);
+
+function safeJson(value: string): unknown {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return undefined;
+  }
+}
+
 const commaList = z
   .string()
   .default('')
@@ -39,6 +52,39 @@ export const envSchema = z.object({
   /** Root directory of uploaded files (a Docker volume in production). */
   MEDIA_DIR: z.string().min(1).default('storage/media'),
   MEDIA_MAX_UPLOAD_MB: z.coerce.number().int().min(1).default(100),
+
+  TBANK_API_URL: z.url().default('https://securepay.tinkoff.ru/v2'),
+  /**
+   * Acquiring terminals by app slug, as JSON:
+   * {"spb":{"terminalKey":"…","password":"…"}}. Passwords sign every request
+   * and must never reach the app.
+   */
+  TBANK_TERMINALS: z
+    .string()
+    .default('{}')
+    .transform((value, context) => {
+      const parsed = terminalsSchema.safeParse(safeJson(value));
+      if (!parsed.success) {
+        context.addIssue({ code: 'custom', message: 'Expected {"<slug>":{terminalKey,password}}' });
+        return z.NEVER;
+      }
+      return parsed.data;
+    }),
+  /** Tax system printed on receipts (54-FZ), e.g. usn_income. */
+  TBANK_TAXATION: z
+    .enum(['osn', 'usn_income', 'usn_income_outcome', 'esn', 'patent'])
+    .default('usn_income'),
+  /** Public URL of POST /v1/payments/tbank/notifications, registered with each order. */
+  PAYMENT_NOTIFICATION_URL: z.url().optional(),
+  /** Site with the payment result page: <base>/app/<slug>/payment-result. */
+  PAYMENT_RETURN_BASE_URL: z.url().default('https://vitagoguides.ru'),
+  /** Lifetime of a payment link; unpaid orders expire after it. */
+  PAYMENT_ORDER_TTL_MINUTES: z.coerce
+    .number()
+    .int()
+    .min(5)
+    .max(24 * 60)
+    .default(60),
 
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
   /** Directory for rotated log files; unset means stdout only. */
