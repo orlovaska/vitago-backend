@@ -71,6 +71,13 @@
       "when": 1789829739009,
       "tag": "0009_promotions",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1789830133916,
+      "tag": "0010_payments",
+      "breakpoints": true
     }
   ]
 }
