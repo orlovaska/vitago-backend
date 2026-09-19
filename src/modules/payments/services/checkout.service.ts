@@ -69,6 +69,7 @@ export class CheckoutService {
       throw AppError.conflict('already_purchased', 'The tour is already purchased');
     }
 
+    // An explicit code wins; otherwise the code the user applied to this tour, if still usable.
     const quote: PromoQuote | null = request.promoCode
       ? await this.promotions.quote({
           userId: request.userId,
@@ -76,7 +77,7 @@ export class CheckoutService {
           tourId: tour.id,
           code: request.promoCode,
         })
-      : null;
+      : await this.promotions.appliedQuote(request.userId, app.id, tour.id);
 
     const ttlMs = this.config.env.PAYMENT_ORDER_TTL_MINUTES * 60_000;
     let order = await this.orders.insert({

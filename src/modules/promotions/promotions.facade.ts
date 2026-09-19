@@ -21,9 +21,19 @@ export class PromotionsFacade {
     return this.promotions.quote(input);
   }
 
+  /** The code the user applied to the tour, if it is still usable. */
+  appliedQuote(userId: string, appId: string, tourId: string): Promise<PromoQuote | null> {
+    return this.promotions.appliedQuote(userId, appId, tourId);
+  }
+
   /** Called once an order paid with the code is confirmed. Idempotent per order. */
-  recordRedemption(promoCodeId: string, userId: string, orderId: string): Promise<void> {
-    return this.promotions.recordRedemption(promoCodeId, userId, orderId);
+  recordRedemption(
+    promoCodeId: string,
+    userId: string,
+    tourId: string,
+    orderId: string,
+  ): Promise<void> {
+    return this.promotions.recordRedemption(promoCodeId, userId, tourId, orderId);
   }
 
   /** The code a buyer of the tour may share, if the tour has one. */
@@ -32,7 +42,7 @@ export class PromotionsFacade {
     return promo && { code: promo.code, discountPercent: promo.discountPercent };
   }
 
-  /** Account deletion step: anonymises redemptions and drops invitations. Idempotent. */
+  /** Account deletion step: anonymises redemptions, drops invitations and applied codes. Idempotent. */
   deleteUserData(userId: string): Promise<void> {
     return this.promotions.forgetUser(userId);
   }

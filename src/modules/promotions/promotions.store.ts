@@ -1,7 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { and, count, desc, eq, gt, isNull, or } from 'drizzle-orm';
 import { type DbTxHost, InjectDb } from '../../platform/database';
-import { promoCodeAllowedUsers, promoCodeRedemptions, promoCodes } from './promotions.tables';
+import {
+  promoCodeAllowedUsers,
+  promoCodeApplications,
+  promoCodeRedemptions,
+  promoCodes,
+} from './promotions.tables';
 
 export type PromoCodeRow = typeof promoCodes.$inferSelect;
 export type PromoCodeFields = Omit<
@@ -131,6 +136,36 @@ export class PromotionsStore {
     return row ?? null;
   }
 
+  /** The user's code for this tour, replacing any earlier one. */
+  async apply(userId: string, tourId: string, promoCodeId: string): Promise<void> {
+    await this.db
+      .insert(promoCodeApplications)
+      .values({ userId, tourId, promoCodeId })
+      .onConflictDoUpdate({
+        target: [promoCodeApplications.userId, promoCodeApplications.tourId],
+        set: { promoCodeId, appliedAt: new Date() },
+      });
+  }
+
+  async appliedCode(userId: string, tourId: string): Promise<PromoCodeRow | null> {
+    const [row] = await this.db
+      .select({ promo: promoCodes })
+      .from(promoCodeApplications)
+      .innerJoin(promoCodes, eq(promoCodes.id, promoCodeApplications.promoCodeId))
+      .where(
+        and(eq(promoCodeApplications.userId, userId), eq(promoCodeApplications.tourId, tourId)),
+      );
+    return row?.promo ?? null;
+  }
+
+  async removeApplication(userId: string, tourId: string): Promise<void> {
+    await this.db
+      .delete(promoCodeApplications)
+      .where(
+        and(eq(promoCodeApplications.userId, userId), eq(promoCodeApplications.tourId, tourId)),
+      );
+  }
+
   /** Account deletion: redemptions stay for usage limits, anonymised; invitations go. */
   async forgetUser(userId: string): Promise<void> {
     await this.db
@@ -138,5 +173,6 @@ export class PromotionsStore {
       .set({ userId: null })
       .where(eq(promoCodeRedemptions.userId, userId));
     await this.db.delete(promoCodeAllowedUsers).where(eq(promoCodeAllowedUsers.userId, userId));
+    await this.db.delete(promoCodeApplications).where(eq(promoCodeApplications.userId, userId));
   }
 }

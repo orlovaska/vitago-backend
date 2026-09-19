@@ -61,3 +61,21 @@ export const promoCodeAllowedUsers = promotionsSchema.table(
   },
   (table) => [primaryKey({ columns: [table.promoCodeId, table.userId] }), index().on(table.userId)],
 );
+
+/**
+ * The code a user applied to a tour (typed in, or opened by invitation link):
+ * prices shown to that user and their next checkout use it. Removed once the
+ * code is redeemed in a paid order.
+ */
+export const promoCodeApplications = promotionsSchema.table(
+  'promo_code_applications',
+  {
+    userId: uuid().notNull(),
+    tourId: uuid().notNull(),
+    promoCodeId: uuid()
+      .notNull()
+      .references(() => promoCodes.id, { onDelete: 'cascade' }),
+    appliedAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.userId, table.tourId] })],
+);

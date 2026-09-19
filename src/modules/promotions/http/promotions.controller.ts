@@ -34,7 +34,30 @@ export class PromotionsController {
     return quote;
   }
 
-  /** Accepts an invitation link, unlocking a restricted code for this user. */
+  /**
+   * Applies a code to a tour for this user: from now on the tour's price for
+   * them includes the discount and checkout uses the code by itself.
+   */
+  @Post('apply')
+  @ZodResponse({ status: 200, type: QuoteDto })
+  async apply(
+    @CurrentUserId() userId: string,
+    @CurrentApp() app: AppContext,
+    @Body() body: QuoteRequestDto,
+  ) {
+    const { promoCodeId: _id, ...quote } = await this.promotions.apply({
+      userId,
+      appId: app.id,
+      tourId: body.tourId,
+      code: body.code,
+    });
+    return quote;
+  }
+
+  /**
+   * Accepts an invitation link: unlocks a restricted code for this user and
+   * applies it to its tour.
+   */
   @Post('claim')
   @ZodResponse({ status: 200, type: ClaimDto })
   async claim(@CurrentUserId() userId: string, @Body() body: ClaimRequestDto) {

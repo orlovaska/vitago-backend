@@ -233,6 +233,36 @@ describe('payments', () => {
     expect(bank.callsOf('Init')[0]!.body.Receipt).toMatchObject({ Email: 'buyer@example.test' });
   });
 
+  it('prices and charges with the code the user applied, then forgets it', async () => {
+    await request(t.server)
+      .post('/v1/admin/promo-codes')
+      .set('authorization', admin)
+      .send({ tourId, code: 'TEN', discountPercent: 10 })
+      .expect(201);
+    await asUser('post', '/v1/promo-codes/apply').send({ tourId, code: 'ten' }).expect(200);
+    expect(await access()).toMatchObject({
+      priceKopecks: PRICE,
+      discountedPriceKopecks: 44_910,
+      appliedPromoCode: { code: 'TEN', discountPercent: 10 },
+    });
+
+    // No code in the request: checkout uses the applied one.
+    const { orderId, amountKopecks } = (await checkout().expect(201)).body;
+    expect(amountKopecks).toBe(44_910);
+    await bank.notify(t, orderId, 'CONFIRMED').expect(200);
+    expect(await access()).toMatchObject({ purchased: true, appliedPromoCode: null });
+  });
+
+  it('applies the code of an invitation link at once', async () => {
+    const promo = await request(t.server)
+      .post('/v1/admin/promo-codes')
+      .set('authorization', admin)
+      .send({ tourId, code: 'FRIENDS', discountPercent: 50, restricted: true })
+      .expect(201);
+    await asUser('post', '/v1/promo-codes/claim').send({ token: promo.body.linkToken }).expect(200);
+    expect((await access()).discountedPriceKopecks).toBe(24_950);
+  });
+
   it('shows the share code only after purchase', async () => {
     await request(t.server)
       .post('/v1/admin/promo-codes')

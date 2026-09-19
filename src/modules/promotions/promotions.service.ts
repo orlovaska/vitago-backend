@@ -68,16 +68,54 @@ export class PromotionsService {
     };
   }
 
-  /** Opening an invitation link lets the user use a restricted code. */
+  /**
+   * Checks the code and remembers it for this user and tour: prices shown to
+   * the user and their next checkout use it, until it is redeemed.
+   */
+  async apply(input: {
+    userId: string;
+    appId: string;
+    tourId: string;
+    code: string;
+  }): Promise<PromoQuote> {
+    const quote = await this.quote(input);
+    await this.store.apply(input.userId, input.tourId, quote.promoCodeId);
+    return quote;
+  }
+
+  /** The applied code re-checked now; null when none, or when it stopped being usable. */
+  async appliedQuote(userId: string, appId: string, tourId: string): Promise<PromoQuote | null> {
+    const promo = await this.store.appliedCode(userId, tourId);
+    if (!promo) return null;
+    try {
+      return await this.quote({ userId, appId, tourId, code: promo.code });
+    } catch (error) {
+      if (error instanceof AppError) return null;
+      throw error;
+    }
+  }
+
+  /**
+   * Opening an invitation link lets the user use a restricted code and
+   * applies it to its tour, so the discounted price shows up at once.
+   */
   async claim(userId: string, token: string): Promise<PromoCodeRow> {
     const promo = await this.store.findByLinkToken(token);
     if (!promo || !promo.active) throw rejected('not_found');
     await this.store.allow(promo.id, userId);
+    await this.store.apply(userId, promo.tourId, promo.id);
     return promo;
   }
 
-  recordRedemption(promoCodeId: string, userId: string, orderId: string): Promise<void> {
-    return this.store.recordRedemption(promoCodeId, userId, orderId);
+  /** A paid order used the code: count it and stop applying it. */
+  async recordRedemption(
+    promoCodeId: string,
+    userId: string,
+    tourId: string,
+    orderId: string,
+  ): Promise<void> {
+    await this.store.recordRedemption(promoCodeId, userId, orderId);
+    await this.store.removeApplication(userId, tourId);
   }
 
   shareableForTour(tourId: string): Promise<PromoCodeRow | null> {

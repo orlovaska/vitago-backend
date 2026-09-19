@@ -10,6 +10,10 @@ export interface TourAccess {
   accessible: boolean;
   purchased: boolean;
   priceKopecks: number;
+  /** What this user would pay now: the price with their applied promo code. */
+  discountedPriceKopecks: number;
+  /** The promo code the user applied to this tour, still usable; null when none. */
+  appliedPromoCode: { code: string; discountPercent: number } | null;
   /** Code the buyer may share with friends, shown after purchase. */
   shareCode: ShareableCode | null;
 }
@@ -28,11 +32,14 @@ export class TourAccessService {
       throw AppError.notFound('tour_not_found', `Tour ${tourId} not found`);
     }
     const purchased = await this.purchases.hasActive(userId, tourId);
+    const applied = purchased ? null : await this.promotions.appliedQuote(userId, appId, tourId);
     return {
       tourId,
       accessible: purchased || tour.priceKopecks === 0,
       purchased,
       priceKopecks: tour.priceKopecks,
+      discountedPriceKopecks: applied?.discountedPriceKopecks ?? tour.priceKopecks,
+      appliedPromoCode: applied && { code: applied.code, discountPercent: applied.discountPercent },
       shareCode: purchased ? await this.promotions.shareableForTour(tourId) : null,
     };
   }

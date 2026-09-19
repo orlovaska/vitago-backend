@@ -93,7 +93,7 @@ describe('promotions', () => {
   it('enforces one use per user and the total limit', async () => {
     const created = await createCode({ maxRedemptions: 1 });
     const promotions = t.app.get(PromotionsFacade);
-    await promotions.recordRedemption(created.body.id, user.userId, crypto.randomUUID());
+    await promotions.recordRedemption(created.body.id, user.userId, tourId, crypto.randomUUID());
 
     expect((await quote('spring').expect(400)).body.code).toBe('promo_code_already_used');
     const other = await userBearer(t, 'other');

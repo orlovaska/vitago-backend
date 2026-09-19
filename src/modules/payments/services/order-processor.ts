@@ -130,7 +130,12 @@ export class OrderProcessor {
       await this.orders.addEvent({ orderId: order.id, type: 'duplicate_payment' });
     }
     if (updated.promoCodeId) {
-      await this.promotions.recordRedemption(updated.promoCodeId, updated.userId, updated.id);
+      await this.promotions.recordRedemption(
+        updated.promoCodeId,
+        updated.userId,
+        updated.tourId,
+        updated.id,
+      );
     }
     return {
       moved: true,

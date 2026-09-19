@@ -50,6 +50,9 @@ export class TourAccessDto extends createZodDto(
     accessible: z.boolean(),
     purchased: z.boolean(),
     priceKopecks: z.number().int(),
+    /** The price this user pays now, with their applied promo code. */
+    discountedPriceKopecks: z.number().int(),
+    appliedPromoCode: z.object({ code: z.string(), discountPercent: z.number().int() }).nullable(),
     shareCode: z.object({ code: z.string(), discountPercent: z.number().int() }).nullable(),
   }),
 ) {}

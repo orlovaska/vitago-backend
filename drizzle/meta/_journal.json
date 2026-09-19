@@ -92,6 +92,13 @@
       "when": 1789839624087,
       "tag": "0012_tour_summary",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1789840166978,
+      "tag": "0013_promo_code_applications",
+      "breakpoints": true
     }
   ]
 }
