@@ -18,7 +18,8 @@ import { DRIZZLE, SQL_CLIENT } from './database.tokens';
     {
       provide: DRIZZLE,
       inject: [SQL_CLIENT],
-      useFactory: (client: Sql) => drizzle({ client }),
+      // Must match `casing` in drizzle.config.ts: camelCase in code, snake_case in the database.
+      useFactory: (client: Sql) => drizzle({ client, casing: 'snake_case' }),
     },
   ],
   exports: [SQL_CLIENT, DRIZZLE],
