@@ -40,7 +40,11 @@ describe('apps', () => {
       mapStyleUrl: 'https://maps.example.test/style.json',
       paymentStores: ['rustore', 'google_play'],
       support: { email: 'help@example.test', telegramUrl: null },
+      legalDocuments: [],
     });
+    // Public settings ride along; server-only ones stay out.
+    expect(response.body.settings).toHaveProperty('payments.clientPollIntervalMs');
+    expect(response.body.settings).not.toHaveProperty('payments.bankCheckIntervalMs');
   });
 
   it('answers 400 without the header and for unknown bundles', async () => {

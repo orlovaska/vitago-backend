@@ -1,5 +1,6 @@
 import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
+import { type CurrentDocument } from '../../legal';
 import { store } from '../apps.tables';
 import { type AppRow, type AppVersionRow } from '../apps.store';
 import { VERSION_PATTERN } from '../versions';
@@ -28,7 +29,29 @@ export const appConfigSchema = z.object({
   support: supportSchema,
 });
 
-export class AppConfigDto extends createZodDto(appConfigSchema) {}
+const legalDocumentSchema = z.object({
+  type: z.string(),
+  versionId: z.uuid(),
+  publicUrl: z.string().nullable(),
+  fileUrl: z.string().nullable(),
+});
+
+/** Everything the app needs at start-up in one request. */
+export class ClientConfigDto extends createZodDto(
+  appConfigSchema.extend({
+    /** Current terms and privacy policy; consent is checked separately when signed in. */
+    legalDocuments: z.array(legalDocumentSchema),
+    /** Server-tuned client behaviour, e.g. payment polling; see the settings catalog. */
+    settings: z.record(z.string(), z.unknown()),
+  }),
+) {}
+
+export const toLegalDocument = (document: CurrentDocument) => ({
+  type: document.type,
+  versionId: document.versionId,
+  publicUrl: document.publicUrl,
+  fileUrl: document.file?.url ?? null,
+});
 
 export class UpdateQueryDto extends createZodDto(
   z.object({ store: storeSchema, version: versionSchema }),
