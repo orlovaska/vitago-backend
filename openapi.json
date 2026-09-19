@@ -2609,6 +2609,58 @@
         ]
       }
     },
+    "/v1/promo-codes/apply": {
+      "post": {
+        "operationId": "PromotionsController_apply",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuoteRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
     "/v1/promo-codes/claim": {
       "post": {
         "operationId": "PromotionsController_claim",
@@ -7751,6 +7803,30 @@
             "minimum": -9007199254740991,
             "maximum": 9007199254740991
           },
+          "discountedPriceKopecks": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "appliedPromoCode": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "discountPercent": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "code",
+              "discountPercent"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          },
           "shareCode": {
             "type": "object",
             "properties": {
@@ -7776,6 +7852,8 @@
           "accessible",
           "purchased",
           "priceKopecks",
+          "discountedPriceKopecks",
+          "appliedPromoCode",
           "shareCode"
         ],
         "additionalProperties": false
