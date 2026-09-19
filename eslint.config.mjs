@@ -35,6 +35,15 @@ export default tseslint.config(
     },
   },
   {
+    // HTTP response bodies in tests are untyped JSON; asserting on them is the point.
+    files: ['test/**/*.ts', '**/*.spec.ts'],
+    rules: {
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+    },
+  },
+  {
     files: ['**/*.mjs', '**/*.cjs'],
     ...tseslint.configs.disableTypeChecked,
   },
