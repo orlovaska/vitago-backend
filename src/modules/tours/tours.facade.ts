@@ -48,6 +48,11 @@ export class ToursFacade {
     };
   }
 
+  async publishedTourIds(appId: string): Promise<string[]> {
+    const rows = await this.tours.list({ appId, publishedOnly: true });
+    return rows.map((row) => row.id);
+  }
+
   /** Published tours among `tourIds` belonging to `appId`, as list cards, in the given order. */
   async publishedCards(
     appId: string,
