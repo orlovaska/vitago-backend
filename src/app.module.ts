@@ -5,6 +5,7 @@ import { AuthModule } from './modules/auth';
 import { FavoritesModule } from './modules/favorites';
 import { LegalModule } from './modules/legal';
 import { MediaModule } from './modules/media';
+import { PaymentsModule } from './modules/payments';
 import { PromotionsModule } from './modules/promotions';
 import { ReviewsModule } from './modules/reviews';
 import { SettingsModule } from './modules/settings';
@@ -39,6 +40,7 @@ import { LoggingModule } from './platform/logging';
     FavoritesModule,
     ReviewsModule,
     PromotionsModule,
+    PaymentsModule,
   ],
 })
 export class AppModule {}
