@@ -4,6 +4,7 @@ import { AuthModule } from './modules/auth';
 import { FavoritesModule } from './modules/favorites';
 import { LegalModule } from './modules/legal';
 import { MediaModule } from './modules/media';
+import { PromotionsModule } from './modules/promotions';
 import { ReviewsModule } from './modules/reviews';
 import { SettingsModule } from './modules/settings';
 import { ToursModule } from './modules/tours';
@@ -33,6 +34,7 @@ import { LoggingModule } from './platform/logging';
     ToursModule,
     FavoritesModule,
     ReviewsModule,
+    PromotionsModule,
   ],
 })
 export class AppModule {}
