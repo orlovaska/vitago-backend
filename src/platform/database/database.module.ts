@@ -15,7 +15,12 @@ import { DrizzleModule } from './drizzle.module';
       plugins: [
         new ClsPluginTransactional({
           imports: [DrizzleModule],
-          adapter: new TransactionalAdapterDrizzleOrm<Database>({ drizzleInstanceToken: DRIZZLE }),
+          adapter: new TransactionalAdapterDrizzleOrm<Database>({
+            drizzleInstanceToken: DRIZZLE,
+            // Without explicit options the adapter passes `{}`, and Drizzle then
+            // sends a bare `set transaction`, which Postgres rejects.
+            defaultTxOptions: { isolationLevel: 'read committed' },
+          }),
         }),
       ],
     }),
