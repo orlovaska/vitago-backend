@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { DEFAULT_LOCALE, type Locale, pickTranslation } from '../../platform/i18n';
 import { MediaFacade } from '../media';
+import { TourImportService } from './services/tour-import.service';
 import { type TourCard, TourReader } from './services/tour-reader.service';
 import { PointsStore } from './stores/points.store';
 import { ToursStore } from './stores/tours.store';
+import { type CategoryInput, type PointInput, type TourInput } from './tours.inputs';
 
 /** The facts payments needs to sell a tour, frozen into the order. */
 export interface TourForSale {
@@ -32,7 +34,18 @@ export class ToursFacade {
     private readonly points: PointsStore,
     private readonly reader: TourReader,
     private readonly media: MediaFacade,
+    private readonly importer: TourImportService,
   ) {}
+
+  /** Content import: creates or updates a category by slug and returns its id. */
+  upsertCategory(input: CategoryInput): Promise<string> {
+    return this.importer.upsertCategory(input);
+  }
+
+  /** Content import: creates or replaces a tour (by app and slug) with all its points. */
+  upsertTour(tour: TourInput, points: readonly PointInput[]): Promise<string> {
+    return this.importer.upsertTour(tour, points);
+  }
 
   async findForSale(tourId: string): Promise<TourForSale | null> {
     const tour = await this.tours.findById(tourId);

@@ -30,6 +30,11 @@ export class AppsStore {
     return row ?? null;
   }
 
+  async findBySlug(slug: string): Promise<AppRow | null> {
+    const [row] = await this.db.select().from(apps).where(eq(apps.slug, slug));
+    return row ?? null;
+  }
+
   async create(input: AppInput): Promise<AppRow> {
     const [row] = await this.db.insert(apps).values(input).returning();
     return row!;

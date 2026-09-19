@@ -7,6 +7,7 @@ import { ToursController } from './http/tours.controller';
 import { CategoriesService } from './services/categories.service';
 import { PointsAdminService } from './services/points-admin.service';
 import { TourEditorViews } from './services/tour-editor-views';
+import { TourImportService } from './services/tour-import.service';
 import { TourReader } from './services/tour-reader.service';
 import { ToursAdminService } from './services/tours-admin.service';
 import { CategoriesStore } from './stores/categories.store';
@@ -28,6 +29,7 @@ import { ToursFacade } from './tours.facade';
     CategoriesService,
     TourReader,
     TourEditorViews,
+    TourImportService,
     ToursFacade,
   ],
   exports: [ToursFacade],

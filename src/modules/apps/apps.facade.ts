@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { type AppContext, AppDirectory } from '../../platform/app-context';
-import { type AppRow, AppsStore, type Store } from './apps.store';
+import { type AppInput, type AppRow, AppsStore, type Store } from './apps.store';
 import { AppsService } from './apps.service';
 
 export interface AppSummary extends AppContext {
@@ -9,6 +9,8 @@ export interface AppSummary extends AppContext {
   paymentStores: Store[];
   receiptEmailRequired: boolean;
 }
+
+export type AppUpsert = Pick<AppInput, 'slug' | 'bundleId' | 'name'> & Partial<AppInput>;
 
 const toSummary = (app: AppRow): AppSummary => ({
   id: app.id,
@@ -36,6 +38,18 @@ export class AppsFacade {
   /** Account deletion step: forgets which versions the user ran. Idempotent. */
   async deleteUserData(userId: string): Promise<void> {
     await this.store.deleteUserVersions(userId);
+  }
+
+  /**
+   * Creates the app with this slug or updates it, for content imports. Fields
+   * left out keep their current values.
+   */
+  async upsert(input: AppUpsert): Promise<AppSummary> {
+    const existing = await this.store.findBySlug(input.slug);
+    const app = existing
+      ? await this.service.update(existing.id, input)
+      : await this.service.create(input);
+    return toSummary(app);
   }
 
   /** Used by the AppDirectory binding; see AppsDirectory. */
