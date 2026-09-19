@@ -9,7 +9,9 @@ import {
 import { ApiBearerAuth, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { type Request } from 'express';
 import { ADMIN_AUTH, AppError, USER_AUTH } from '../../platform/http';
+import { AdminsStore } from './admins.store';
 import { type TokenAudience, TokensService } from './tokens.service';
+import { UsersStore } from './users.store';
 
 interface AuthenticatedRequest extends Request {
   userId?: string;
@@ -24,6 +26,8 @@ function bearerToken(request: Request): string | null {
 abstract class BearerGuard implements CanActivate {
   protected abstract readonly audience: TokenAudience;
   protected abstract attach(request: AuthenticatedRequest, subject: string): void;
+  /** A valid signature is not enough: the account may have been deleted or disabled since. */
+  protected abstract isActive(subject: string): Promise<boolean>;
 
   // Subclasses declare their own constructor: TypeScript emits the parameter
   // metadata Nest needs only on decorated classes, and this base is not one.
@@ -33,7 +37,7 @@ abstract class BearerGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<AuthenticatedRequest>();
     const token = bearerToken(request);
     const subject = token ? await this.tokens.verify(this.audience, token) : null;
-    if (!subject) {
+    if (!subject || !(await this.isActive(subject))) {
       throw AppError.unauthorized('unauthorized', 'A valid access token is required');
     }
     this.attach(request, subject);
@@ -45,12 +49,19 @@ abstract class BearerGuard implements CanActivate {
 export class UserAuthGuard extends BearerGuard {
   protected readonly audience = 'app';
 
-  constructor(tokens: TokensService) {
+  constructor(
+    tokens: TokensService,
+    private readonly users: UsersStore,
+  ) {
     super(tokens);
   }
 
   protected attach(request: AuthenticatedRequest, subject: string): void {
     request.userId = subject;
+  }
+
+  protected async isActive(subject: string): Promise<boolean> {
+    return (await this.users.findById(subject)) !== null;
   }
 }
 
@@ -58,12 +69,20 @@ export class UserAuthGuard extends BearerGuard {
 export class AdminAuthGuard extends BearerGuard {
   protected readonly audience = 'admin';
 
-  constructor(tokens: TokensService) {
+  constructor(
+    tokens: TokensService,
+    private readonly admins: AdminsStore,
+  ) {
     super(tokens);
   }
 
   protected attach(request: AuthenticatedRequest, subject: string): void {
     request.adminId = subject;
+  }
+
+  protected async isActive(subject: string): Promise<boolean> {
+    const admin = await this.admins.findById(subject);
+    return admin !== null && admin.disabledAt === null;
   }
 }
 

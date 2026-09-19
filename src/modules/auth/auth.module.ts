@@ -27,6 +27,7 @@ import { UsersStore } from './users.store';
     AdminSignInService,
     AuthFacade,
   ],
-  exports: [TokensService, UserAuthGuard, AdminAuthGuard, AuthFacade],
+  // Guards run in the injector of the module that uses them, so their dependencies are exported too.
+  exports: [TokensService, UsersStore, AdminsStore, UserAuthGuard, AdminAuthGuard, AuthFacade],
 })
 export class AuthModule {}
