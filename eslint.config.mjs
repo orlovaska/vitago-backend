@@ -16,7 +16,10 @@ export default tseslint.config(
     },
     rules: {
       '@typescript-eslint/no-floating-promises': 'error',
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', ignoreRestSiblings: true },
+      ],
       // Nest DI relies on runtime class references in constructor parameters.
       '@typescript-eslint/consistent-type-imports': 'off',
       // forwardRef hides a dependency cycle instead of removing it.
