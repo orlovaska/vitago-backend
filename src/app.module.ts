@@ -10,6 +10,7 @@ import { PromotionsModule } from './modules/promotions';
 import { ReviewsModule } from './modules/reviews';
 import { SettingsModule } from './modules/settings';
 import { ToursModule } from './modules/tours';
+import { UsersModule } from './modules/users';
 import { AppContextModule } from './platform/app-context';
 import { ConfigModule } from './platform/config';
 import { DatabaseModule } from './platform/database';
@@ -41,6 +42,7 @@ import { LoggingModule } from './platform/logging';
     ReviewsModule,
     PromotionsModule,
     PaymentsModule,
+    UsersModule,
   ],
 })
 export class AppModule {}
