@@ -22,7 +22,8 @@
     "openapi:export": "node dist/openapi-export.js",
     "test": "vitest run",
     "test:unit": "vitest run --project unit",
-    "test:e2e": "vitest run --project e2e"
+    "test:e2e": "vitest run --project e2e",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run arch && npm run test:unit"
   },
   "dependencies": {
     "@nestjs-cls/transactional": "^3.3.0",
