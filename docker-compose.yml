@@ -1,6 +1,8 @@
 # Production stack on one VPS. Secrets live in ./secrets/*.env on the server
 # only (templates in ./secrets.example); CI generates throwaway ones.
 
+name: vitago
+
 x-api-image: &api-image
   build: .
   image: vitago-api:latest

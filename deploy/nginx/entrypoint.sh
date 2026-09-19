@@ -21,8 +21,12 @@ render() {
 rm -f /etc/nginx/conf.d/*.conf
 export DOMAIN API_DOMAIN CERT_NAME=""
 
+# One certificate often covers both hosts (issued for DOMAIN with api. as a SAN).
 if has_certificate "$API_DOMAIN"; then
     CERT_NAME="$API_DOMAIN"
+    render api-https.conf api.conf
+elif [ -n "$DOMAIN" ] && has_certificate "$DOMAIN"; then
+    CERT_NAME="$DOMAIN"
     render api-https.conf api.conf
 else
     render api-http.conf api.conf
