@@ -1,0 +1,108 @@
+# Production stack on one VPS. Secrets live in ./secrets/*.env on the server
+# only (templates in ./secrets.example); CI generates throwaway ones.
+
+x-api-image: &api-image
+  build: .
+  image: vitago-api:latest
+
+services:
+  postgres:
+    image: postgres:18-alpine
+    env_file: ./secrets/postgres.env
+    volumes:
+      - pg_data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # Applies pending migrations and exits; the API starts only after it succeeds.
+  migrate:
+    <<: *api-image
+    command: ['node', 'dist/migrate.js']
+    env_file: ./secrets/api.env
+    environment:
+      NODE_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: 'no'
+
+  api:
+    <<: *api-image
+    env_file: ./secrets/api.env
+    environment:
+      NODE_ENV: production
+      PORT: '3000'
+      MEDIA_DIR: /data/media
+      LOG_DIR: /data/logs
+    volumes:
+      - media:/data/media
+      - logs:/data/logs
+    expose:
+      - '3000'
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '--spider', 'http://127.0.0.1:3000/health/ready']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+  nginx:
+    build: ./deploy/nginx
+    image: vitago-nginx:latest
+    env_file: ./secrets/nginx.env
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - letsencrypt:/etc/letsencrypt:ro
+      - certbot_www:/var/www/certbot:ro
+      # Built by the vitago-web repository; served as the vitagoguides.ru site.
+      - ${VITAGO_WEB_DIST:-/opt/vitago-web/dist}:/var/www/site:ro
+      # MapLibre style, fonts and sprites (see deploy/maps).
+      - ${VITAGO_MAPS_DIR:-/srv/maps}:/srv/maps:ro
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '--spider', 'http://127.0.0.1/nginx-health']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  # Vector tiles from PMTiles archives in the tiles directory; an empty
+  # directory is fine, so CI runs without map data.
+  martin:
+    image: ghcr.io/maplibre/martin:v0.17.0
+    command: ['--listen-addresses', '0.0.0.0:3000', '/tiles']
+    volumes:
+      - ${VITAGO_TILES_DIR:-/srv/tiles}:/tiles:ro
+    expose:
+      - '3000'
+    restart: unless-stopped
+
+  # Renews certificates; certbot itself acts only when less than 30 days remain.
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
+    entrypoint: ['/bin/sh', '-c']
+    command:
+      - 'while true; do certbot renew --webroot -w /var/www/certbot --quiet || true; sleep 12h; done'
+    restart: unless-stopped
+
+volumes:
+  pg_data:
+  media:
+  logs:
+  letsencrypt:
+  certbot_www:
