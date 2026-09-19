@@ -2,6 +2,7 @@ import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
 import { patchSchema } from '../../../platform/http';
 import { type CurrentDocument } from '../../legal';
+import { mediaUrl } from '../../media';
 import { store } from '../apps.tables';
 import { type AppRow, type AppVersionRow } from '../apps.store';
 import { VERSION_PATTERN } from '../versions';
@@ -28,6 +29,10 @@ export const appConfigSchema = z.object({
   paymentStores: z.array(storeSchema),
   receiptEmailRequired: z.boolean(),
   support: supportSchema,
+  /** Lottie JSON shown while the app starts. */
+  loadingAnimationUrl: z.string().nullable(),
+  /** Picture on the account recovery screen. */
+  accountRecoveryImageUrl: z.string().nullable(),
 });
 
 const legalDocumentSchema = z.object({
@@ -84,6 +89,8 @@ export const toAppConfig = (app: AppRow) => ({
     vkUrl: app.supportVkUrl,
     maxUrl: app.supportMaxUrl,
   },
+  loadingAnimationUrl: app.loadingAnimationFileId && mediaUrl(app.loadingAnimationFileId),
+  accountRecoveryImageUrl: app.accountRecoveryImageId && mediaUrl(app.accountRecoveryImageId),
 });
 
 // ---- Admin ----
@@ -101,6 +108,8 @@ const appInputSchema = z.object({
   paymentStores: z.array(storeSchema).default([]),
   receiptEmailRequired: z.boolean().default(false),
   support: supportSchema.partial().default({}),
+  loadingAnimationFileId: z.uuid().nullable().default(null),
+  accountRecoveryImageId: z.uuid().nullable().default(null),
 });
 
 export class CreateAppDto extends createZodDto(appInputSchema) {}
@@ -110,6 +119,8 @@ export class UpdateAppDto extends createZodDto(
 
 const adminAppSchema = appConfigSchema.extend({
   bundleId: z.string(),
+  loadingAnimationFileId: z.uuid().nullable(),
+  accountRecoveryImageId: z.uuid().nullable(),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
 });
@@ -120,6 +131,8 @@ export class AdminAppListDto extends createZodDto(z.object({ items: z.array(admi
 export const toAdminApp = (app: AppRow) => ({
   ...toAppConfig(app),
   bundleId: app.bundleId,
+  loadingAnimationFileId: app.loadingAnimationFileId,
+  accountRecoveryImageId: app.accountRecoveryImageId,
   createdAt: app.createdAt.toISOString(),
   updatedAt: app.updatedAt.toISOString(),
 });

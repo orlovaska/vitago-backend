@@ -2,6 +2,7 @@ import request from 'supertest';
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { createCityApp, type TestCityApp } from './support/apps';
 import { adminBearer, userBearer } from './support/auth';
+import { uploadFile } from './support/content';
 import { createTestApp, type TestApp } from './support/test-app';
 
 describe('apps', () => {
@@ -71,6 +72,25 @@ describe('apps', () => {
     });
     // Fields the PATCH did not mention keep their values.
     expect(response.body.paymentStores).toEqual(['rustore', 'google_play']);
+  });
+
+  it('serves the loading animation and recovery image as media URLs', async () => {
+    const animation = await uploadFile(t, admin, 'application/json');
+    await request(t.server)
+      .patch(`/v1/admin/apps/${spb.id}`)
+      .set('authorization', admin)
+      .send({ loadingAnimationFileId: animation })
+      .expect(200);
+    const config = await request(t.server).get('/v1/app').set('x-bundle-id', spb.bundleId);
+    expect(config.body.loadingAnimationUrl).toBe(`/v1/media/${animation}`);
+    expect(config.body.accountRecoveryImageUrl).toBeNull();
+
+    const missing = await request(t.server)
+      .patch(`/v1/admin/apps/${spb.id}`)
+      .set('authorization', admin)
+      .send({ accountRecoveryImageId: '01900000-0000-7000-8000-000000000000' })
+      .expect(400);
+    expect(missing.body.code).toBe('file_not_found');
   });
 
   it('rejects a second app with the same bundle id', async () => {

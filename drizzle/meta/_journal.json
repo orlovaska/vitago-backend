@@ -78,6 +78,13 @@
       "when": 1789830133916,
       "tag": "0010_payments",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1789839491652,
+      "tag": "0011_app_screen_media",
+      "breakpoints": true
     }
   ]
 }

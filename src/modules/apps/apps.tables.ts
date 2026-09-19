@@ -33,6 +33,10 @@ export const apps = appsSchema.table('apps', {
   supportTelegramUrl: text(),
   supportVkUrl: text(),
   supportMaxUrl: text(),
+  /** Lottie animation (JSON) shown while the app starts; media file id. */
+  loadingAnimationFileId: uuid(),
+  /** Picture on the "restore your account" screen; media file id. */
+  accountRecoveryImageId: uuid(),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

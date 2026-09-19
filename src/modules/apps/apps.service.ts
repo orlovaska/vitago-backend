@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { isUniqueViolation } from '../../platform/database';
 import { AppError } from '../../platform/http';
+import { MediaFacade } from '../media';
 import {
   type AppInput,
   type AppRow,
@@ -25,7 +26,10 @@ export class AppsService {
    */
   private byBundleId: Promise<Map<string, AppRow>> | null = null;
 
-  constructor(private readonly store: AppsStore) {}
+  constructor(
+    private readonly store: AppsStore,
+    private readonly media: MediaFacade,
+  ) {}
 
   async findByBundleId(bundleId: string): Promise<AppRow | null> {
     this.byBundleId ??= this.store
@@ -49,12 +53,14 @@ export class AppsService {
   }
 
   async create(input: AppInput): Promise<AppRow> {
+    await this.assertFilesExist(input);
     const app = await this.withUniqueCheck(() => this.store.create(input));
     this.byBundleId = null;
     return app;
   }
 
   async update(id: string, input: Partial<AppInput>): Promise<AppRow> {
+    await this.assertFilesExist(input);
     const app = await this.withUniqueCheck(() => this.store.update(id, input));
     if (!app) throw AppError.notFound('app_not_found', `App ${id} not found`);
     this.byBundleId = null;
@@ -110,6 +116,16 @@ export class AppsService {
 
   reportUserVersion(userId: string, appId: string, store: Store, version: string): Promise<void> {
     return this.store.reportUserVersion(userId, appId, store, version);
+  }
+
+  private async assertFilesExist(input: Partial<AppInput>): Promise<void> {
+    const ids = [input.loadingAnimationFileId, input.accountRecoveryImageId].filter(
+      (id): id is string => !!id,
+    );
+    const missing = await this.media.findMissing(ids);
+    if (missing.length > 0) {
+      throw AppError.badRequest('file_not_found', `Unknown file ids: ${missing.join(', ')}`);
+    }
   }
 
   private async withUniqueCheck<T>(write: () => Promise<T>): Promise<T> {
