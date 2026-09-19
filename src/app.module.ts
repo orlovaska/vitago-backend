@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppsDirectory, AppsModule } from './modules/apps';
 import { AuthModule } from './modules/auth';
+import { LegalModule } from './modules/legal';
 import { MediaModule } from './modules/media';
 import { SettingsModule } from './modules/settings';
 import { AppContextModule } from './platform/app-context';
@@ -25,6 +26,7 @@ import { LoggingModule } from './platform/logging';
     MediaModule,
     SettingsModule,
     AppsModule,
+    LegalModule,
   ],
 })
 export class AppModule {}
