@@ -54,5 +54,7 @@ describe('module tables', () => {
         }
       }
     },
+    // The first import of a module compiles its whole dependency graph.
+    30_000,
   );
 });
