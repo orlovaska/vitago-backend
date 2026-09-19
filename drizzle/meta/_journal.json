@@ -57,6 +57,13 @@
       "when": 1789829428878,
       "tag": "0007_favorites",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1789829565257,
+      "tag": "0008_reviews",
+      "breakpoints": true
     }
   ]
 }
