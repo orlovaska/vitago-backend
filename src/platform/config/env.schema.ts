@@ -2,11 +2,6 @@ import { z } from 'zod';
 
 const booleanFlag = z.enum(['true', 'false']).transform((value) => value === 'true');
 
-const terminalsSchema = z.record(
-  z.string(),
-  z.object({ terminalKey: z.string().min(1), password: z.string().min(1) }),
-);
-
 function safeJson(value: string): unknown {
   try {
     return JSON.parse(value);
@@ -14,6 +9,20 @@ function safeJson(value: string): unknown {
     return undefined;
   }
 }
+
+/** A JSON object in one variable, keyed by app slug; `example` is shown when it does not parse. */
+const jsonBySlug = <Value extends z.ZodType>(value: Value, example: string) =>
+  z
+    .string()
+    .default('{}')
+    .transform((raw, context) => {
+      const parsed = z.record(z.string(), value).safeParse(safeJson(raw));
+      if (!parsed.success) {
+        context.addIssue({ code: 'custom', message: `Expected ${example}` });
+        return z.NEVER;
+      }
+      return parsed.data;
+    });
 
 const commaList = z
   .string()
@@ -59,17 +68,10 @@ export const envSchema = z.object({
    * {"spb":{"terminalKey":"…","password":"…"}}. Passwords sign every request
    * and must never reach the app.
    */
-  TBANK_TERMINALS: z
-    .string()
-    .default('{}')
-    .transform((value, context) => {
-      const parsed = terminalsSchema.safeParse(safeJson(value));
-      if (!parsed.success) {
-        context.addIssue({ code: 'custom', message: 'Expected {"<slug>":{terminalKey,password}}' });
-        return z.NEVER;
-      }
-      return parsed.data;
-    }),
+  TBANK_TERMINALS: jsonBySlug(
+    z.object({ terminalKey: z.string().min(1), password: z.string().min(1) }),
+    '{"<slug>":{"terminalKey":"…","password":"…"}}',
+  ),
   /** Tax system printed on receipts (54-FZ), e.g. usn_income. */
   TBANK_TAXATION: z
     .enum(['osn', 'usn_income', 'usn_income_outcome', 'esn', 'patent'])
@@ -85,6 +87,16 @@ export const envSchema = z.object({
     .min(5)
     .max(24 * 60)
     .default(60),
+
+  APPMETRICA_API_URL: z.url().default('https://api.appmetrica.yandex.ru'),
+  /**
+   * AppMetrica Post API credentials by app slug, as JSON:
+   * {"spb":{"applicationId":"…","postApiKey":"…"}}. Apps without an entry report nothing.
+   */
+  APPMETRICA_APPS: jsonBySlug(
+    z.object({ applicationId: z.string().min(1), postApiKey: z.string().min(1) }),
+    '{"<slug>":{"applicationId":"…","postApiKey":"…"}}',
+  ),
 
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
   /** Directory for rotated log files; unset means stdout only. */

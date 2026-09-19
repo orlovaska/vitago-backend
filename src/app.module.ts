@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
+import { AnalyticsModule } from './modules/analytics';
 import { AppsDirectory, AppsModule } from './modules/apps';
 import { AuthModule } from './modules/auth';
 import { FavoritesModule } from './modules/favorites';
@@ -43,6 +44,7 @@ import { LoggingModule } from './platform/logging';
     PromotionsModule,
     PaymentsModule,
     UsersModule,
+    AnalyticsModule,
   ],
 })
 export class AppModule {}
