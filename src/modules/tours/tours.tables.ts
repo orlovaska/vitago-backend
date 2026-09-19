@@ -1,4 +1,6 @@
 import {
+  boolean,
+  doublePrecision,
   index,
   integer,
   jsonb,
@@ -82,4 +84,108 @@ export const tourImages = toursSchema.table(
     fileId: uuid().notNull(),
   },
   (table) => [primaryKey({ columns: [table.tourId, table.position] })],
+);
+
+/** A place on the route. Every point has a location and a description; audio is optional. */
+export const points = toursSchema.table(
+  'points',
+  {
+    id: primaryId(),
+    tourId: uuid()
+      .notNull()
+      .references(() => tours.id, { onDelete: 'cascade' }),
+    /** Order along the route, starting at 0. */
+    position: integer().notNull(),
+    latitude: doublePrecision().notNull(),
+    longitude: doublePrecision().notNull(),
+    /** Available before the tour is bought, as a preview. */
+    isFree: boolean().notNull().default(false),
+    imageId: uuid(),
+    markerImageId: uuid(),
+    /** Marker shown while the point is not yet available to the user. */
+    lockedMarkerImageId: uuid(),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (table) => [index().on(table.tourId, table.position)],
+);
+
+export const pointTranslations = toursSchema.table(
+  'point_translations',
+  {
+    pointId: uuid()
+      .notNull()
+      .references(() => points.id, { onDelete: 'cascade' }),
+    locale: text().notNull(),
+    name: text().notNull(),
+    description: text(),
+    address: text(),
+    openingHours: text(),
+  },
+  (table) => [primaryKey({ columns: [table.pointId, table.locale] })],
+);
+
+/** Present only for audio points: one row per point, settings that do not depend on language. */
+export const pointAudio = toursSchema.table('point_audio', {
+  pointId: uuid()
+    .primaryKey()
+    .references(() => points.id, { onDelete: 'cascade' }),
+  /** Playback starts by itself when the user comes this close. */
+  autoplayRadiusMeters: integer().notNull().default(40),
+});
+
+/** A subtitle line: shown from `startMs` to `endMs` of the recording. */
+export interface SubtitleCue {
+  startMs: number;
+  endMs: number;
+  text: string;
+}
+
+export const pointAudioTranslations = toursSchema.table(
+  'point_audio_translations',
+  {
+    pointId: uuid()
+      .notNull()
+      .references(() => pointAudio.pointId, { onDelete: 'cascade' }),
+    locale: text().notNull(),
+    audioFileId: uuid().notNull(),
+    durationSeconds: integer(),
+    /** Full narration text. */
+    transcript: text(),
+    subtitles: jsonb().$type<SubtitleCue[]>(),
+  },
+  (table) => [primaryKey({ columns: [table.pointId, table.locale] })],
+);
+
+/** Kind of place (museum, food, architecture…), used to filter points on the map. */
+export const categories = toursSchema.table('categories', {
+  id: primaryId(),
+  slug: text().notNull().unique(),
+  position: integer().notNull().default(0),
+  iconImageId: uuid(),
+});
+
+export const categoryTranslations = toursSchema.table(
+  'category_translations',
+  {
+    categoryId: uuid()
+      .notNull()
+      .references(() => categories.id, { onDelete: 'cascade' }),
+    locale: text().notNull(),
+    name: text().notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.categoryId, table.locale] })],
+);
+
+export const pointCategories = toursSchema.table(
+  'point_categories',
+  {
+    pointId: uuid()
+      .notNull()
+      .references(() => points.id, { onDelete: 'cascade' }),
+    categoryId: uuid()
+      .notNull()
+      .references(() => categories.id, { onDelete: 'cascade' }),
+  },
+  (table) => [primaryKey({ columns: [table.pointId, table.categoryId] })],
 );

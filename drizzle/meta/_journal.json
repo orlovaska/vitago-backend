@@ -43,6 +43,13 @@
       "when": 1789828926882,
       "tag": "0005_tours",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1789828968035,
+      "tag": "0006_points",
+      "breakpoints": true
     }
   ]
 }
