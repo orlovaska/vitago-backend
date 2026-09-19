@@ -18,7 +18,7 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "incremental": true,
-    "types": ["node"]
+    "types": ["node", "multer"]
   },
   "include": ["src", "test", "*.config.ts"]
 }

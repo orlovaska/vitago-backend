@@ -1,4 +1,5 @@
 export { AppError } from './app-error';
+export { type Cursor, decodeCursor, encodeCursor, IdParamDto, pageQuery } from './common.dto';
 export { API_PREFIX, configureHttp } from './configure-http';
 export { HttpModule } from './http.module';
 export {
