@@ -1,0 +1,5 @@
+# Install on the VPS: cp deploy/cron/vitago-backup /etc/cron.d/vitago-backup
+# The script itself decides whether the interval has passed.
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+7 * * * * root /opt/vitago/api/scripts/backup-db.sh >> /var/log/vitago-backup.log 2>&1
