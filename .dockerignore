@@ -1,0 +1,14 @@
+node_modules
+dist
+coverage
+storage
+logs
+secrets
+.env
+.env.*
+.git
+.github
+test
+deploy
+scripts
+*.md
