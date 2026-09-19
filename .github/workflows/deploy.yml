@@ -1,0 +1,54 @@
+name: Deploy
+
+# Deploys only from the release branch or by hand; pushes to main never touch the server.
+on:
+  push:
+    branches:
+      - release
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  smoke:
+    uses: ./.github/workflows/docker-smoke.yml
+
+  deploy:
+    needs: [ci, smoke]
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate throwaway secrets (compose needs the files to build)
+        run: bash scripts/ci-prepare-secrets.sh
+
+      - name: Build images on the runner
+        run: docker compose build
+
+      - name: Save images
+        run: |
+          docker save vitago-api:latest vitago-nginx:latest | gzip -1 > /tmp/vitago-images.tar.gz
+          ls -lh /tmp/vitago-images.tar.gz
+
+      - uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Trust the server key
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          ssh-keyscan -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          IMAGES_ARCHIVE: /tmp/vitago-images.tar.gz
+        run: bash scripts/ci-deploy.sh
