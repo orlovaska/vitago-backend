@@ -8,7 +8,8 @@ Guidance for Claude Code when working in this repository.
 npm run dev            # watch mode (reads .env; copy .env.example first)
 npm run build          # nest build -> dist/
 npm run check          # typecheck + lint + format check + boundaries + unit tests — run before every commit
-npm run test:e2e       # e2e tests on a Postgres 18 testcontainer (Docker required)
+npm run test:e2e       # e2e tests on a Postgres 18 testcontainer (Docker required),
+                       # or on an existing disposable database: TEST_DATABASE_URL=postgres://... npm run test:e2e
 npm run db:generate    # drizzle-kit: generate a migration from changed *.tables.ts
 npm run db:migrate     # apply migrations (built output; the API never migrates itself)
 npm run openapi:export # write openapi.json from the running code's DTOs (after build)
