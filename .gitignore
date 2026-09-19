@@ -5,6 +5,6 @@ coverage/
 .env
 .env.*
 !.env.example
-secrets/
-storage/
-logs/
+/secrets/
+/storage/
+/logs/
