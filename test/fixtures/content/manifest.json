@@ -1,0 +1,51 @@
+{
+  "app": {
+    "slug": "fixture",
+    "bundleId": "com.vitago.audioguide.fixture",
+    "name": "Fixture city",
+    "paymentStores": ["rustore"]
+  },
+  "categories": [
+    {
+      "slug": "museums",
+      "translations": [
+        { "locale": "ru", "name": "Музеи" },
+        { "locale": "en", "name": "Museums" }
+      ]
+    }
+  ],
+  "tours": [
+    {
+      "slug": "walk",
+      "priceKopecks": 9900,
+      "cover": "photo.png",
+      "images": ["photo.png"],
+      "translations": [{ "locale": "ru", "title": "Прогулка", "introAudio": "narration.mp3" }],
+      "points": [
+        {
+          "latitude": 59.94,
+          "longitude": 30.31,
+          "isFree": true,
+          "image": "photo.png",
+          "categories": ["museums"],
+          "translations": [{ "locale": "ru", "name": "Эрмитаж" }],
+          "audio": {
+            "translations": [
+              {
+                "locale": "ru",
+                "file": "narration.mp3",
+                "durationSeconds": 40,
+                "subtitles": [{ "startMs": 0, "endMs": 800, "text": "Эрмитаж" }]
+              }
+            ]
+          }
+        },
+        {
+          "latitude": 59.95,
+          "longitude": 30.32,
+          "translations": [{ "locale": "ru", "name": "Стрелка" }]
+        }
+      ]
+    }
+  ]
+}
