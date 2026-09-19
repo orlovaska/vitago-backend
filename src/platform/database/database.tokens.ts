@@ -1,4 +1,5 @@
-import { type TransactionHost } from '@nestjs-cls/transactional';
+import { Inject } from '@nestjs/common';
+import { TransactionHost } from '@nestjs-cls/transactional';
 import { type TransactionalAdapterDrizzleOrm } from '@nestjs-cls/transactional-adapter-drizzle-orm';
 import { type PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 
@@ -14,3 +15,6 @@ export type Database = PostgresJsDatabase;
  * when called inside `@Transactional()`, otherwise the plain connection pool.
  */
 export type DbTxHost = TransactionHost<TransactionalAdapterDrizzleOrm<Database>>;
+
+/** `constructor(@InjectDb() private readonly txHost: DbTxHost)` — a type alias alone is not a DI token. */
+export const InjectDb = (): ParameterDecorator => Inject(TransactionHost);
