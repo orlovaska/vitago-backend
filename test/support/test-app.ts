@@ -1,3 +1,6 @@
+import { mkdtemp } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { type INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { TransactionHost } from '@nestjs-cls/transactional';
@@ -28,6 +31,7 @@ export async function createTestApp(): Promise<TestApp> {
   process.env.USER_JWT_SECRET = 'test-user-jwt-secret-0000000000000000';
   process.env.ADMIN_JWT_SECRET = 'test-admin-jwt-secret-000000000000000';
   process.env.DEVICE_SECRET_PEPPER = 'test-device-pepper-00000000000000000';
+  process.env.MEDIA_DIR = await mkdtemp(join(tmpdir(), 'vitago-media-'));
 
   const moduleRef = await Test.createTestingModule({ imports: [AppModule] }).compile();
   const app = moduleRef.createNestApplication({ logger: false });
