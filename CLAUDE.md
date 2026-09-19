@@ -12,7 +12,7 @@ npm run test:e2e       # e2e tests on a Postgres 18 testcontainer (Docker requir
                        # or on an existing disposable database: TEST_DATABASE_URL=postgres://... npm run test:e2e
 npm run db:generate    # drizzle-kit: generate a migration from changed *.tables.ts
 npm run db:migrate     # apply migrations (built output; the API never migrates itself)
-npm run openapi:export # write openapi.json from the running code's DTOs (after build)
+npm run openapi:export # regenerate openapi.json (after build); commit it with every API change
 npm run admin -- create <login>   # create an administrator (prints a generated password)
 ```
 

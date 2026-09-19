@@ -30,6 +30,10 @@ jobs:
       - name: Export the API contract
         run: npm run openapi:export
 
+      # Clients generate their types from the committed openapi.json.
+      - name: The committed contract is up to date
+        run: git diff --exit-code openapi.json
+
       - uses: actions/upload-artifact@v4
         with:
           name: openapi

@@ -3,3 +3,4 @@ coverage
 drizzle
 package-lock.json
 content
+openapi.json
