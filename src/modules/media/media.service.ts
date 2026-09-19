@@ -1,0 +1,88 @@
+import { createHash } from 'node:crypto';
+import { createReadStream } from 'node:fs';
+import { rm, stat } from 'node:fs/promises';
+import { pipeline } from 'node:stream/promises';
+import { Injectable } from '@nestjs/common';
+import { isUniqueViolation } from '../../platform/database';
+import { AppError } from '../../platform/http';
+import { ALLOWED_MEDIA_TYPES, isAllowedMediaType } from './media-types';
+import { type FileRow, type ListFilesQuery, MediaStore } from './media.store';
+import { FileStorage } from './storage/file-storage';
+
+export interface IncomingFile {
+  /** Temporary file; it is moved into storage or deleted. */
+  tempPath: string;
+  originalName: string;
+  mimeType: string;
+}
+
+async function sha256Of(path: string): Promise<string> {
+  const hash = createHash('sha256');
+  await pipeline(createReadStream(path), hash);
+  return hash.digest('hex');
+}
+
+@Injectable()
+export class MediaService {
+  constructor(
+    private readonly store: MediaStore,
+    private readonly storage: FileStorage,
+  ) {}
+
+  /**
+   * Stores an uploaded file. Identical content is stored once: uploading the
+   * same bytes again returns the existing file, which makes imports repeatable.
+   */
+  async ingest({ tempPath, originalName, mimeType }: IncomingFile): Promise<FileRow> {
+    try {
+      if (!isAllowedMediaType(mimeType)) {
+        throw AppError.badRequest(
+          'unsupported_media_type',
+          `Files of type ${mimeType} cannot be uploaded`,
+        );
+      }
+      const [sha256, { size }] = await Promise.all([sha256Of(tempPath), stat(tempPath)]);
+      // Content-addressed key: the same bytes of the same type always map to one file.
+      const storageKey = `${sha256.slice(0, 2)}/${sha256}.${ALLOWED_MEDIA_TYPES[mimeType]}`;
+
+      const existing = await this.store.findByKey(storageKey);
+      if (existing) return existing;
+
+      await this.storage.save(storageKey, tempPath);
+      try {
+        return await this.store.insert({
+          storageKey,
+          originalName,
+          mimeType,
+          sizeBytes: size,
+          sha256,
+        });
+      } catch (error) {
+        // A concurrent upload of the same content won the race; its row is ours too.
+        if (isUniqueViolation(error)) return (await this.store.findByKey(storageKey))!;
+        throw error;
+      }
+    } finally {
+      await rm(tempPath, { force: true });
+    }
+  }
+
+  async get(id: string): Promise<FileRow> {
+    const file = await this.store.findById(id);
+    if (!file) throw AppError.notFound('file_not_found', `File ${id} not found`);
+    return file;
+  }
+
+  list(query: ListFilesQuery): Promise<FileRow[]> {
+    return this.store.list(query);
+  }
+
+  async remove(id: string): Promise<void> {
+    const file = await this.store.delete(id);
+    if (file) await this.storage.remove(file.storageKey);
+  }
+
+  localPath(file: FileRow): string {
+    return this.storage.localPath(file.storageKey);
+  }
+}

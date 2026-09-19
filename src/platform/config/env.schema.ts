@@ -36,6 +36,10 @@ export const envSchema = z.object({
   /** HMAC key for device secrets. Changing it detaches every device from its account. */
   DEVICE_SECRET_PEPPER: z.string().min(32),
 
+  /** Root directory of uploaded files (a Docker volume in production). */
+  MEDIA_DIR: z.string().min(1).default('storage/media'),
+  MEDIA_MAX_UPLOAD_MB: z.coerce.number().int().min(1).default(100),
+
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
   /** Directory for rotated log files; unset means stdout only. */
   LOG_DIR: z.string().min(1).optional(),
