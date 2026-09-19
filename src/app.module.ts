@@ -4,6 +4,7 @@ import { AuthModule } from './modules/auth';
 import { LegalModule } from './modules/legal';
 import { MediaModule } from './modules/media';
 import { SettingsModule } from './modules/settings';
+import { ToursModule } from './modules/tours';
 import { AppContextModule } from './platform/app-context';
 import { ConfigModule } from './platform/config';
 import { DatabaseModule } from './platform/database';
@@ -27,6 +28,7 @@ import { LoggingModule } from './platform/logging';
     SettingsModule,
     AppsModule,
     LegalModule,
+    ToursModule,
   ],
 })
 export class AppModule {}
