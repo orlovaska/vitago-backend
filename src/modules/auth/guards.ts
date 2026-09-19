@@ -25,6 +25,8 @@ abstract class BearerGuard implements CanActivate {
   protected abstract readonly audience: TokenAudience;
   protected abstract attach(request: AuthenticatedRequest, subject: string): void;
 
+  // Subclasses declare their own constructor: TypeScript emits the parameter
+  // metadata Nest needs only on decorated classes, and this base is not one.
   constructor(private readonly tokens: TokensService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -42,6 +44,11 @@ abstract class BearerGuard implements CanActivate {
 @Injectable()
 export class UserAuthGuard extends BearerGuard {
   protected readonly audience = 'app';
+
+  constructor(tokens: TokensService) {
+    super(tokens);
+  }
+
   protected attach(request: AuthenticatedRequest, subject: string): void {
     request.userId = subject;
   }
@@ -50,6 +57,11 @@ export class UserAuthGuard extends BearerGuard {
 @Injectable()
 export class AdminAuthGuard extends BearerGuard {
   protected readonly audience = 'admin';
+
+  constructor(tokens: TokensService) {
+    super(tokens);
+  }
+
   protected attach(request: AuthenticatedRequest, subject: string): void {
     request.adminId = subject;
   }
