@@ -1,0 +1,12 @@
+{
+  "name": "vitago-map-style",
+  "private": true,
+  "type": "module",
+  "description": "Builds the MapLibre style served from /maps on the API host",
+  "scripts": {
+    "build": "node build-style.mjs"
+  },
+  "dependencies": {
+    "@protomaps/basemaps": "^5.7.2"
+  }
+}

@@ -53,6 +53,11 @@ export default tseslint.config(
     ...tseslint.configs.disableTypeChecked,
   },
   {
+    // Plain Node scripts outside the TypeScript project.
+    files: ['**/*.mjs'],
+    languageOptions: { globals: { process: 'readonly', console: 'readonly' } },
+  },
+  {
     files: ['**/*.cjs'],
     languageOptions: {
       sourceType: 'commonjs',
