@@ -16,7 +16,10 @@ export const envSchema = z.object({
   LOG_DIR: z.string().min(1).optional(),
   /** Rotated files kept on disk: one per day, plus extra ones when a day exceeds LOG_FILE_SIZE. */
   LOG_MAX_FILES: z.coerce.number().int().min(1).default(30),
-  LOG_FILE_SIZE: z.string().regex(/^\d+[kmg]?$/).default('50m'),
+  LOG_FILE_SIZE: z
+    .string()
+    .regex(/^\d+[kmg]?$/)
+    .default('50m'),
 });
 
 export type Env = z.infer<typeof envSchema>;

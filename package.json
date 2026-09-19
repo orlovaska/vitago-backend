@@ -14,7 +14,10 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "node dist/migrate.js",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@nestjs-cls/transactional": "^3.3.0",
