@@ -19,11 +19,31 @@ export default tseslint.config(
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       // Nest DI relies on runtime class references in constructor parameters.
       '@typescript-eslint/consistent-type-imports': 'off',
+      // forwardRef hides a dependency cycle instead of removing it.
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: '@nestjs/common',
+              importNames: ['forwardRef'],
+              message: 'Module dependencies must go one way; restructure instead of forwardRef.',
+            },
+          ],
+        },
+      ],
     },
   },
   {
-    files: ['**/*.mjs'],
+    files: ['**/*.mjs', '**/*.cjs'],
     ...tseslint.configs.disableTypeChecked,
+  },
+  {
+    files: ['**/*.cjs'],
+    languageOptions: {
+      sourceType: 'commonjs',
+      globals: { module: 'writable', require: 'readonly' },
+    },
   },
   prettier,
 );
