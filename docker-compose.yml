@@ -11,6 +11,9 @@ services:
   postgres:
     image: postgres:18-alpine
     env_file: ./secrets/postgres.env
+    # Loopback only: reach it from pgAdmin through an SSH tunnel, never from the internet.
+    ports:
+      - '127.0.0.1:5432:5432'
     volumes:
       - pg_data:/var/lib/postgresql
     healthcheck:
