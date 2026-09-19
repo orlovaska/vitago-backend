@@ -11,7 +11,10 @@
     "build": "nest build",
     "start": "node dist/main.js",
     "dev": "nest start --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@nestjs/common": "^11.2.5",
@@ -21,10 +24,15 @@
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@nestjs/cli": "^11.0.24",
     "@nestjs/schematics": "^11.1.0",
     "@types/express": "^5.0.6",
     "@types/node": "^22.20.4",
-    "typescript": "~6.0.3"
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.8",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.70.0"
   }
 }
