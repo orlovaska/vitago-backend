@@ -69,6 +69,8 @@ describe('apps', () => {
       email: 'help@example.test',
       vkUrl: 'https://vk.com/x',
     });
+    // Fields the PATCH did not mention keep their values.
+    expect(response.body.paymentStores).toEqual(['rustore', 'google_play']);
   });
 
   it('rejects a second app with the same bundle id', async () => {

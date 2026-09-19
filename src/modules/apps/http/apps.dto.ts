@@ -1,5 +1,6 @@
 import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
+import { patchSchema } from '../../../platform/http';
 import { type CurrentDocument } from '../../legal';
 import { store } from '../apps.tables';
 import { type AppRow, type AppVersionRow } from '../apps.store';
@@ -104,7 +105,7 @@ const appInputSchema = z.object({
 
 export class CreateAppDto extends createZodDto(appInputSchema) {}
 export class UpdateAppDto extends createZodDto(
-  appInputSchema.partial().extend({ support: supportSchema.partial().optional() }),
+  patchSchema(appInputSchema).extend({ support: supportSchema.partial().optional() }),
 ) {}
 
 const adminAppSchema = appConfigSchema.extend({
