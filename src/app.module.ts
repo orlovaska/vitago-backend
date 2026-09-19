@@ -5,6 +5,7 @@ import { AppsDirectory, AppsModule } from './modules/apps';
 import { AuthModule } from './modules/auth';
 import { FavoritesModule } from './modules/favorites';
 import { LegalModule } from './modules/legal';
+import { LogsModule } from './modules/logs';
 import { MediaModule } from './modules/media';
 import { PaymentsModule } from './modules/payments';
 import { PromotionsModule } from './modules/promotions';
@@ -45,6 +46,7 @@ import { LoggingModule } from './platform/logging';
     PaymentsModule,
     UsersModule,
     AnalyticsModule,
+    LogsModule,
   ],
 })
 export class AppModule {}
