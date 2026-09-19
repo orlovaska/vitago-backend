@@ -1,0 +1,3 @@
+export { type AppSummary, AppsDirectory, AppsFacade } from './apps.facade';
+export { AppsModule } from './apps.module';
+export { type Store } from './apps.store';

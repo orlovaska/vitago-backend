@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
+import { AppsDirectory, AppsModule } from './modules/apps';
 import { AuthModule } from './modules/auth';
 import { MediaModule } from './modules/media';
 import { SettingsModule } from './modules/settings';
+import { AppContextModule } from './platform/app-context';
 import { ConfigModule } from './platform/config';
 import { DatabaseModule } from './platform/database';
 import { HealthModule } from './platform/health';
@@ -16,10 +18,13 @@ import { LoggingModule } from './platform/logging';
     DatabaseModule,
     HttpModule,
     HealthModule,
+    // Ports implemented by modules
+    AppContextModule.forRoot({ imports: [AppsModule], directory: AppsDirectory }),
     // Business modules
     AuthModule,
     MediaModule,
     SettingsModule,
+    AppsModule,
   ],
 })
 export class AppModule {}
