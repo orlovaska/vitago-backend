@@ -85,6 +85,13 @@
       "when": 1789839491652,
       "tag": "0011_app_screen_media",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1789839624087,
+      "tag": "0012_tour_summary",
+      "breakpoints": true
     }
   ]
 }

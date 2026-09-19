@@ -66,6 +66,8 @@ export const tourTranslations = toursSchema.table(
     locale: text().notNull(),
     title: text().notNull(),
     subtitle: text(),
+    /** One or two sentences for the tour card; description is the full text. */
+    summary: text(),
     description: text(),
     /** Optional introduction played before the first point. */
     introAudioId: uuid(),

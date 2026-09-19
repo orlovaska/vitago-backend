@@ -17,6 +17,7 @@ class FavoritesDto extends createZodDto(
         slug: z.string(),
         title: z.string(),
         subtitle: z.string().nullable(),
+        summary: z.string().nullable(),
         coverImageUrl: z.string().nullable(),
         priceKopecks: z.number().int(),
         distanceMeters: z.number().int().nullable(),

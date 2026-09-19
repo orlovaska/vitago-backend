@@ -12,6 +12,7 @@ export interface TourCard {
   slug: string;
   title: string;
   subtitle: string | null;
+  summary: string | null;
   coverImageUrl: string | null;
   priceKopecks: number;
   distanceMeters: number | null;
@@ -168,6 +169,7 @@ function card(
     slug: row.slug,
     title: translation?.title ?? row.slug,
     subtitle: translation?.subtitle ?? null,
+    summary: translation?.summary ?? null,
     coverImageUrl: urlOf(urls, row.coverImageId),
     priceKopecks: row.priceKopecks,
     distanceMeters: row.distanceMeters,

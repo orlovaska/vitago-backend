@@ -1,0 +1,1 @@
+ALTER TABLE "tours"."tour_translations" ADD COLUMN "summary" text;

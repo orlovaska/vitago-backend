@@ -32,6 +32,7 @@ export const tourTranslationSchema = z.object({
   locale: localeSchema,
   title: z.string().min(1).max(200),
   subtitle: z.string().max(300).nullable().default(null),
+  summary: z.string().max(1000).nullable().default(null),
   description: z.string().max(20_000).nullable().default(null),
   introAudioId: fileId.nullable().default(null),
 });

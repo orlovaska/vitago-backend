@@ -17,6 +17,8 @@ const tourCardSchema = z.object({
   slug: z.string(),
   title: z.string(),
   subtitle: z.string().nullable(),
+  /** Short text for the tour card. */
+  summary: z.string().nullable(),
   coverImageUrl: z.string().nullable(),
   /** 0 for a free tour. */
   priceKopecks: z.number().int(),

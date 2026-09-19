@@ -73,6 +73,7 @@ export class ContentImporter {
         locale: translation.locale,
         title: translation.title,
         subtitle: translation.subtitle ?? null,
+        summary: translation.summary ?? null,
         description: translation.description ?? null,
         introAudioId: await this.file(translation.introAudio),
       });

@@ -76,6 +76,7 @@ const tourSchema = z.object({
       locale,
       title: z.string(),
       subtitle: z.string().optional(),
+      summary: z.string().optional(),
       description: z.string().optional(),
       introAudio: file.optional(),
     }),
