@@ -18,7 +18,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node dist/migrate.js",
     "db:studio": "drizzle-kit studio",
-    "arch": "depcruise src --config .dependency-cruiser.cjs"
+    "arch": "depcruise src --config .dependency-cruiser.cjs",
+    "openapi:export": "node dist/openapi-export.js"
   },
   "dependencies": {
     "@nestjs-cls/transactional": "^3.3.0",
@@ -26,9 +27,11 @@
     "@nestjs/common": "^11.2.5",
     "@nestjs/core": "^11.2.5",
     "@nestjs/platform-express": "^11.2.5",
+    "@nestjs/swagger": "^11.4.7",
     "drizzle-orm": "^0.45.2",
     "nestjs-cls": "^6.3.0",
     "nestjs-pino": "^5.2.0",
+    "nestjs-zod": "^5.5.0",
     "pino": "^10.3.1",
     "pino-http": "^11.0.0",
     "pino-roll": "^4.0.0",

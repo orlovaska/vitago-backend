@@ -1,0 +1,31 @@
+import { HttpException, HttpStatus } from '@nestjs/common';
+
+/**
+ * Expected failure with a stable machine-readable `code`, rendered as
+ * problem+json. Clients branch on `code`, never on the human-readable text.
+ */
+export class AppError extends HttpException {
+  constructor(
+    status: HttpStatus,
+    readonly code: string,
+    detail: string,
+  ) {
+    super(detail, status);
+  }
+
+  static notFound(code: string, detail: string): AppError {
+    return new AppError(HttpStatus.NOT_FOUND, code, detail);
+  }
+
+  static badRequest(code: string, detail: string): AppError {
+    return new AppError(HttpStatus.BAD_REQUEST, code, detail);
+  }
+
+  static conflict(code: string, detail: string): AppError {
+    return new AppError(HttpStatus.CONFLICT, code, detail);
+  }
+
+  static forbidden(code: string, detail: string): AppError {
+    return new AppError(HttpStatus.FORBIDDEN, code, detail);
+  }
+}

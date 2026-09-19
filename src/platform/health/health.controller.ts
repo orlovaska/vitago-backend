@@ -1,4 +1,5 @@
 import { Controller, Get, Inject, ServiceUnavailableException } from '@nestjs/common';
+import { ApiExcludeController } from '@nestjs/swagger';
 import { type Sql } from 'postgres';
 import { SQL_CLIENT } from '../database';
 
@@ -6,6 +7,7 @@ import { SQL_CLIENT } from '../database';
  * Probes for Docker and CI. Kept outside /v1 and out of the OpenAPI contract:
  * they describe the process, not the product.
  */
+@ApiExcludeController()
 @Controller('health')
 export class HealthController {
   constructor(@Inject(SQL_CLIENT) private readonly sql: Sql) {}
