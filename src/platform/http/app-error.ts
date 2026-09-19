@@ -29,6 +29,10 @@ export class AppError extends HttpException {
     return new AppError(HttpStatus.CONFLICT, code, detail);
   }
 
+  static tooManyRequests(code: string, detail: string): AppError {
+    return new AppError(HttpStatus.TOO_MANY_REQUESTS, code, detail);
+  }
+
   static forbidden(code: string, detail: string): AppError {
     return new AppError(HttpStatus.FORBIDDEN, code, detail);
   }
