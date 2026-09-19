@@ -8,6 +8,9 @@ export const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().min(1).max(65535).default(3000),
 
+  DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
+  DATABASE_POOL_SIZE: z.coerce.number().int().min(1).default(10),
+
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
   /** Directory for rotated log files; unset means stdout only. */
   LOG_DIR: z.string().min(1).optional(),
