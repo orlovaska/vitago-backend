@@ -13,6 +13,10 @@ export class AppError extends HttpException {
     super(detail, status);
   }
 
+  static unauthorized(code: string, detail: string): AppError {
+    return new AppError(HttpStatus.UNAUTHORIZED, code, detail);
+  }
+
   static notFound(code: string, detail: string): AppError {
     return new AppError(HttpStatus.NOT_FOUND, code, detail);
   }

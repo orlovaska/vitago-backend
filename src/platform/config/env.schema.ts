@@ -27,6 +27,15 @@ export const envSchema = z.object({
   DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
   DATABASE_POOL_SIZE: z.coerce.number().int().min(1).default(10),
 
+  /** Signs access tokens of the mobile app. Changing it signs every device out once. */
+  USER_JWT_SECRET: z.string().min(32),
+  /** Signs admin tokens; distinct from USER_JWT_SECRET so an app token never opens the admin API. */
+  ADMIN_JWT_SECRET: z.string().min(32),
+  USER_TOKEN_TTL_SECONDS: z.coerce.number().int().min(60).default(3600),
+  ADMIN_TOKEN_TTL_SECONDS: z.coerce.number().int().min(60).default(43_200),
+  /** HMAC key for device secrets. Changing it detaches every device from its account. */
+  DEVICE_SECRET_PEPPER: z.string().min(32),
+
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
   /** Directory for rotated log files; unset means stdout only. */
   LOG_DIR: z.string().min(1).optional(),

@@ -25,6 +25,9 @@ export async function createTestApp(): Promise<TestApp> {
   process.env.NODE_ENV = 'test';
   process.env.DATABASE_URL = inject('databaseUrl');
   process.env.LOG_LEVEL ??= 'warn';
+  process.env.USER_JWT_SECRET = 'test-user-jwt-secret-0000000000000000';
+  process.env.ADMIN_JWT_SECRET = 'test-admin-jwt-secret-000000000000000';
+  process.env.DEVICE_SECRET_PEPPER = 'test-device-pepper-00000000000000000';
 
   const moduleRef = await Test.createTestingModule({ imports: [AppModule] }).compile();
   const app = moduleRef.createNestApplication({ logger: false });
