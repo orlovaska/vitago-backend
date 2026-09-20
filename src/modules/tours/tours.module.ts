@@ -12,6 +12,7 @@ import { TourImportService } from './services/tour-import.service';
 import { RouteLineService } from './services/route-line.service';
 import { TourReader } from './services/tour-reader.service';
 import { ToursAdminService } from './services/tours-admin.service';
+import { WalkPointsService } from './services/walk-points.service';
 import { CategoriesStore } from './stores/categories.store';
 import { PointsStore } from './stores/points.store';
 import { ToursStore } from './stores/tours.store';
@@ -33,6 +34,7 @@ import { ToursFacade } from './tours.facade';
     TourReader,
     TourEditorViews,
     TourImportService,
+    WalkPointsService,
     ToursFacade,
   ],
   exports: [ToursFacade],
