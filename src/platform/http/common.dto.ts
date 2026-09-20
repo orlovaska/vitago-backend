@@ -1,5 +1,5 @@
-import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
+import { createZodDto } from './zod-dto';
 
 /** `:id` route parameter; anything but a UUID is a 400, not a database error. */
 export class IdParamDto extends createZodDto(z.object({ id: z.uuid() })) {}

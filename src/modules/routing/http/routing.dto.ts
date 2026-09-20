@@ -1,5 +1,5 @@
-import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
+import { createZodDto } from '../../../platform/http';
 
 const coordinates = z.object({
   lat: z.number().min(-90).max(90),

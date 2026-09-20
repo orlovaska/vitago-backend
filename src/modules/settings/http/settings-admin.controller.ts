@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { createZodDto, ZodResponse } from 'nestjs-zod';
+import { ZodResponse } from 'nestjs-zod';
 import { z } from 'zod';
-import { ADMIN_TAG } from '../../../platform/http';
+import { ADMIN_TAG, createZodDto } from '../../../platform/http';
 import { AdminAuth, CurrentAdminId } from '../../auth';
 import { type SettingState, SettingsService } from '../settings.service';
 

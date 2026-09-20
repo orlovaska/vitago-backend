@@ -1,6 +1,5 @@
-import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
-import { patchSchema } from '../../../platform/http';
+import { patchSchema, createZodDto } from '../../../platform/http';
 import { type CurrentDocument } from '../../legal';
 import { mediaUrl } from '../../media';
 import { store } from '../apps.tables';

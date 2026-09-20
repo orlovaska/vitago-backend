@@ -1,6 +1,5 @@
-import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
-import { patchSchema } from '../../../platform/http';
+import { patchSchema, createZodDto } from '../../../platform/http';
 import { type PromoCodeRow } from '../promotions.store';
 
 export class QuoteRequestDto extends createZodDto(

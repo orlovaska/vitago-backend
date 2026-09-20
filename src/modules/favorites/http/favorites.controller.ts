@@ -1,9 +1,9 @@
 import { Controller, Delete, Get, HttpCode, Param, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { createZodDto, ZodResponse } from 'nestjs-zod';
+import { ZodResponse } from 'nestjs-zod';
 import { z } from 'zod';
 import { type AppContext, CurrentApp, RequiresApp } from '../../../platform/app-context';
-import { APP_TAG, IdParamDto } from '../../../platform/http';
+import { APP_TAG, createZodDto, IdParamDto } from '../../../platform/http';
 import { type Locale, RequestLocale } from '../../../platform/i18n';
 import { CurrentUserId, UserAuth } from '../../auth';
 import { FavoritesService } from '../favorites.service';

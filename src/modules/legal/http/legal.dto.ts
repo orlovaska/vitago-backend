@@ -1,5 +1,5 @@
-import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
+import { createZodDto } from '../../../platform/http';
 import { legalDocumentType } from '../legal.tables';
 import { type LegalDocumentVersionRow } from '../legal.store';
 import {

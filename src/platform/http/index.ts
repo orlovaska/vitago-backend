@@ -12,3 +12,4 @@ export {
   USER_AUTH,
 } from './openapi';
 export type { ProblemDetails } from './problem-details.filter';
+export { createZodDto } from './zod-dto';

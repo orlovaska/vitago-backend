@@ -15,6 +15,9 @@ export function buildOpenApiDocument(app: INestApplication): OpenAPIObject {
   const config = new DocumentBuilder()
     .setTitle('Vitago API')
     .setVersion('1')
+    // zod 4 describes schemas in JSON Schema 2020-12 (`type: ['string', 'null']`);
+    // declaring 3.1 keeps the document honest instead of mixing both dialects
+    .setOpenAPIVersion('3.1.0')
     .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, USER_AUTH)
     .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, ADMIN_AUTH)
     .addTag(APP_TAG, 'Mobile application')
