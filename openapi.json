@@ -4044,6 +4044,46 @@
               }
             ]
           },
+          "mapCenter": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "latitude": {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "longitude": {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  "zoom": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 20
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "latitude",
+                  "longitude",
+                  "zoom"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "paymentStores": {
             "type": "array",
             "items": {
@@ -4187,6 +4227,7 @@
           "name",
           "urlScheme",
           "mapStyleUrl",
+          "mapCenter",
           "paymentStores",
           "receiptEmailRequired",
           "support",
@@ -4283,6 +4324,46 @@
                     "null"
                   ]
                 },
+                "mapCenter": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "latitude": {
+                          "type": "number",
+                          "minimum": -90,
+                          "maximum": 90
+                        },
+                        "longitude": {
+                          "type": "number",
+                          "minimum": -180,
+                          "maximum": 180
+                        },
+                        "zoom": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 20
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "latitude",
+                        "longitude",
+                        "zoom"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
                 "paymentStores": {
                   "type": "array",
                   "items": {
@@ -4372,6 +4453,42 @@
                 "bundleId": {
                   "type": "string"
                 },
+                "centerLat": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": -90,
+                      "maximum": 90
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "centerLon": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": -180,
+                      "maximum": 180
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "centerZoom": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
                 "loadingAnimationFileId": {
                   "anyOf": [
                     {
@@ -4413,12 +4530,16 @@
                 "name",
                 "urlScheme",
                 "mapStyleUrl",
+                "mapCenter",
                 "paymentStores",
                 "receiptEmailRequired",
                 "support",
                 "loadingAnimationUrl",
                 "accountRecoveryImageUrl",
                 "bundleId",
+                "centerLat",
+                "centerLon",
+                "centerZoom",
                 "loadingAnimationFileId",
                 "accountRecoveryImageId",
                 "createdAt",
@@ -4468,6 +4589,45 @@
                 "type": "string",
                 "maxLength": 500,
                 "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "centerLat": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "centerLon": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "centerZoom": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 20
               },
               {
                 "type": "null"
@@ -4611,6 +4771,46 @@
               }
             ]
           },
+          "mapCenter": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "latitude": {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "longitude": {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  "zoom": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 20
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "latitude",
+                  "longitude",
+                  "zoom"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "paymentStores": {
             "type": "array",
             "items": {
@@ -4708,6 +4908,42 @@
           "bundleId": {
             "type": "string"
           },
+          "centerLat": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "centerLon": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "centerZoom": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "loadingAnimationFileId": {
             "anyOf": [
               {
@@ -4749,12 +4985,16 @@
           "name",
           "urlScheme",
           "mapStyleUrl",
+          "mapCenter",
           "paymentStores",
           "receiptEmailRequired",
           "support",
           "loadingAnimationUrl",
           "accountRecoveryImageUrl",
           "bundleId",
+          "centerLat",
+          "centerLon",
+          "centerZoom",
           "loadingAnimationFileId",
           "accountRecoveryImageId",
           "createdAt",
@@ -4795,6 +5035,42 @@
                 "type": "string",
                 "maxLength": 500,
                 "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "centerLat": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "centerLon": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "centerZoom": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 20
               },
               {
                 "type": "null"

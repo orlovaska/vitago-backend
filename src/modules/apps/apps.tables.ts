@@ -1,6 +1,8 @@
 import {
   boolean,
+  doublePrecision,
   index,
+  integer,
   pgSchema,
   primaryKey,
   text,
@@ -25,6 +27,15 @@ export const apps = appsSchema.table('apps', {
   urlScheme: text(),
   /** MapLibre style the app loads; swappable here without a release. */
   mapStyleUrl: text(),
+  /**
+   * Centre of the city this app is about. The map opens here when the user
+   * has no location, and a generated walk starts here. Kept with the app and
+   * not in the build, so a city is set up without a release.
+   */
+  centerLat: doublePrecision(),
+  centerLon: doublePrecision(),
+  /** Zoom the map opens at; without it the app picks its own city-wide scale. */
+  centerZoom: integer(),
   /** Stores whose builds may sell tours; the others show content without payment. */
   paymentStores: store().array().notNull().default([]),
   /** Ask for an e-mail before payment so the bank can send the receipt. */

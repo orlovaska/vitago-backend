@@ -85,6 +85,10 @@ export const contentManifestSchema = z.object({
     name: z.string(),
     urlScheme: z.string().optional(),
     mapStyleUrl: z.url().optional(),
+    /** Центр города: сюда встаёт карта и отсюда начинается прогулка без геолокации. */
+    centerLat: z.number().min(-90).max(90).optional(),
+    centerLon: z.number().min(-180).max(180).optional(),
+    centerZoom: z.number().int().min(1).max(20).optional(),
     paymentStores: z.array(z.enum(['app_store', 'google_play', 'rustore'])).optional(),
   }),
   categories: z
