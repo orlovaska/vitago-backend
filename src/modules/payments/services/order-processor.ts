@@ -7,6 +7,7 @@ import { type OrderStatus, statusForBank } from '../order-state';
 import { PurchaseCompleted, type PurchaseCompletedPayload } from '../payments.events';
 import { type OrderRow, OrdersStore } from '../stores/orders.store';
 import { PurchasesStore } from '../stores/purchases.store';
+import { WalkUnlocksStore } from '../stores/walk-unlocks.store';
 
 export type ReportOutcome = 'applied' | 'unchanged' | 'duplicate' | 'ignored';
 
@@ -29,6 +30,7 @@ export class OrderProcessor {
   constructor(
     private readonly orders: OrdersStore,
     private readonly purchases: PurchasesStore,
+    private readonly walkUnlocks: WalkUnlocksStore,
     private readonly promotions: PromotionsFacade,
     private readonly events: EventBus,
   ) {}
@@ -117,37 +119,71 @@ export class OrderProcessor {
 
     if (target === 'refunded') {
       await this.purchases.revokeByOrder(order.id);
+      await this.walkUnlocks.revokeByOrder(order.id);
       return { moved: true };
     }
-    if (target !== 'paid' || !updated.userId) return { moved: true };
+    if (target !== 'paid') return { moved: true };
 
     if (order.status === 'expired') {
       await this.orders.addEvent({ orderId: order.id, type: 'late_confirmation' });
     }
-    const granted = await this.purchases.grant(updated.userId, updated.tourId, updated.id);
-    if (!granted) {
-      this.logger.warn(`Order ${order.id} paid for a tour the user already owns; refund by hand`);
-      await this.orders.addEvent({ orderId: order.id, type: 'duplicate_payment' });
-    }
-    if (updated.promoCodeId) {
-      await this.promotions.recordRedemption(
-        updated.promoCodeId,
-        updated.userId,
-        updated.tourId,
-        updated.id,
-      );
-    }
+
+    // Access is granted here, inside the same transaction as the status move:
+    // the event published afterwards is analytics and may be lost.
+    const subjectId = await this.grantAccess(updated);
+    const userId = updated.userId;
+    if (!subjectId || !userId) return { moved: true };
+
     return {
       moved: true,
       completed: {
         orderId: updated.id,
-        userId: updated.userId,
+        userId,
         appId: updated.appId,
-        tourId: updated.tourId,
+        kind: updated.kind,
+        subjectId,
         amountKopecks: updated.amountKopecks,
         currency: 'RUB',
         occurredAt: now,
       },
     };
+  }
+
+  /** Grants what the paid order bought. Returns the id of the subject. */
+  private async grantAccess(order: OrderRow): Promise<string | null> {
+    const userId = order.userId;
+    if (!userId) return null;
+
+    if (order.kind === 'walk_unlock') {
+      if (!order.walkId) {
+        this.logger.error(`Walk unlock order ${order.id} has no walk`);
+        return null;
+      }
+      const granted = await this.walkUnlocks.grant(
+        userId,
+        order.walkId,
+        order.unlockPointIds ?? [],
+        order.id,
+      );
+      if (!granted) {
+        this.logger.warn(`Order ${order.id} paid for a walk already unlocked; refund by hand`);
+        await this.orders.addEvent({ orderId: order.id, type: 'duplicate_payment' });
+      }
+      return order.walkId;
+    }
+
+    if (!order.tourId) {
+      this.logger.error(`Tour order ${order.id} has no tour`);
+      return null;
+    }
+    const granted = await this.purchases.grant(userId, order.tourId, order.id);
+    if (!granted) {
+      this.logger.warn(`Order ${order.id} paid for a tour the user already owns; refund by hand`);
+      await this.orders.addEvent({ orderId: order.id, type: 'duplicate_payment' });
+    }
+    if (order.promoCodeId) {
+      await this.promotions.recordRedemption(order.promoCodeId, userId, order.tourId, order.id);
+    }
+    return order.tourId;
   }
 }

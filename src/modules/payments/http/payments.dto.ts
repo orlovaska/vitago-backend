@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { pageQuery, createZodDto } from '../../../platform/http';
 import { type OrderStatus } from '../order-state';
-import { orderStatus } from '../payments.tables';
+import { orderKind, orderStatus } from '../payments.tables';
 import { type OrderEventRow, type OrderRow } from '../stores/orders.store';
 import { type PurchaseRow } from '../stores/purchases.store';
 
@@ -71,8 +71,12 @@ const adminOrderSchema = z.object({
   id: z.uuid(),
   userId: z.uuid().nullable(),
   appId: z.uuid(),
-  tourId: z.uuid(),
-  tourTitle: z.string(),
+  kind: z.enum(orderKind.enumValues),
+  /** Set for a tour order. */
+  tourId: z.uuid().nullable(),
+  /** Set for a walk unlock order. */
+  walkId: z.uuid().nullable(),
+  subjectTitle: z.string(),
   priceKopecks: z.number().int(),
   amountKopecks: z.number().int(),
   promoCodeId: z.uuid().nullable(),
@@ -134,8 +138,10 @@ export const toAdminOrder = (order: OrderRow) => ({
   id: order.id,
   userId: order.userId,
   appId: order.appId,
+  kind: order.kind,
   tourId: order.tourId,
-  tourTitle: order.tourTitle,
+  walkId: order.walkId,
+  subjectTitle: order.subjectTitle,
   priceKopecks: order.priceKopecks,
   amountKopecks: order.amountKopecks,
   promoCodeId: order.promoCodeId,

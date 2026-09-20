@@ -9,6 +9,7 @@ import { ToursFacade } from '../../tours';
 import { GatewayError, PaymentGateway } from '../gateway/payment-gateway';
 import { type OrderRow, OrdersStore } from '../stores/orders.store';
 import { PurchasesStore } from '../stores/purchases.store';
+import { WalkUnlocksStore } from '../stores/walk-unlocks.store';
 import { OrderProcessor } from './order-processor';
 
 export interface CheckoutRequest {
@@ -18,6 +19,21 @@ export interface CheckoutRequest {
   /** Store the calling build comes from; only some stores may sell. */
   store: Store;
   promoCode?: string;
+  email?: string;
+}
+
+/** Everything payments needs to sell the unlock of one generated walk. */
+export interface WalkUnlockCheckoutRequest {
+  userId: string;
+  app: AppContext;
+  walkId: string;
+  /** Price fixed when the walk was generated; payments never recalculates it. */
+  amountKopecks: number;
+  /** The locked points this payment opens. */
+  pointIds: readonly string[];
+  /** What the receipt shows, e.g. a walk of an hour with twelve points. */
+  title: string;
+  store: Store;
   email?: string;
 }
 
@@ -34,6 +50,7 @@ export class CheckoutService {
     private readonly config: AppConfig,
     private readonly orders: OrdersStore,
     private readonly purchases: PurchasesStore,
+    private readonly walkUnlocks: WalkUnlocksStore,
     private readonly processor: OrderProcessor,
     private readonly gateway: PaymentGateway,
     private readonly apps: AppsFacade,
@@ -43,20 +60,7 @@ export class CheckoutService {
   ) {}
 
   async checkout(request: CheckoutRequest): Promise<CheckoutResult> {
-    const app = await this.apps.findById(request.app.id);
-    if (!app?.paymentStores.includes(request.store)) {
-      throw AppError.forbidden('payments_disabled', 'Tours cannot be bought in this build');
-    }
-    if (!this.gateway.hasTerminal(app.slug)) {
-      throw new AppError(
-        HttpStatus.SERVICE_UNAVAILABLE,
-        'payments_unavailable',
-        'Payments are not configured for this app',
-      );
-    }
-    if (app.receiptEmailRequired && !request.email) {
-      throw AppError.badRequest('email_required', 'An e-mail for the receipt is required');
-    }
+    const app = await this.sellingApp(request.app.id, request.store, request.email);
 
     const tour = await this.tours.findForSale(request.tourId);
     if (!tour || !tour.published || tour.appId !== app.id) {
@@ -84,7 +88,7 @@ export class CheckoutService {
       userId: request.userId,
       appId: app.id,
       tourId: tour.id,
-      tourTitle: tour.title,
+      subjectTitle: tour.title,
       priceKopecks: tour.priceKopecks,
       amountKopecks: quote?.discountedPriceKopecks ?? tour.priceKopecks,
       promoCodeId: quote?.promoCodeId ?? null,
@@ -105,10 +109,67 @@ export class CheckoutService {
     return { order, pollIntervalMs, pollWindowMs };
   }
 
+  /**
+   * Starts paying to unlock a generated walk. The walks module has already
+   * checked that the walk is the callers own and worked out the price, so
+   * nothing here reads a walk: payments must not depend on walks.
+   */
+  async checkoutWalkUnlock(request: WalkUnlockCheckoutRequest): Promise<CheckoutResult> {
+    const app = await this.sellingApp(request.app.id, request.store, request.email);
+    if (request.amountKopecks <= 0) {
+      throw AppError.badRequest('walk_is_free', 'This walk has nothing locked to pay for');
+    }
+    if (await this.walkUnlocks.hasActive(request.userId, request.walkId)) {
+      throw AppError.conflict('already_purchased', 'The walk is already unlocked');
+    }
+
+    const ttlMs = this.config.env.PAYMENT_ORDER_TTL_MINUTES * 60_000;
+    // Walk unlocks carry no promo code: discounts belong to tours.
+    let order = await this.orders.insert({
+      userId: request.userId,
+      appId: app.id,
+      kind: 'walk_unlock',
+      walkId: request.walkId,
+      unlockPointIds: [...request.pointIds],
+      subjectTitle: request.title,
+      priceKopecks: request.amountKopecks,
+      amountKopecks: request.amountKopecks,
+      email: request.email ?? null,
+      terminal: app.slug,
+      expiresAt: new Date(Date.now() + ttlMs),
+    });
+    order = await this.startBankPayment(order, app.slug);
+
+    const [pollIntervalMs, pollWindowMs] = await Promise.all([
+      this.settings.get('payments.clientPollIntervalMs'),
+      this.settings.get('payments.clientPollWindowMs'),
+    ]);
+    return { order, pollIntervalMs, pollWindowMs };
+  }
+
   /** A 100 % discount: nothing to charge, the purchase is granted at once. */
   private async completeFree(order: OrderRow): Promise<OrderRow> {
     await this.processor.move(order, 'paid', { source: 'zero_amount' });
     return (await this.orders.findById(order.id))!;
+  }
+
+  /** The app, once it is clear it may sell anything at all in this build. */
+  private async sellingApp(appId: string, store: Store, email: string | undefined) {
+    const app = await this.apps.findById(appId);
+    if (!app?.paymentStores.includes(store)) {
+      throw AppError.forbidden('payments_disabled', 'Nothing can be bought in this build');
+    }
+    if (!this.gateway.hasTerminal(app.slug)) {
+      throw new AppError(
+        HttpStatus.SERVICE_UNAVAILABLE,
+        'payments_unavailable',
+        'Payments are not configured for this app',
+      );
+    }
+    if (app.receiptEmailRequired && !email) {
+      throw AppError.badRequest('email_required', 'An e-mail for the receipt is required');
+    }
+    return app;
   }
 
   private async startBankPayment(order: OrderRow, slug: string): Promise<OrderRow> {
@@ -118,7 +179,7 @@ export class CheckoutService {
         terminal: order.terminal,
         orderId: order.id,
         amountKopecks: order.amountKopecks,
-        description: order.tourTitle,
+        description: order.subjectTitle,
         email: order.email,
         successUrl: `${result}?status=success&orderId=${order.id}`,
         failUrl: `${result}?status=fail&orderId=${order.id}`,

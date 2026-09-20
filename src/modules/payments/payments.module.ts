@@ -17,14 +17,16 @@ import { PaymentsAdminService } from './services/payments-admin.service';
 import { TourAccessService } from './services/tour-access.service';
 import { OrdersStore } from './stores/orders.store';
 import { PurchasesStore } from './stores/purchases.store';
+import { WalkUnlocksStore } from './stores/walk-unlocks.store';
 
-/** Selling tours: orders, the bank, and who has access to what. */
+/** Selling tours and walk unlocks: orders, the bank, and who has access to what. */
 @Module({
   imports: [AuthModule, AppsModule, ToursModule, PromotionsModule, SettingsModule],
   controllers: [PaymentsController, TbankNotificationsController, PaymentsAdminController],
   providers: [
     OrdersStore,
     PurchasesStore,
+    WalkUnlocksStore,
     OrderProcessor,
     CheckoutService,
     OrderStatusService,
