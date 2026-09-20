@@ -15,10 +15,30 @@ export class RoutingFacade {
   }
 
   /**
-   * The walking route through every waypoint in order — the line a tour draws
-   * on the map. Throws the same errors as `walkingRoute`.
+   * The walking route through every waypoint in order, in one request. Use
+   * `walkingRouteThrough` unless the caller knows the list is short.
+   * Throws the same errors as `walkingRoute`.
    */
   walkingRouteVia(waypoints: Coordinates[]): Promise<WalkingRoute> {
     return this.valhalla.walkingRouteVia(waypoints);
+  }
+
+  /**
+   * The walking route through every waypoint in order — the line a tour or a
+   * generated walk draws on the map. Any number of waypoints; distance and
+   * duration cover the whole way. Throws the same errors as `walkingRoute`.
+   */
+  walkingRouteThrough(waypoints: Coordinates[]): Promise<WalkingRoute> {
+    return this.valhalla.walkingRouteThrough(waypoints);
+  }
+
+  /**
+   * Walking times in seconds between every pair of locations, `[from][to]`;
+   * an unreachable pair is `Infinity`. One request, so the caller can compare
+   * many candidate orders without a route request each. Throws the same
+   * errors as `walkingRoute`.
+   */
+  walkingMatrix(locations: Coordinates[]): Promise<number[][]> {
+    return this.valhalla.walkingMatrix(locations);
   }
 }

@@ -3,6 +3,12 @@ import { DEFAULT_LOCALE, type Locale, pickTranslation } from '../../platform/i18
 import { MediaFacade } from '../media';
 import { TourImportService } from './services/tour-import.service';
 import { type TourCard, TourReader } from './services/tour-reader.service';
+import {
+  type CandidateFilter,
+  type WalkCandidate,
+  type WalkPointContent,
+  WalkPointsService,
+} from './services/walk-points.service';
 import { PointsStore } from './stores/points.store';
 import { ToursStore } from './stores/tours.store';
 import { type CategoryInput, type PointInput, type TourInput } from './tours.inputs';
@@ -35,6 +41,7 @@ export class ToursFacade {
     private readonly reader: TourReader,
     private readonly media: MediaFacade,
     private readonly importer: TourImportService,
+    private readonly walkPoints: WalkPointsService,
   ) {}
 
   /** Content import: creates or updates a category by slug and returns its id. */
@@ -45,6 +52,24 @@ export class ToursFacade {
   /** Content import: creates or replaces a tour (by app and slug) with all its points. */
   upsertTour(tour: TourInput, points: readonly PointInput[]): Promise<string> {
     return this.importer.upsertTour(tour, points);
+  }
+
+  /**
+   * Points of the app's published tours that a generated walk may use: one row
+   * per place, whichever tours repeat it, with what the planner needs to
+   * choose. Optionally narrowed by a rectangle and by categories.
+   */
+  pointCandidates(
+    appId: string,
+    locale: Locale,
+    filter?: CandidateFilter,
+  ): Promise<WalkCandidate[]> {
+    return this.walkPoints.candidates(appId, locale, filter);
+  }
+
+  /** Full content of the given points, in the given order; unknown ids are skipped. */
+  pointContents(pointIds: readonly string[], locale: Locale): Promise<WalkPointContent[]> {
+    return this.walkPoints.contents(pointIds, locale);
   }
 
   async findForSale(tourId: string): Promise<TourForSale | null> {

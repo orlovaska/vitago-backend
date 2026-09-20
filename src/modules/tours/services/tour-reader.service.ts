@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { AppError } from '../../../platform/http';
 import { type Locale, pickTranslation } from '../../../platform/i18n';
 import { MediaFacade } from '../../media';
-import { type PointDetails, type PointRow, PointsStore } from '../stores/points.store';
+import { PointsStore } from '../stores/points.store';
 import { type TourRow, ToursStore, type TourTranslationRow } from '../stores/tours.store';
-import { type MapViewport, type RouteLine, type SubtitleCue } from '../tours.tables';
+import { type MapViewport, type RouteLine } from '../tours.tables';
 import { CategoriesService, type LocalizedCategory } from './categories.service';
+import { type PointContent, pointContent, urlOf } from './point-content';
 import { RouteLineService } from './route-line.service';
 
 export interface TourCard {
@@ -21,29 +22,7 @@ export interface TourCard {
   pointCount: number;
 }
 
-export interface PointContent {
-  id: string;
-  position: number;
-  latitude: number;
-  longitude: number;
-  isFree: boolean;
-  name: string;
-  description: string | null;
-  address: string | null;
-  openingHours: string | null;
-  imageUrl: string | null;
-  markerImageUrl: string | null;
-  lockedMarkerImageUrl: string | null;
-  categoryIds: string[];
-  /** Null for a point without narration. */
-  audio: {
-    url: string | null;
-    autoplayRadiusMeters: number;
-    durationSeconds: number | null;
-    transcript: string | null;
-    subtitles: SubtitleCue[] | null;
-  } | null;
-}
+export { type PointContent };
 
 export interface TourContent extends TourCard {
   description: string | null;
@@ -148,10 +127,6 @@ export class TourReader {
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-function urlOf(urls: Map<string, string>, id: string | null | undefined): string | null {
-  return (id && urls.get(id)) || null;
-}
-
 function translationOf(
   translations: TourTranslationRow[],
   tourId: string,
@@ -180,50 +155,5 @@ function card(
     distanceMeters: row.distanceMeters,
     durationMinutes: row.durationMinutes,
     pointCount,
-  };
-}
-
-function pointContent(
-  point: PointRow,
-  details: PointDetails,
-  locale: Locale,
-  urls: Map<string, string>,
-): PointContent {
-  const translation = pickTranslation(
-    details.translations.filter((row) => row.pointId === point.id),
-    locale,
-  );
-  const audio = details.audio.find((row) => row.pointId === point.id);
-  const recording =
-    audio &&
-    pickTranslation(
-      details.audioTranslations.filter((row) => row.pointId === point.id),
-      locale,
-    );
-  return {
-    id: point.id,
-    position: point.position,
-    latitude: point.latitude,
-    longitude: point.longitude,
-    isFree: point.isFree,
-    name: translation?.name ?? '',
-    description: translation?.description ?? null,
-    address: translation?.address ?? null,
-    openingHours: translation?.openingHours ?? null,
-    imageUrl: urlOf(urls, point.imageId),
-    markerImageUrl: urlOf(urls, point.markerImageId),
-    lockedMarkerImageUrl: urlOf(urls, point.lockedMarkerImageId),
-    categoryIds: details.categoryLinks
-      .filter((link) => link.pointId === point.id)
-      .map((link) => link.categoryId),
-    audio: audio
-      ? {
-          url: urlOf(urls, recording?.audioFileId),
-          autoplayRadiusMeters: audio.autoplayRadiusMeters,
-          durationSeconds: recording?.durationSeconds ?? null,
-          transcript: recording?.transcript ?? null,
-          subtitles: recording?.subtitles ?? null,
-        }
-      : null,
   };
 }

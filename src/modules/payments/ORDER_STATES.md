@@ -1,8 +1,22 @@
 # Order states
 
-An order is one attempt to buy one tour. It is created when the user taps
+An order is one attempt to buy one thing. It is created when the user taps
 “buy”, and the bank decides how it ends. This document is the contract the
 code follows; change it first when the rules change.
+
+## What an order buys
+
+`kind` says what is being sold, and the states below are the same for both.
+
+| Kind          | Subject                     | Granted on payment                                                      |
+| ------------- | --------------------------- | ----------------------------------------------------------------------- |
+| `tour`        | `tour_id`, a published tour | a row in `purchases`: the tour, for good                                |
+| `walk_unlock` | `walk_id`, a generated walk | rows in `walk_unlocks` and `walk_unlock_points`: those points, in walks |
+
+A `walk_unlock` opens its points inside generated walks only. The tours the
+points belong to keep being sold whole, and their screens still show the
+points as locked. Promo codes apply to tours; a walk unlock is never
+discounted. `subject_title` holds what the receipt shows, frozen at checkout.
 
 ## States
 
@@ -56,7 +70,8 @@ purchase is granted and a `late_confirmation` event is recorded.
   unique `(bank_payment_id, bank_status)`; the insert is
   `ON CONFLICT DO NOTHING`, and a repeat is answered `OK` without processing.
 - **Second safety net.** `purchases` has a unique `(user_id, tour_id)` among
-  non-revoked rows, so a tour is never granted twice.
+  non-revoked rows, so a tour is never granted twice; `walk_unlocks` has the
+  same unique on `(user_id, walk_id)`.
 - **Trust.** The notification signature is checked before anything is read,
   and the amount must match the order. The client's word about a payment is
   never trusted: status polling asks the bank itself (`GetState`), limited
@@ -64,13 +79,14 @@ purchase is granted and a `late_confirmation` event is recorded.
 - **Duplicate payment.** If a second order for an already bought tour is
   paid, the order becomes `paid`, a `duplicate_payment` event is recorded and
   a warning is logged; the refund is done by hand.
-- **Refund.** `refunded` sets `revoked_at` on the purchase, after which the
-  tour can be bought again.
+- **Refund.** `refunded` sets `revoked_at` on the purchase or on the walk
+  unlock, after which the same thing can be bought again.
 - **Deleted accounts.** Orders are kept for accounting with `user_id` and
   `email` cleared; notifications find orders by id, so they still apply.
 
 ## After a confirmed payment
 
-In the transaction: the purchase is granted and the promo code redemption
-recorded. After commit: the `purchase.completed` event is published (revenue
-analytics). Losing that event is acceptable; the purchase is not.
+In the transaction: the purchase or the walk unlock is granted and the promo
+code redemption recorded. After commit: the `purchase.completed` event is
+published (revenue analytics). Losing that event is acceptable; the purchase
+is not — which is why access is never granted by an event handler.

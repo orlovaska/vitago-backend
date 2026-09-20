@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { asc, eq, inArray, max, sql } from 'drizzle-orm';
+import { and, asc, eq, getTableColumns, gte, inArray, lte, max, sql } from 'drizzle-orm';
 import { type DbTxHost, InjectDb } from '../../../platform/database';
 import {
   pointAudio,
@@ -7,9 +7,19 @@ import {
   pointCategories,
   points,
   pointTranslations,
+  tours,
 } from '../tours.tables';
 
 export type PointRow = typeof points.$inferSelect;
+/** A point together with the position of the tour it belongs to. */
+export type AppPointRow = PointRow & { tourPosition: number };
+/** Rectangle in degrees. TODO: a box crossing the antimeridian needs two ranges. */
+export interface Bbox {
+  minLat: number;
+  minLon: number;
+  maxLat: number;
+  maxLon: number;
+}
 export type PointFields = Omit<typeof points.$inferInsert, 'id' | 'createdAt' | 'updatedAt'>;
 export type PointTranslationRow = typeof pointTranslations.$inferSelect;
 export type PointTranslationInput = Omit<PointTranslationRow, 'pointId'>;
@@ -53,6 +63,27 @@ export class PointsStore {
       .select()
       .from(points)
       .where(inArray(points.id, [...ids]));
+  }
+
+  /**
+   * Every point of the app's published tours, optionally inside a rectangle.
+   * A walk is built from these, so drafts never leak into one.
+   */
+  async byApp(appId: string, bbox?: Bbox): Promise<AppPointRow[]> {
+    const conditions = [eq(tours.appId, appId), eq(tours.status, 'published')];
+    if (bbox) {
+      conditions.push(
+        gte(points.latitude, bbox.minLat),
+        lte(points.latitude, bbox.maxLat),
+        gte(points.longitude, bbox.minLon),
+        lte(points.longitude, bbox.maxLon),
+      );
+    }
+    return this.db
+      .select({ ...getTableColumns(points), tourPosition: tours.position })
+      .from(points)
+      .innerJoin(tours, eq(points.tourId, tours.id))
+      .where(and(...conditions));
   }
 
   async details(rows: PointRow[]): Promise<PointDetails> {

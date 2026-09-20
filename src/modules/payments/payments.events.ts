@@ -4,7 +4,10 @@ export interface PurchaseCompletedPayload {
   orderId: string;
   userId: string;
   appId: string;
-  tourId: string;
+  /** What was bought: a tour, or unlocking the points of one generated walk. */
+  kind: 'tour' | 'walk_unlock';
+  /** Id of the tour or of the walk, whichever the kind says. */
+  subjectId: string;
   amountKopecks: number;
   currency: 'RUB';
   occurredAt: Date;

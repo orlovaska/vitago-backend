@@ -4,6 +4,7 @@ import {
   integer,
   jsonb,
   pgSchema,
+  primaryKey,
   text,
   timestamp,
   uniqueIndex,
@@ -12,6 +13,9 @@ import {
 import { createdAt, primaryId, updatedAt } from '../../platform/database';
 
 export const paymentsSchema = pgSchema('payments');
+
+/** What an order sells: a whole tour, or unlocking the points of one walk. */
+export const orderKind = paymentsSchema.enum('order_kind', ['tour', 'walk_unlock']);
 
 /** See ORDER_STATES.md for the allowed transitions. */
 export const orderStatus = paymentsSchema.enum('order_status', [
@@ -30,9 +34,18 @@ export const orders = paymentsSchema.table(
     /** Cleared when the account is deleted; the order stays for accounting. */
     userId: uuid(),
     appId: uuid().notNull(),
-    tourId: uuid().notNull(),
-    /** Snapshot at purchase time: later edits of the tour do not change the order. */
-    tourTitle: text().notNull(),
+    kind: orderKind().notNull().default('tour'),
+    /** Set for a `tour` order. */
+    tourId: uuid(),
+    /** Set for a `walk_unlock` order; the walk lives in the walks module. */
+    walkId: uuid(),
+    /**
+     * The points a `walk_unlock` order pays for, frozen at checkout: what the
+     * user saw priced is what the payment opens, whatever the walk shows later.
+     */
+    unlockPointIds: jsonb().$type<string[]>(),
+    /** Snapshot at purchase time: later edits do not change what the receipt says. */
+    subjectTitle: text().notNull(),
     priceKopecks: integer().notNull(),
     /** What the user pays after the promo code. */
     amountKopecks: integer().notNull(),
@@ -84,6 +97,46 @@ export const orderEvents = paymentsSchema.table(
       .on(table.bankPaymentId, table.bankStatus)
       .where(sql`${table.type} = 'bank_status'`),
   ],
+);
+
+/**
+ * Points opened by paying to unlock one generated walk. They stay open in
+ * every walk of that user; the tours they belong to are unaffected.
+ * Revoked on refund, like a purchase.
+ */
+export const walkUnlocks = paymentsSchema.table(
+  'walk_unlocks',
+  {
+    id: primaryId(),
+    userId: uuid().notNull(),
+    /** The walk that was unlocked (walks module); no foreign key across schemas. */
+    walkId: uuid().notNull(),
+    orderId: uuid().references(() => orders.id, { onDelete: 'set null' }),
+    grantedAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
+    revokedAt: timestamp({ withTimezone: true }),
+  },
+  (table) => [
+    uniqueIndex('walk_unlocks_active_unique')
+      .on(table.userId, table.walkId)
+      .where(sql`${table.revokedAt} is null`),
+    index().on(table.orderId),
+  ],
+);
+
+/**
+ * The points one unlock paid for. Kept even when the walk itself is deleted:
+ * what was paid for stays paid for.
+ */
+export const walkUnlockPoints = paymentsSchema.table(
+  'walk_unlock_points',
+  {
+    unlockId: uuid()
+      .notNull()
+      .references(() => walkUnlocks.id, { onDelete: 'cascade' }),
+    /** Point of a tour (tours module). */
+    pointId: uuid().notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.unlockId, table.pointId] }), index().on(table.pointId)],
 );
 
 /** Access to a tour. Revoked on refund; granted again by a new purchase. */

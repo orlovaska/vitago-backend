@@ -37,7 +37,7 @@ export class RevenueReporter {
       event_timestamp: String(Math.floor(purchase.occurredAt.getTime() / 1000)),
       price: (purchase.amountKopecks / 100).toFixed(2),
       currency: purchase.currency,
-      product_id: purchase.tourId,
+      product_id: purchase.subjectId,
       transaction_id: purchase.orderId,
       session_type: 'foreground',
     });
