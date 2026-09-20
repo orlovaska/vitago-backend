@@ -10,6 +10,17 @@ export const storeSchema = z.enum(store.enumValues);
 const versionSchema = z.string().regex(VERSION_PATTERN, 'Expected major.minor.patch');
 const optionalUrl = z.url().max(500).nullable();
 
+const latitude = z.number().min(-90).max(90);
+const longitude = z.number().min(-180).max(180);
+
+/** Where the map opens and where a walk starts when nothing else is known. */
+const mapCenterSchema = z.object({
+  latitude,
+  longitude,
+  /** Null means the app chooses a scale that shows the city. */
+  zoom: z.number().int().min(1).max(20).nullable(),
+});
+
 const supportSchema = z.object({
   email: z.email().nullable(),
   telegramUrl: optionalUrl,
@@ -25,6 +36,8 @@ export const appConfigSchema = z.object({
   name: z.string(),
   urlScheme: z.string().nullable(),
   mapStyleUrl: z.string().nullable(),
+  /** Null until the city centre is filled in for this app. */
+  mapCenter: mapCenterSchema.nullable(),
   paymentStores: z.array(storeSchema),
   receiptEmailRequired: z.boolean(),
   support: supportSchema,
@@ -80,6 +93,11 @@ export const toAppConfig = (app: AppRow) => ({
   name: app.name,
   urlScheme: app.urlScheme,
   mapStyleUrl: app.mapStyleUrl,
+  // Половина координаты бессмысленна, поэтому центр отдаём целиком или никак.
+  mapCenter:
+    app.centerLat === null || app.centerLon === null
+      ? null
+      : { latitude: app.centerLat, longitude: app.centerLon, zoom: app.centerZoom },
   paymentStores: app.paymentStores,
   receiptEmailRequired: app.receiptEmailRequired,
   support: {
@@ -104,6 +122,9 @@ const appInputSchema = z.object({
     .nullable()
     .default(null),
   mapStyleUrl: optionalUrl.default(null),
+  centerLat: latitude.nullable().default(null),
+  centerLon: longitude.nullable().default(null),
+  centerZoom: z.number().int().min(1).max(20).nullable().default(null),
   paymentStores: z.array(storeSchema).default([]),
   receiptEmailRequired: z.boolean().default(false),
   support: supportSchema.partial().default({}),
@@ -118,6 +139,9 @@ export class UpdateAppDto extends createZodDto(
 
 const adminAppSchema = appConfigSchema.extend({
   bundleId: z.string(),
+  centerLat: latitude.nullable(),
+  centerLon: longitude.nullable(),
+  centerZoom: z.number().int().nullable(),
   loadingAnimationFileId: z.uuid().nullable(),
   accountRecoveryImageId: z.uuid().nullable(),
   createdAt: z.iso.datetime(),
@@ -130,6 +154,10 @@ export class AdminAppListDto extends createZodDto(z.object({ items: z.array(admi
 export const toAdminApp = (app: AppRow) => ({
   ...toAppConfig(app),
   bundleId: app.bundleId,
+  // Админка правит колонки по отдельности, приложение получает центр целиком.
+  centerLat: app.centerLat,
+  centerLon: app.centerLon,
+  centerZoom: app.centerZoom,
   loadingAnimationFileId: app.loadingAnimationFileId,
   accountRecoveryImageId: app.accountRecoveryImageId,
   createdAt: app.createdAt.toISOString(),

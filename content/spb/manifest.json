@@ -5,6 +5,9 @@
     "name": "Аудиогид СПб",
     "urlScheme": "audio-guide-spb",
     "mapStyleUrl": "https://api.vitagoguides.ru/maps/style-light-ru.json",
+    "centerLat": 59.9322604,
+    "centerLon": 30.3007345,
+    "centerZoom": 13,
     "paymentStores": []
   },
   "categories": [
