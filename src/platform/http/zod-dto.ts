@@ -61,6 +61,8 @@ function withFixedMetadata<T>(dto: T): T {
     });
   }
   const output = Object.getOwnPropertyDescriptor(target, 'Output');
+  // Deliberately unbound: the getter is called back with the subclass as `this`
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   const get = output?.get as ((this: unknown) => unknown) | undefined;
   if (get) {
     Object.defineProperty(target, 'Output', {
