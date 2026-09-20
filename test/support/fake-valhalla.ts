@@ -7,11 +7,15 @@ interface Answer {
 }
 
 /**
- * A stand-in for Valhalla: answers /route and /status like the engine, so
- * tests exercise the real client. Queue an error with `failNext`.
+ * A stand-in for Valhalla: answers /route, /sources_to_targets and /status
+ * like the engine, so tests exercise the real client. Queue an error with
+ * `failNext`.
  */
 export class FakeValhalla {
   readonly routeRequests: Record<string, unknown>[] = [];
+  readonly matrixRequests: Record<string, unknown>[] = [];
+  /** Seconds between any two different locations in the answer to a matrix request. */
+  matrixSeconds = 600;
   private next?: Answer;
   private server?: Server;
   url = '';
@@ -41,6 +45,8 @@ export class FakeValhalla {
 
   reset(): void {
     this.routeRequests.length = 0;
+    this.matrixRequests.length = 0;
+    this.matrixSeconds = 600;
     this.next = undefined;
   }
 
@@ -68,6 +74,24 @@ export class FakeValhalla {
         body: { trip: { legs: [leg], summary: leg.summary, status: 0, units: 'kilometers' } },
       };
     }
-    return { status: 404, body: { error_code: 106, error: 'Try any of: /route /status' } };
+    if (url === '/sources_to_targets') {
+      const body = JSON.parse(raw) as Record<string, unknown> & {
+        sources: unknown[];
+        targets: unknown[];
+      };
+      this.matrixRequests.push(body);
+      // A flat cost: every pair but a location with itself takes the same time.
+      const rows = body.sources.map((_, from) =>
+        body.targets.map((__, to) => ({
+          time: from === to ? 0 : this.matrixSeconds,
+          distance: from === to ? 0 : this.matrixSeconds / 1000,
+        })),
+      );
+      return { status: 200, body: { sources_to_targets: rows } };
+    }
+    return {
+      status: 404,
+      body: { error_code: 106, error: 'Try any of: /route /sources_to_targets /status' },
+    };
   }
 }
