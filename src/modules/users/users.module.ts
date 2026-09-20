@@ -6,6 +6,7 @@ import { LegalModule } from '../legal';
 import { PaymentsModule } from '../payments';
 import { PromotionsModule } from '../promotions';
 import { ReviewsModule } from '../reviews';
+import { WalksModule } from '../walks';
 import { AccountDeletionService } from './account-deletion.service';
 import { UsersController } from './http/users.controller';
 
@@ -23,6 +24,7 @@ import { UsersController } from './http/users.controller';
     PaymentsModule,
     PromotionsModule,
     ReviewsModule,
+    WalksModule,
   ],
   controllers: [UsersController],
   providers: [AccountDeletionService],

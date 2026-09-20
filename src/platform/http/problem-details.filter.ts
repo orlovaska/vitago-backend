@@ -23,6 +23,8 @@ export interface ProblemDetails {
   code?: string;
   /** Field-level validation errors. */
   errors?: { path: string; message: string }[];
+  /** Extension members carried by the error, if it declared any. */
+  [member: string]: unknown;
 }
 
 @Catch()
@@ -73,6 +75,7 @@ export class ProblemDetailsFilter implements ExceptionFilter {
         status,
         detail: exception.message,
         code: exception instanceof AppError ? exception.code : undefined,
+        ...(exception instanceof AppError ? exception.data : undefined),
       };
     }
 

@@ -3,12 +3,17 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 /**
  * Expected failure with a stable machine-readable `code`, rendered as
  * problem+json. Clients branch on `code`, never on the human-readable text.
+ *
+ * `data` adds extension members to the problem document (RFC 9457 allows
+ * them), for the facts a client needs to offer a way out — for example the
+ * shortest walk that would fit when the requested time is too short.
  */
 export class AppError extends HttpException {
   constructor(
     status: HttpStatus,
     readonly code: string,
     detail: string,
+    readonly data?: Readonly<Record<string, unknown>>,
   ) {
     super(detail, status);
   }

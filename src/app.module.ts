@@ -14,6 +14,7 @@ import { RoutingModule } from './modules/routing';
 import { SettingsModule } from './modules/settings';
 import { ToursModule } from './modules/tours';
 import { UsersModule } from './modules/users';
+import { WalksModule } from './modules/walks';
 import { AppContextModule } from './platform/app-context';
 import { ConfigModule } from './platform/config';
 import { DatabaseModule } from './platform/database';
@@ -48,6 +49,7 @@ import { LoggingModule } from './platform/logging';
     UsersModule,
     AnalyticsModule,
     RoutingModule,
+    WalksModule,
     LogsModule,
   ],
 })
