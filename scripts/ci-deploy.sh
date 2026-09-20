@@ -13,11 +13,14 @@ DEPLOY_PATH="${DEPLOY_PATH:-/opt/vitago/api}"
 REMOTE="${DEPLOY_USER}@${DEPLOY_HOST}"
 SSH_OPTIONS=(-o StrictHostKeyChecking=yes -o ServerAliveInterval=30)
 
+# .env holds server-only compose settings (COMPOSE_PROFILES=routing) and is not
+# in the repository, so --delete would remove it.
 echo "==> Sync repository to ${REMOTE}:${DEPLOY_PATH}"
 ssh "${SSH_OPTIONS[@]}" "$REMOTE" "mkdir -p '${DEPLOY_PATH}'"
 rsync -az --delete -e "ssh ${SSH_OPTIONS[*]}" \
   --exclude '.git/' \
   --exclude 'node_modules/' \
+  --exclude '.env' \
   --exclude 'dist/' \
   --exclude 'secrets/' \
   --exclude 'storage/' \
