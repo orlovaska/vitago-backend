@@ -13,4 +13,12 @@ export class RoutingFacade {
   walkingRoute(from: Coordinates, to: Coordinates): Promise<WalkingRoute> {
     return this.valhalla.walkingRoute(from, to);
   }
+
+  /**
+   * The walking route through every waypoint in order — the line a tour draws
+   * on the map. Throws the same errors as `walkingRoute`.
+   */
+  walkingRouteVia(waypoints: Coordinates[]): Promise<WalkingRoute> {
+    return this.valhalla.walkingRouteVia(waypoints);
+  }
 }

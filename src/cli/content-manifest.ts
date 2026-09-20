@@ -63,12 +63,6 @@ const tourSchema = z.object({
         .optional(),
     })
     .optional(),
-  route: z
-    .object({
-      type: z.literal('LineString'),
-      coordinates: z.array(z.tuple([longitude, latitude])),
-    })
-    .optional(),
   cover: file.optional(),
   images: z.array(file).default([]),
   translations: z.array(

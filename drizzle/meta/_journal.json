@@ -99,6 +99,13 @@
       "when": 1789840166978,
       "tag": "0013_promo_code_applications",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1789887685675,
+      "tag": "0014_kind_raider",
+      "breakpoints": true
     }
   ]
 }

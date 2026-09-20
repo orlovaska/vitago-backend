@@ -1,0 +1,1 @@
+ALTER TABLE "tours"."tours" ADD COLUMN "route_key" text;

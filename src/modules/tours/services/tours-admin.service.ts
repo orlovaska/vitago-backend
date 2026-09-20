@@ -90,7 +90,6 @@ function fields(input: TourInput): TourFields {
     distanceMeters: input.distanceMeters,
     durationMinutes: input.durationMinutes,
     mapViewport: input.mapViewport,
-    route: input.route,
     publishedAt: input.status === 'published' ? new Date() : null,
   };
 }

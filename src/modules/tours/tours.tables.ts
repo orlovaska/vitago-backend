@@ -26,7 +26,10 @@ export interface MapViewport {
   bounds?: { south: number; west: number; north: number; east: number };
 }
 
-/** GeoJSON LineString of the walking route, [longitude, latitude] pairs. */
+/**
+ * GeoJSON LineString of the walking route, [longitude, latitude] pairs.
+ * Built by the routing engine from the tour's points, never entered by hand.
+ */
 export interface RouteLine {
   type: 'LineString';
   coordinates: [number, number][];
@@ -49,7 +52,10 @@ export const tours = toursSchema.table(
     distanceMeters: integer(),
     durationMinutes: integer(),
     mapViewport: jsonb().$type<MapViewport>(),
+    /** Cached walking route along the streets; rebuilt when routeKey stops matching. */
     route: jsonb().$type<RouteLine>(),
+    /** The points the cached route was built for: their order and coordinates. */
+    routeKey: text(),
     publishedAt: timestamp({ withTimezone: true }),
     createdAt: createdAt(),
     updatedAt: updatedAt(),

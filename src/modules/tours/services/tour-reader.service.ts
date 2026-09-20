@@ -6,6 +6,7 @@ import { type PointDetails, type PointRow, PointsStore } from '../stores/points.
 import { type TourRow, ToursStore, type TourTranslationRow } from '../stores/tours.store';
 import { type MapViewport, type RouteLine, type SubtitleCue } from '../tours.tables';
 import { CategoriesService, type LocalizedCategory } from './categories.service';
+import { RouteLineService } from './route-line.service';
 
 export interface TourCard {
   id: string;
@@ -66,6 +67,7 @@ export class TourReader {
     private readonly points: PointsStore,
     private readonly categories: CategoriesService,
     private readonly media: MediaFacade,
+    private readonly routeLine: RouteLineService,
   ) {}
 
   async listForApp(appId: string, locale: Locale): Promise<TourCard[]> {
@@ -102,7 +104,10 @@ export class TourReader {
       this.tours.imageIds(tour.id),
       this.points.byTour(tour.id),
     ]);
-    const details = await this.points.details(pointRows);
+    const [details, route] = await Promise.all([
+      this.points.details(pointRows),
+      this.routeLine.forTour(tour, pointRows),
+    ]);
     const translation = pickTranslation(translations, locale);
     const categoryIds = [...new Set(details.categoryLinks.map((link) => link.categoryId))];
     const categories = await this.categories.localized(locale, categoryIds);
@@ -126,7 +131,7 @@ export class TourReader {
       introAudioUrl: urlOf(urls, translation?.introAudioId),
       imageUrls: imageIds.flatMap((id) => urls.get(id) ?? []),
       mapViewport: tour.mapViewport,
-      route: tour.route,
+      route,
       points: pointRows.map((point) => pointContent(point, details, locale, urls)),
       categories: categories.map((category) => ({
         ...category,

@@ -47,7 +47,6 @@ export const tourInputSchema = z.object({
   distanceMeters: z.number().int().min(0).nullable().default(null),
   durationMinutes: z.number().int().min(0).nullable().default(null),
   mapViewport: mapViewportSchema.nullable().default(null),
-  route: routeSchema.nullable().default(null),
   translations: z
     .array(tourTranslationSchema)
     .min(1)

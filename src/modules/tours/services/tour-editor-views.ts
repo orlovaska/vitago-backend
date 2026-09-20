@@ -54,7 +54,6 @@ export class TourEditorViews {
       distanceMeters: tour.distanceMeters,
       durationMinutes: tour.durationMinutes,
       mapViewport: tour.mapViewport,
-      route: tour.route,
       translations: translations.map(({ tourId: _tourId, ...rest }) => ({
         ...rest,
         locale: rest.locale as TourInput['translations'][number]['locale'],

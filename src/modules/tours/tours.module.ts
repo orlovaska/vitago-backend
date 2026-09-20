@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from '../auth';
 import { MediaModule } from '../media';
+import { RoutingModule } from '../routing';
 import { FileReferences } from './file-references';
 import { ToursAdminController } from './http/tours-admin.controller';
 import { ToursController } from './http/tours.controller';
@@ -8,6 +9,7 @@ import { CategoriesService } from './services/categories.service';
 import { PointsAdminService } from './services/points-admin.service';
 import { TourEditorViews } from './services/tour-editor-views';
 import { TourImportService } from './services/tour-import.service';
+import { RouteLineService } from './services/route-line.service';
 import { TourReader } from './services/tour-reader.service';
 import { ToursAdminService } from './services/tours-admin.service';
 import { CategoriesStore } from './stores/categories.store';
@@ -17,7 +19,7 @@ import { ToursFacade } from './tours.facade';
 
 /** Tours, their points with optional narration, and point categories. */
 @Module({
-  imports: [AuthModule, MediaModule],
+  imports: [AuthModule, MediaModule, RoutingModule],
   controllers: [ToursController, ToursAdminController],
   providers: [
     ToursStore,
@@ -27,6 +29,7 @@ import { ToursFacade } from './tours.facade';
     ToursAdminService,
     PointsAdminService,
     CategoriesService,
+    RouteLineService,
     TourReader,
     TourEditorViews,
     TourImportService,

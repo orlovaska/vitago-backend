@@ -90,7 +90,6 @@ export class ContentImporter {
       distanceMeters: tour.distanceMeters ?? null,
       durationMinutes: tour.durationMinutes ?? null,
       mapViewport: tour.mapViewport ?? null,
-      route: tour.route ?? null,
       translations,
       imageIds,
     };

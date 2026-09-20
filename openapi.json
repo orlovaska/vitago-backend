@@ -1946,6 +1946,74 @@
         ]
       }
     },
+    "/v1/admin/routing/route": {
+      "post": {
+        "operationId": "RoutingAdminController_route",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RouteRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalkingRouteDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/routing/status": {
+      "get": {
+        "operationId": "RoutingAdminController_status",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoutingStatusDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
     "/v1/favorites": {
       "get": {
         "operationId": "FavoritesController_list",
@@ -3408,74 +3476,6 @@
         ],
         "tags": [
           "app"
-        ]
-      }
-    },
-    "/v1/admin/routing/route": {
-      "post": {
-        "operationId": "RoutingAdminController_route",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RouteRequestDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/WalkingRouteDto_Output"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "admin": []
-          }
-        ],
-        "tags": [
-          "admin"
-        ]
-      }
-    },
-    "/v1/admin/routing/status": {
-      "get": {
-        "operationId": "RoutingAdminController_status",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RoutingStatusDto_Output"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "admin": []
-          }
-        ],
-        "tags": [
-          "admin"
         ]
       }
     },
@@ -6238,49 +6238,6 @@
               }
             ]
           },
-          "route": {
-            "default": null,
-            "anyOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "const": "LineString"
-                  },
-                  "coordinates": {
-                    "minItems": 2,
-                    "type": "array",
-                    "items": {
-                      "type": "array",
-                      "prefixItems": [
-                        {
-                          "type": "number",
-                          "minimum": -180,
-                          "maximum": 180
-                        },
-                        {
-                          "type": "number",
-                          "minimum": -90,
-                          "maximum": 90
-                        }
-                      ],
-                      "items": false,
-                      "minItems": 2,
-                      "maxItems": 2
-                    }
-                  }
-                },
-                "required": [
-                  "type",
-                  "coordinates"
-                ]
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
           "translations": {
             "minItems": 1,
             "type": "array",
@@ -6518,50 +6475,6 @@
               }
             ]
           },
-          "route": {
-            "default": null,
-            "anyOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "const": "LineString"
-                  },
-                  "coordinates": {
-                    "minItems": 2,
-                    "type": "array",
-                    "items": {
-                      "type": "array",
-                      "prefixItems": [
-                        {
-                          "type": "number",
-                          "minimum": -180,
-                          "maximum": 180
-                        },
-                        {
-                          "type": "number",
-                          "minimum": -90,
-                          "maximum": 90
-                        }
-                      ],
-                      "items": false,
-                      "minItems": 2,
-                      "maxItems": 2
-                    }
-                  }
-                },
-                "required": [
-                  "type",
-                  "coordinates"
-                ],
-                "additionalProperties": false
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
           "translations": {
             "type": "array",
             "minItems": 1,
@@ -6720,7 +6633,6 @@
           "distanceMeters",
           "durationMinutes",
           "mapViewport",
-          "route",
           "translations",
           "imageIds",
           "id",
@@ -7568,6 +7480,137 @@
           "iconImageId",
           "translations",
           "id"
+        ],
+        "additionalProperties": false
+      },
+      "RouteRequestDto": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "object",
+            "properties": {
+              "lat": {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90
+              },
+              "lon": {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
+              }
+            },
+            "required": [
+              "lat",
+              "lon"
+            ]
+          },
+          "to": {
+            "type": "object",
+            "properties": {
+              "lat": {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90
+              },
+              "lon": {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
+              }
+            },
+            "required": [
+              "lat",
+              "lon"
+            ]
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ]
+      },
+      "WalkingRouteDto_Output": {
+        "type": "object",
+        "properties": {
+          "distanceMeters": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "durationSeconds": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "geometry": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "LineString"
+              },
+              "coordinates": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ],
+                  "items": false,
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              }
+            },
+            "required": [
+              "type",
+              "coordinates"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "distanceMeters",
+          "durationSeconds",
+          "geometry"
+        ],
+        "additionalProperties": false
+      },
+      "RoutingStatusDto_Output": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "tilesetLastModified": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "regions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "version",
+          "tilesetLastModified",
+          "regions"
         ],
         "additionalProperties": false
       },
@@ -9287,137 +9330,6 @@
           "tourId",
           "orderId",
           "grantedAt"
-        ],
-        "additionalProperties": false
-      },
-      "RouteRequestDto": {
-        "type": "object",
-        "properties": {
-          "from": {
-            "type": "object",
-            "properties": {
-              "lat": {
-                "type": "number",
-                "minimum": -90,
-                "maximum": 90
-              },
-              "lon": {
-                "type": "number",
-                "minimum": -180,
-                "maximum": 180
-              }
-            },
-            "required": [
-              "lat",
-              "lon"
-            ]
-          },
-          "to": {
-            "type": "object",
-            "properties": {
-              "lat": {
-                "type": "number",
-                "minimum": -90,
-                "maximum": 90
-              },
-              "lon": {
-                "type": "number",
-                "minimum": -180,
-                "maximum": 180
-              }
-            },
-            "required": [
-              "lat",
-              "lon"
-            ]
-          }
-        },
-        "required": [
-          "from",
-          "to"
-        ]
-      },
-      "WalkingRouteDto_Output": {
-        "type": "object",
-        "properties": {
-          "distanceMeters": {
-            "type": "integer",
-            "minimum": -9007199254740991,
-            "maximum": 9007199254740991
-          },
-          "durationSeconds": {
-            "type": "integer",
-            "minimum": -9007199254740991,
-            "maximum": 9007199254740991
-          },
-          "geometry": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "const": "LineString"
-              },
-              "coordinates": {
-                "type": "array",
-                "items": {
-                  "type": "array",
-                  "prefixItems": [
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "number"
-                    }
-                  ],
-                  "items": false,
-                  "minItems": 2,
-                  "maxItems": 2
-                }
-              }
-            },
-            "required": [
-              "type",
-              "coordinates"
-            ],
-            "additionalProperties": false
-          }
-        },
-        "required": [
-          "distanceMeters",
-          "durationSeconds",
-          "geometry"
-        ],
-        "additionalProperties": false
-      },
-      "RoutingStatusDto_Output": {
-        "type": "object",
-        "properties": {
-          "version": {
-            "type": "string"
-          },
-          "tilesetLastModified": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "minimum": -9007199254740991,
-                "maximum": 9007199254740991
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "regions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": [
-          "version",
-          "tilesetLastModified",
-          "regions"
         ],
         "additionalProperties": false
       },

@@ -55,9 +55,14 @@ export class ValhallaClient {
 
   constructor(private readonly config: AppConfig) {}
 
-  async walkingRoute(from: Coordinates, to: Coordinates): Promise<WalkingRoute> {
+  walkingRoute(from: Coordinates, to: Coordinates): Promise<WalkingRoute> {
+    return this.walkingRouteVia([from, to]);
+  }
+
+  /** One walking route through every waypoint in order, as one line. */
+  async walkingRouteVia(locations: Coordinates[]): Promise<WalkingRoute> {
     const response = await this.call<ValhallaRouteResponse>('/route', {
-      locations: [from, to],
+      locations,
       costing: 'pedestrian',
       units: 'kilometers',
       directions_type: 'none',
