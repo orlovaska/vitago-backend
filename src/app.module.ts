@@ -10,6 +10,7 @@ import { MediaModule } from './modules/media';
 import { PaymentsModule } from './modules/payments';
 import { PromotionsModule } from './modules/promotions';
 import { ReviewsModule } from './modules/reviews';
+import { RoutingModule } from './modules/routing';
 import { SettingsModule } from './modules/settings';
 import { ToursModule } from './modules/tours';
 import { UsersModule } from './modules/users';
@@ -46,6 +47,7 @@ import { LoggingModule } from './platform/logging';
     PaymentsModule,
     UsersModule,
     AnalyticsModule,
+    RoutingModule,
     LogsModule,
   ],
 })

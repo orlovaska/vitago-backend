@@ -94,6 +94,42 @@ services:
       - '3000'
     restart: unless-stopped
 
+  # Walking routing. Builds its graph from region.osm.pbf in the routing directory,
+  # which deploy/routing/update-routing.sh cuts from OpenStreetMap by ROUTING_REGIONS.
+  # Behind the `routing` profile: without that file it cannot start, so CI and a
+  # fresh server run without it until COMPOSE_PROFILES=routing is set.
+  valhalla:
+    image: ghcr.io/valhalla/valhalla-scripted:3.8.3
+    profiles: [routing]
+    environment:
+      serve_tiles: 'True'
+      # A changed region.osm.pbf keeps its name, so update-routing.sh rebuilds explicitly.
+      use_tiles_ignore_pbf: 'True'
+      force_rebuild: 'False'
+      build_tar: 'True'
+      # Country rules, time zones, elevation and car speeds add nothing to walking in a city.
+      build_admins: 'False'
+      build_time_zones: 'False'
+      build_elevation: 'False'
+      build_transit: 'False'
+      use_default_speeds_config: 'False'
+      server_threads: ${VALHALLA_THREADS:-2}
+    volumes:
+      - ${VITAGO_ROUTING_DIR:-/srv/routing}:/custom_files
+    # The API reaches it inside the stack; the loopback port is for update-routing.sh
+    # and manual checks on the server. nginx never exposes it.
+    ports:
+      - '127.0.0.1:8002:8002'
+    mem_limit: ${VALHALLA_MEM_LIMIT:-2g}
+    healthcheck:
+      test: ['CMD', 'curl', '-fsS', '-o', '/dev/null', 'http://127.0.0.1:8002/status']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      # Covers a first graph build when tiles are missing; a normal start takes seconds.
+      start_period: 10m
+    restart: unless-stopped
+
   # Renews certificates; certbot itself acts only when less than 30 days remain.
   certbot:
     image: certbot/certbot:latest

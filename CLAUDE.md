@@ -36,7 +36,7 @@ src/
 Modules and their direction (arrow = imports `index.ts`):
 `users → auth, apps, favorites, reviews, legal, promotions, payments`;
 `payments → promotions → tours → media`; `payments → apps → legal, settings`;
-`analytics → apps, payments`; every module with protected routes imports `auth`.
+`analytics → apps, payments`; `routing` (Valhalla walking routes) depends on no module but `auth`; every module with protected routes imports `auth`.
 
 Rules, enforced by `npm run arch` (dependency-cruiser), ESLint and `test/arch`:
 
@@ -61,7 +61,7 @@ Rules, enforced by `npm run arch` (dependency-cruiser), ESLint and `test/arch`:
 ## Deployment
 
 `docker-compose.yml` runs postgres, a one-off `migrate`, the API, nginx (`deploy/nginx`), martin (map
-tiles) and certbot on one VPS. Secrets are env files in `secrets/` on the server (templates in
+tiles), valhalla (walking routing, `routing` profile) and certbot on one VPS. Secrets are env files in `secrets/` on the server (templates in
 `secrets.example/`). CI (`.github/workflows`) checks every push and runs a Docker smoke test; the
 Deploy workflow runs only from the `release` branch or by hand. Backups: `scripts/backup-db.sh`
-(cron file in `deploy/cron`). Map style and tiles: `deploy/maps`.
+(cron file in `deploy/cron`). Map style and tiles: `deploy/maps`. Routing graph: `deploy/routing`.

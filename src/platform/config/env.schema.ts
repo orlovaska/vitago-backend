@@ -24,6 +24,19 @@ const jsonBySlug = <Value extends z.ZodType>(value: Value, example: string) =>
       return parsed.data;
     });
 
+const longitude = z.number().min(-180).max(180);
+const latitude = z.number().min(-90).max(90);
+
+/** Area whose OpenStreetMap data goes into the routing graph, and the extract it is cut from. */
+const routingRegion = z.object({
+  sourcePbfUrl: z.url(),
+  bbox: z
+    .object({ minLon: longitude, minLat: latitude, maxLon: longitude, maxLat: latitude })
+    .refine((box) => box.minLon < box.maxLon && box.minLat < box.maxLat, {
+      message: 'minLon and minLat must be less than maxLon and maxLat',
+    }),
+});
+
 const commaList = z
   .string()
   .default('')
@@ -96,6 +109,18 @@ export const envSchema = z.object({
   APPMETRICA_APPS: jsonBySlug(
     z.object({ applicationId: z.string().min(1), postApiKey: z.string().min(1) }),
     '{"<slug>":{"applicationId":"…","postApiKey":"…"}}',
+  ),
+
+  /** Valhalla routing engine (deploy/routing); unset means routing is unavailable. */
+  VALHALLA_URL: z.url().optional(),
+  /**
+   * Routing area of each app by slug, as JSON:
+   * {"spb":{"sourcePbfUrl":"…","bbox":{"minLon":…,"minLat":…,"maxLon":…,"maxLat":…}}}.
+   * deploy/routing/update-routing.sh builds the Valhalla graph from these areas only.
+   */
+  ROUTING_REGIONS: jsonBySlug(
+    routingRegion,
+    '{"<slug>":{"sourcePbfUrl":"…","bbox":{"minLon":…,"minLat":…,"maxLon":…,"maxLat":…}}}',
   ),
 
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
