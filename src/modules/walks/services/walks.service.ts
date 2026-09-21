@@ -7,7 +7,7 @@ import { PaymentsFacade, type StartedCheckout } from '../../payments';
 import { type RouteGeometry, RoutingFacade } from '../../routing';
 import { SettingsFacade } from '../../settings';
 import { ToursFacade, type WalkPointContent } from '../../tours';
-import { type Polygon } from '../geo';
+import { type Polygon } from '../../../platform/geo';
 import { type WalkRow, WalksStore } from '../walks.store';
 import { type PlanRequest, WalkPlannerService } from './walk-planner.service';
 import { walkPrice } from './walk-pricing';

@@ -6,6 +6,7 @@ import { FileReferences } from './file-references';
 import { ToursAdminController } from './http/tours-admin.controller';
 import { ToursController } from './http/tours.controller';
 import { CategoriesService } from './services/categories.service';
+import { NearbyPointsService } from './services/nearby-points.service';
 import { PointsAdminService } from './services/points-admin.service';
 import { TourEditorViews } from './services/tour-editor-views';
 import { TourImportService } from './services/tour-import.service';
@@ -30,6 +31,7 @@ import { ToursFacade } from './tours.facade';
     ToursAdminService,
     PointsAdminService,
     CategoriesService,
+    NearbyPointsService,
     RouteLineService,
     TourReader,
     TourEditorViews,

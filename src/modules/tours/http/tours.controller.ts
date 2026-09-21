@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ZodResponse } from 'nestjs-zod';
 import { type AppContext, CurrentApp, RequiresApp } from '../../../platform/app-context';
@@ -6,8 +6,16 @@ import { APP_TAG } from '../../../platform/http';
 import { type Locale, RequestLocale } from '../../../platform/i18n';
 import { mediaUrl } from '../../media';
 import { CategoriesService } from '../services/categories.service';
+import { NearbyPointsService } from '../services/nearby-points.service';
 import { TourReader } from '../services/tour-reader.service';
-import { CategoryListDto, TourCardListDto, TourContentDto, TourRefParamDto } from './tours.dto';
+import {
+  CategoryListDto,
+  NearbyPointListDto,
+  NearbyPointsQueryDto,
+  TourCardListDto,
+  TourContentDto,
+  TourRefParamDto,
+} from './tours.dto';
 
 /**
  * Tour content is the same for everyone, so these routes need no sign-in and
@@ -20,6 +28,7 @@ export class ToursController {
   constructor(
     private readonly reader: TourReader,
     private readonly categories: CategoriesService,
+    private readonly nearby: NearbyPointsService,
   ) {}
 
   /** Published tours of the calling app, in display order. */
@@ -38,6 +47,26 @@ export class ToursController {
     @RequestLocale() locale: Locale,
   ) {
     return this.reader.published(app.id, idOrSlug, locale);
+  }
+
+  /**
+   * Points of the app around a place, nearest first. One row per place, even
+   * when several tours pass it.
+   */
+  @Get('points/nearby')
+  @ZodResponse({ status: 200, type: NearbyPointListDto })
+  async nearbyPoints(
+    @CurrentApp() app: AppContext,
+    @RequestLocale() locale: Locale,
+    @Query() query: NearbyPointsQueryDto,
+  ) {
+    return {
+      items: await this.nearby.near(app.id, locale, {
+        at: { lat: query.lat, lon: query.lon },
+        radiusMeters: query.radiusMeters,
+        limit: query.limit,
+      }),
+    };
   }
 
   /** Point categories for map filters. */
