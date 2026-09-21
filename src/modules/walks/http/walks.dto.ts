@@ -126,6 +126,10 @@ const walkSchema = z.object({
 export class WalkDto extends createZodDto(walkSchema) {}
 export class WalkListDto extends createZodDto(z.object({ items: z.array(walkSchema) })) {}
 
+export class WalkPointParamDto extends createZodDto(
+  z.object({ id: z.uuid(), pointId: z.uuid() }),
+) {}
+
 export class UnlockWalkDto extends createZodDto(
   z.object({
     /** Store of the calling build; only stores enabled for the app may sell. */

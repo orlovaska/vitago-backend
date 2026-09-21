@@ -154,6 +154,41 @@ export class WalksService {
     );
   }
 
+  /**
+   * Drops a point from the walk. The line is drawn again through what is
+   * left — that is `settle`'s job, and it happens on the next read anyway —
+   * and the price follows: a walk with one locked place fewer costs less.
+   *
+   * A paid walk keeps its price and its status: what was bought stays bought.
+   */
+  async removePoint(
+    userId: string,
+    appId: string,
+    locale: Locale,
+    id: string,
+    pointId: string,
+  ): Promise<WalkView> {
+    const row = await this.owned(userId, appId, id);
+    if (!row.pointIds.includes(pointId)) {
+      throw AppError.notFound('point_not_in_walk', `Point ${pointId} is not in this walk`);
+    }
+    if (row.pointIds.length <= 1) {
+      throw AppError.badRequest('walk_needs_a_point', 'A walk cannot be left without points');
+    }
+
+    const pointIds = row.pointIds.filter((current) => current !== pointId);
+    const points = await this.points(userId, pointIds, locale);
+    const lockedCount = points.filter((point) => !point.accessible).length;
+    const fields =
+      row.status === 'purchased'
+        ? { pointIds }
+        : { pointIds, lockedCount, amountKopecks: walkPrice(lockedCount, await this.pricing()) };
+
+    const updated = (await this.walks.update(id, fields)) ?? row;
+    const settled = await this.settle(updated, points);
+    return this.view(settled.row, points, settled.route);
+  }
+
   /** Keeps the walk for good. Saving an already saved walk changes nothing. */
   async save(userId: string, appId: string, locale: Locale, id: string): Promise<WalkView> {
     const row = await this.owned(userId, appId, id);

@@ -3796,6 +3796,68 @@
         ]
       }
     },
+    "/v1/walks/{id}/points/{pointId}": {
+      "delete": {
+        "operationId": "WalksController_removePoint",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pointId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalkDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
     "/v1/walks/{id}/unlock": {
       "post": {
         "operationId": "WalksController_unlock",

@@ -6,7 +6,14 @@ import { APP_TAG, IdParamDto } from '../../../platform/http';
 import { type Locale, RequestLocale } from '../../../platform/i18n';
 import { CurrentUserId, UserAuth } from '../../auth';
 import { WalksService } from '../services/walks.service';
-import { GenerateWalkDto, UnlockWalkDto, WalkCheckoutDto, WalkDto, WalkListDto } from './walks.dto';
+import {
+  GenerateWalkDto,
+  UnlockWalkDto,
+  WalkCheckoutDto,
+  WalkDto,
+  WalkListDto,
+  WalkPointParamDto,
+} from './walks.dto';
 
 /**
  * Walks the user builds from the points of the app. A generated walk is kept
@@ -72,6 +79,21 @@ export class WalksController {
     @Param() { id }: IdParamDto,
   ) {
     return this.walks.save(userId, app.id, locale, id);
+  }
+
+  /**
+   * Drops one point from the walk and answers with the rebuilt walk: the
+   * route, the time and the price all follow what is left.
+   */
+  @Delete(':id/points/:pointId')
+  @ZodResponse({ status: 200, type: WalkDto })
+  removePoint(
+    @CurrentUserId() userId: string,
+    @CurrentApp() app: AppContext,
+    @RequestLocale() locale: Locale,
+    @Param() { id, pointId }: WalkPointParamDto,
+  ) {
+    return this.walks.removePoint(userId, app.id, locale, id, pointId);
   }
 
   /**
