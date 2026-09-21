@@ -4120,6 +4120,26 @@
               }
             ]
           },
+          "mapSatelliteStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapHybridStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "mapCenter": {
             "anyOf": [
               {
@@ -4303,6 +4323,8 @@
           "name",
           "urlScheme",
           "mapStyleUrl",
+          "mapSatelliteStyleUrl",
+          "mapHybridStyleUrl",
           "mapCenter",
           "paymentStores",
           "receiptEmailRequired",
@@ -4395,6 +4417,18 @@
                   ]
                 },
                 "mapStyleUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "mapSatelliteStyleUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "mapHybridStyleUrl": {
                   "type": [
                     "string",
                     "null"
@@ -4606,6 +4640,8 @@
                 "name",
                 "urlScheme",
                 "mapStyleUrl",
+                "mapSatelliteStyleUrl",
+                "mapHybridStyleUrl",
                 "mapCenter",
                 "paymentStores",
                 "receiptEmailRequired",
@@ -4659,6 +4695,32 @@
             ]
           },
           "mapStyleUrl": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapSatelliteStyleUrl": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapHybridStyleUrl": {
             "default": null,
             "anyOf": [
               {
@@ -4838,6 +4900,26 @@
             ]
           },
           "mapStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapSatelliteStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapHybridStyleUrl": {
             "anyOf": [
               {
                 "type": "string"
@@ -5061,6 +5143,8 @@
           "name",
           "urlScheme",
           "mapStyleUrl",
+          "mapSatelliteStyleUrl",
+          "mapHybridStyleUrl",
           "mapCenter",
           "paymentStores",
           "receiptEmailRequired",
@@ -5106,6 +5190,30 @@
             ]
           },
           "mapStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapSatelliteStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapHybridStyleUrl": {
             "anyOf": [
               {
                 "type": "string",

@@ -36,6 +36,9 @@ export const appConfigSchema = z.object({
   name: z.string(),
   urlScheme: z.string().nullable(),
   mapStyleUrl: z.string().nullable(),
+  /** Imagery views of the same map; null when the city has none. */
+  mapSatelliteStyleUrl: z.string().nullable(),
+  mapHybridStyleUrl: z.string().nullable(),
   /** Null until the city centre is filled in for this app. */
   mapCenter: mapCenterSchema.nullable(),
   paymentStores: z.array(storeSchema),
@@ -93,6 +96,8 @@ export const toAppConfig = (app: AppRow) => ({
   name: app.name,
   urlScheme: app.urlScheme,
   mapStyleUrl: app.mapStyleUrl,
+  mapSatelliteStyleUrl: app.mapSatelliteStyleUrl,
+  mapHybridStyleUrl: app.mapHybridStyleUrl,
   // Половина координаты бессмысленна, поэтому центр отдаём целиком или никак.
   mapCenter:
     app.centerLat === null || app.centerLon === null
@@ -122,6 +127,8 @@ const appInputSchema = z.object({
     .nullable()
     .default(null),
   mapStyleUrl: optionalUrl.default(null),
+  mapSatelliteStyleUrl: optionalUrl.default(null),
+  mapHybridStyleUrl: optionalUrl.default(null),
   centerLat: latitude.nullable().default(null),
   centerLon: longitude.nullable().default(null),
   centerZoom: z.number().int().min(1).max(20).nullable().default(null),

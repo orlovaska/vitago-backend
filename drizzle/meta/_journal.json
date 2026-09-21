@@ -141,6 +141,13 @@
       "when": 1790021553775,
       "tag": "0019_point_images",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1790021915466,
+      "tag": "0020_app_map_views",
+      "breakpoints": true
     }
   ]
 }
