@@ -58,6 +58,11 @@ export const walks = walksSchema.table(
     status: walkStatus().notNull().default('active'),
     /** When an `active` walk is deleted; null once it is saved or paid for. */
     expiresAt: timestamp({ withTimezone: true }),
+    /**
+     * When the user kept the walk. The list of kept walks is ordered by it:
+     * a walk built yesterday and saved today belongs at the top.
+     */
+    savedAt: timestamp({ withTimezone: true }),
     /** Points the user could not listen to when the walk was generated. */
     lockedCount: integer().notNull().default(0),
     /** Price of unlocking, fixed at generation. */
