@@ -104,6 +104,22 @@ export const contentManifestSchema = z.object({
       }),
     )
     .default([]),
+  /**
+   * Terms of use and privacy policy. Each entry publishes its PDF as the
+   * current version; publicUrl is the web page the app links to when there
+   * is one, and without it the app opens the PDF itself.
+   */
+  legal: z
+    .array(
+      z.object({
+        type: z.enum(['terms', 'privacy']),
+        file,
+        publicUrl: z.url().optional(),
+        /** True when the change is substantial enough to ask for consent again. */
+        requiresReconsent: z.boolean().default(false),
+      }),
+    )
+    .default([]),
   tours: z.array(tourSchema),
 });
 
