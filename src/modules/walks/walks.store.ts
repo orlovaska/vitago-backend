@@ -34,13 +34,21 @@ export class WalksStore {
     appId: string,
     statuses: readonly WalkStatus[] = KEPT_STATUSES,
   ): Promise<WalkRow[]> {
-    return this.db
-      .select()
-      .from(walks)
-      .where(
-        and(eq(walks.userId, userId), eq(walks.appId, appId), inArray(walks.status, [...statuses])),
-      )
-      .orderBy(desc(walks.createdAt));
+    return (
+      this.db
+        .select()
+        .from(walks)
+        .where(
+          and(
+            eq(walks.userId, userId),
+            eq(walks.appId, appId),
+            inArray(walks.status, [...statuses]),
+          ),
+        )
+        // Latest kept first; a paid walk that was never saved falls back to its
+        // creation time.
+        .orderBy(desc(sql`coalesce(${walks.savedAt}, ${walks.createdAt})`))
+    );
   }
 
   async update(id: string, fields: Partial<WalkFields>): Promise<WalkRow | null> {

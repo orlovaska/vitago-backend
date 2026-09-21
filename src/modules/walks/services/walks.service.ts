@@ -159,7 +159,11 @@ export class WalksService {
     const row = await this.owned(userId, appId, id);
     const kept =
       row.status === 'active'
-        ? ((await this.walks.update(id, { status: 'saved', expiresAt: null })) ?? row)
+        ? ((await this.walks.update(id, {
+            status: 'saved',
+            expiresAt: null,
+            savedAt: new Date(),
+          })) ?? row)
         : row;
     return this.view(kept, await this.points(userId, kept.pointIds, locale), kept.route);
   }
