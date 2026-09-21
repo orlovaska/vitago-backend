@@ -42,6 +42,8 @@ const pointContentSchema = z.object({
   address: z.string().nullable(),
   openingHours: z.string().nullable(),
   imageUrl: z.string().nullable(),
+  /** Carousel of the point page; the cover above is not repeated in it. */
+  imageUrls: z.array(z.string()),
   markerImageUrl: z.string().nullable(),
   lockedMarkerImageUrl: z.string().nullable(),
   categoryIds: z.array(z.uuid()),

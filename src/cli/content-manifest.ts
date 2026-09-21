@@ -16,6 +16,8 @@ const pointSchema = z.object({
   longitude,
   isFree: z.boolean().default(false),
   image: file.optional(),
+  /** Extra photos for the carousel on the point page, in display order. */
+  images: z.array(file).default([]),
   marker: file.optional(),
   lockedMarker: file.optional(),
   /** Category slugs. */

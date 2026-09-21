@@ -92,6 +92,7 @@ export class PointsAdminService {
   private async writeParts(pointId: string, input: PointInput): Promise<void> {
     await this.points.replaceTranslations(pointId, input.translations);
     await this.points.replaceCategories(pointId, input.categoryIds);
+    await this.points.replaceImages(pointId, input.imageIds);
     if (input.audio) {
       await this.points.putAudio(
         pointId,
@@ -106,6 +107,7 @@ export class PointsAdminService {
   private async validate(input: PointInput): Promise<void> {
     await this.files.assertExist([
       input.imageId,
+      ...input.imageIds,
       input.markerImageId,
       input.lockedMarkerImageId,
       ...(input.audio?.translations.map((translation) => translation.audioFileId) ?? []),

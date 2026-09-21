@@ -118,6 +118,19 @@ export const points = toursSchema.table(
   (table) => [index().on(table.tourId, table.position)],
 );
 
+/** Photo carousel of the point page, in display order; the cover is points.imageId. */
+export const pointImages = toursSchema.table(
+  'point_images',
+  {
+    pointId: uuid()
+      .notNull()
+      .references(() => points.id, { onDelete: 'cascade' }),
+    position: integer().notNull(),
+    fileId: uuid().notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.pointId, table.position] })],
+);
+
 export const pointTranslations = toursSchema.table(
   'point_translations',
   {

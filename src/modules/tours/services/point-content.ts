@@ -13,7 +13,10 @@ export interface PointContent {
   description: string | null;
   address: string | null;
   openingHours: string | null;
+  /** Cover photo, the one shown in lists and on the marker card. */
   imageUrl: string | null;
+  /** Carousel of the point page, in display order; the cover is not in it. */
+  imageUrls: string[];
   markerImageUrl: string | null;
   lockedMarkerImageUrl: string | null;
   categoryIds: string[];
@@ -63,6 +66,10 @@ export function pointContent(
     address: translation?.address ?? null,
     openingHours: translation?.openingHours ?? null,
     imageUrl: urlOf(urls, point.imageId),
+    imageUrls: details.images
+      .filter((image) => image.pointId === point.id)
+      .map((image) => urlOf(urls, image.fileId))
+      .filter((url): url is string => url != null),
     markerImageUrl: urlOf(urls, point.markerImageId),
     lockedMarkerImageUrl: urlOf(urls, point.lockedMarkerImageId),
     categoryIds: details.categoryLinks
@@ -84,6 +91,7 @@ export function pointContent(
 export function pointFileIds(rows: PointRow[], details: PointDetails): (string | null)[] {
   return [
     ...rows.flatMap((point) => [point.imageId, point.markerImageId, point.lockedMarkerImageId]),
+    ...details.images.map((image) => image.fileId),
     ...details.audioTranslations.map((audio) => audio.audioFileId),
   ];
 }

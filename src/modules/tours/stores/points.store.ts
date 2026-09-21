@@ -5,6 +5,7 @@ import {
   pointAudio,
   pointAudioTranslations,
   pointCategories,
+  pointImages,
   points,
   pointTranslations,
   tours,
@@ -34,6 +35,8 @@ export interface PointDetails {
   audio: PointAudioRow[];
   audioTranslations: PointAudioTranslationRow[];
   categoryLinks: { pointId: string; categoryId: string }[];
+  /** Carousel photos, already in display order. */
+  images: { pointId: string; position: number; fileId: string }[];
 }
 
 @Injectable()
@@ -89,9 +92,16 @@ export class PointsStore {
   async details(rows: PointRow[]): Promise<PointDetails> {
     const ids = rows.map((row) => row.id);
     if (ids.length === 0) {
-      return { points: [], translations: [], audio: [], audioTranslations: [], categoryLinks: [] };
+      return {
+        points: [],
+        translations: [],
+        audio: [],
+        audioTranslations: [],
+        categoryLinks: [],
+        images: [],
+      };
     }
-    const [translations, audio, audioTranslations, categoryLinks] = await Promise.all([
+    const [translations, audio, audioTranslations, categoryLinks, images] = await Promise.all([
       this.db.select().from(pointTranslations).where(inArray(pointTranslations.pointId, ids)),
       this.db.select().from(pointAudio).where(inArray(pointAudio.pointId, ids)),
       this.db
@@ -99,8 +109,13 @@ export class PointsStore {
         .from(pointAudioTranslations)
         .where(inArray(pointAudioTranslations.pointId, ids)),
       this.db.select().from(pointCategories).where(inArray(pointCategories.pointId, ids)),
+      this.db
+        .select()
+        .from(pointImages)
+        .where(inArray(pointImages.pointId, ids))
+        .orderBy(asc(pointImages.position)),
     ]);
-    return { points: rows, translations, audio, audioTranslations, categoryLinks };
+    return { points: rows, translations, audio, audioTranslations, categoryLinks, images };
   }
 
   async nextPosition(tourId: string): Promise<number> {
@@ -158,6 +173,25 @@ export class PointsStore {
       await this.db
         .insert(pointCategories)
         .values([...new Set(categoryIds)].map((categoryId) => ({ pointId, categoryId })));
+    }
+  }
+
+  /** Carousel photos of one point, in display order. */
+  async imageIds(pointId: string): Promise<string[]> {
+    const rows = await this.db
+      .select({ fileId: pointImages.fileId })
+      .from(pointImages)
+      .where(eq(pointImages.pointId, pointId))
+      .orderBy(asc(pointImages.position));
+    return rows.map((row) => row.fileId);
+  }
+
+  async replaceImages(pointId: string, fileIds: readonly string[]): Promise<void> {
+    await this.db.delete(pointImages).where(eq(pointImages.pointId, pointId));
+    if (fileIds.length > 0) {
+      await this.db
+        .insert(pointImages)
+        .values(fileIds.map((fileId, position) => ({ pointId, fileId, position })));
     }
   }
 

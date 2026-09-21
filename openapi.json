@@ -6480,6 +6480,12 @@
                     "null"
                   ]
                 },
+                "imageUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "markerImageUrl": {
                   "type": [
                     "string",
@@ -6591,6 +6597,7 @@
                 "address",
                 "openingHours",
                 "imageUrl",
+                "imageUrls",
                 "markerImageUrl",
                 "lockedMarkerImageUrl",
                 "categoryIds",
@@ -6706,6 +6713,12 @@
                     "string",
                     "null"
                   ]
+                },
+                "imageUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
                 },
                 "markerImageUrl": {
                   "type": [
@@ -6828,6 +6841,7 @@
                 "address",
                 "openingHours",
                 "imageUrl",
+                "imageUrls",
                 "markerImageUrl",
                 "lockedMarkerImageUrl",
                 "categoryIds",
@@ -7519,6 +7533,16 @@
               }
             ]
           },
+          "imageIds": {
+            "default": [],
+            "maxItems": 20,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
           "markerImageId": {
             "default": null,
             "anyOf": [
@@ -7761,6 +7785,16 @@
               }
             ]
           },
+          "imageIds": {
+            "type": "array",
+            "default": [],
+            "maxItems": 20,
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
           "markerImageId": {
             "default": null,
             "anyOf": [
@@ -7998,6 +8032,7 @@
           "longitude",
           "isFree",
           "imageId",
+          "imageIds",
           "markerImageId",
           "lockedMarkerImageId",
           "translations",

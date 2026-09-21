@@ -109,11 +109,14 @@ export class ContentImporter {
         subtitles: recording.subtitles ?? null,
       });
     }
+    const imageIds = [];
+    for (const image of point.images) imageIds.push((await this.file(image))!);
     return {
       latitude: point.latitude,
       longitude: point.longitude,
       isFree: point.isFree,
       imageId: await this.file(point.image),
+      imageIds,
       markerImageId: await this.file(point.marker),
       lockedMarkerImageId: await this.file(point.lockedMarker),
       categoryIds: point.categories.map((slug) => {
