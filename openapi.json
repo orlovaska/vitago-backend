@@ -10617,6 +10617,12 @@
                     "null"
                   ]
                 },
+                "imageUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "markerImageUrl": {
                   "type": [
                     "string",
@@ -10730,6 +10736,7 @@
                 "address",
                 "openingHours",
                 "imageUrl",
+                "imageUrls",
                 "markerImageUrl",
                 "lockedMarkerImageUrl",
                 "categoryIds",
@@ -11120,6 +11127,12 @@
                           "null"
                         ]
                       },
+                      "imageUrls": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
                       "markerImageUrl": {
                         "type": [
                           "string",
@@ -11233,6 +11246,7 @@
                       "address",
                       "openingHours",
                       "imageUrl",
+                      "imageUrls",
                       "markerImageUrl",
                       "lockedMarkerImageUrl",
                       "categoryIds",
