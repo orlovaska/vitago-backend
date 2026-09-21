@@ -50,14 +50,14 @@ export class ContentImporter {
     const app = await apps.upsert(manifest.app);
 
     for (const document of manifest.legal) {
-      await legal.publishDocument({
+      const { published } = await legal.publishDocument({
         appId: app.id,
         type: document.type,
         publicUrl: document.publicUrl ?? null,
         fileId: (await this.file(document.file))!,
         requiresReconsent: document.requiresReconsent,
       });
-      console.log(`  legal: ${document.type}`);
+      console.log(`  legal: ${document.type}${published ? '' : ' (unchanged)'}`);
     }
     const categoryIds = new Map<string, string>();
     for (const category of manifest.categories) {

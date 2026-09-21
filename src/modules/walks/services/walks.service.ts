@@ -179,10 +179,19 @@ export class WalksService {
     const pointIds = row.pointIds.filter((current) => current !== pointId);
     const points = await this.points(userId, pointIds, locale);
     const lockedCount = points.filter((point) => !point.accessible).length;
+    // The time a place took goes with it: otherwise totalSeconds would keep
+    // counting narration the walk no longer has. Walking time and distance
+    // are settle's to recompute when it redraws the line.
+    const visitSeconds = await this.visitSeconds(points);
     const fields =
       row.status === 'purchased'
-        ? { pointIds }
-        : { pointIds, lockedCount, amountKopecks: walkPrice(lockedCount, await this.pricing()) };
+        ? { pointIds, visitSeconds }
+        : {
+            pointIds,
+            visitSeconds,
+            lockedCount,
+            amountKopecks: walkPrice(lockedCount, await this.pricing()),
+          };
 
     const updated = (await this.walks.update(id, fields)) ?? row;
     const settled = await this.settle(updated, points);
@@ -335,6 +344,23 @@ export class WalksService {
       // points, and the next read tries again.
       return { row: current, route: current.route };
     }
+  }
+
+  /**
+   * How long the places themselves take: the narration plus a fixed overhead
+   * each. The same formula the planner used — anything else and an edited
+   * walk would disagree with the time promised when it was built.
+   */
+  private async visitSeconds(points: readonly WalkPoint[]): Promise<number> {
+    const [defaultVisitSeconds, pointOverheadSeconds] = await Promise.all([
+      this.settings.get('walks.defaultVisitSeconds'),
+      this.settings.get('walks.pointOverheadSeconds'),
+    ]);
+    return points.reduce(
+      (total, point) =>
+        total + (point.audio?.durationSeconds ?? defaultVisitSeconds) + pointOverheadSeconds,
+      0,
+    );
   }
 
   private async pricing() {

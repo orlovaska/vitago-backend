@@ -6,7 +6,7 @@ import { PointsStore } from '../stores/points.store';
 import { type TourRow, ToursStore, type TourTranslationRow } from '../stores/tours.store';
 import { type MapViewport, type RouteLine } from '../tours.tables';
 import { CategoriesService, type LocalizedCategory } from './categories.service';
-import { type PointContent, pointContent, urlOf } from './point-content';
+import { type PointContent, pointContent, pointFileIds, urlOf } from './point-content';
 import { RouteLineService } from './route-line.service';
 
 export interface TourCard {
@@ -95,12 +95,10 @@ export class TourReader {
       tour.coverImageId,
       translation?.introAudioId,
       ...imageIds,
-      ...pointRows.flatMap((point) => [
-        point.imageId,
-        point.markerImageId,
-        point.lockedMarkerImageId,
-      ]),
-      ...details.audioTranslations.map((audio) => audio.audioFileId),
+      // Through the shared list rather than a private copy: only it knows
+      // every file of a point, and the copy here had already fallen behind —
+      // the carousel photos were missing from it.
+      ...pointFileIds(pointRows, details),
       ...categories.map((category) => category.iconImageId),
     ]);
 
