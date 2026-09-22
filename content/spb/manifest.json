@@ -166,6 +166,18 @@
       ]
     }
   ],
+  "legal": [
+    {
+      "type": "terms",
+      "file": "../legal/terms.pdf",
+      "requiresReconsent": true
+    },
+    {
+      "type": "privacy",
+      "file": "../legal/privacy.pdf",
+      "requiresReconsent": true
+    }
+  ],
   "tours": [
     {
       "slug": "koltsevoi-serdtse-peterburga",
