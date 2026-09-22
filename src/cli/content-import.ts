@@ -117,7 +117,6 @@ export class ContentImporter {
       audioTranslations.push({
         locale: recording.locale,
         audioFileId: (await this.file(recording.file))!,
-        durationSeconds: recording.durationSeconds ?? null,
         transcript: recording.transcript ?? null,
         subtitles: recording.subtitles ?? null,
       });
@@ -142,7 +141,6 @@ export class ContentImporter {
         name: translation.name,
         description: translation.description ?? null,
         address: translation.address ?? null,
-        openingHours: translation.openingHours ?? null,
       })),
       audio: point.audio
         ? {

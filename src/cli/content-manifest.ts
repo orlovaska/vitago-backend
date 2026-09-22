@@ -28,7 +28,6 @@ const pointSchema = z.object({
       name: z.string(),
       description: z.string().optional(),
       address: z.string().optional(),
-      openingHours: z.string().optional(),
     }),
   ),
   audio: z
@@ -38,7 +37,6 @@ const pointSchema = z.object({
         z.object({
           locale,
           file,
-          durationSeconds: z.number().int().optional(),
           transcript: z.string().optional(),
           subtitles: z
             .array(z.object({ startMs: z.number(), endMs: z.number(), text: z.string() }))

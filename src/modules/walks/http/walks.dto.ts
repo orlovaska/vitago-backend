@@ -68,7 +68,6 @@ const walkPointSchema = z.object({
   name: z.string(),
   description: z.string().nullable(),
   address: z.string().nullable(),
-  openingHours: z.string().nullable(),
   imageUrl: z.string().nullable(),
   /** Carousel of the point page; the cover above is not repeated in it. */
   imageUrls: z.array(z.string()),

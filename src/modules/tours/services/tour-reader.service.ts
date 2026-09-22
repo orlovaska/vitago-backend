@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AppError } from '../../../platform/http';
 import { type Locale, pickTranslation } from '../../../platform/i18n';
-import { MediaFacade } from '../../media';
+import { MediaFacade, type MediaFile } from '../../media';
 import { PointsStore } from '../stores/points.store';
 import { type TourRow, ToursStore, type TourTranslationRow } from '../stores/tours.store';
 import { type MapViewport, type RouteLine } from '../tours.tables';
@@ -106,7 +106,7 @@ export class TourReader {
       ...card(tour, translation, pointRows.length, urls),
       description: translation?.description ?? null,
       introAudioUrl: urlOf(urls, translation?.introAudioId),
-      imageUrls: imageIds.flatMap((id) => urls.get(id) ?? []),
+      imageUrls: imageIds.flatMap((id) => urls.get(id)?.url ?? []),
       mapViewport: tour.mapViewport,
       route,
       points: pointRows.map((point) => pointContent(point, details, locale, urls)),
@@ -117,9 +117,8 @@ export class TourReader {
     };
   }
 
-  private async urls(ids: readonly (string | null | undefined)[]): Promise<Map<string, string>> {
-    const files = await this.media.findMany(ids.filter((id): id is string => !!id));
-    return new Map([...files].map(([id, file]) => [id, file.url]));
+  private urls(ids: readonly (string | null | undefined)[]): Promise<Map<string, MediaFile>> {
+    return this.media.findMany(ids.filter((id): id is string => !!id));
   }
 }
 
@@ -140,7 +139,7 @@ function card(
   row: TourRow,
   translation: TourTranslationRow | undefined,
   pointCount: number,
-  urls: Map<string, string>,
+  urls: Map<string, MediaFile>,
 ): TourCard {
   return {
     id: row.id,

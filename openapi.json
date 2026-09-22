@@ -6638,12 +6638,6 @@
                     "null"
                   ]
                 },
-                "openingHours": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
                 "imageUrl": {
                   "type": [
                     "string",
@@ -6765,7 +6759,6 @@
                 "name",
                 "description",
                 "address",
-                "openingHours",
                 "imageUrl",
                 "imageUrls",
                 "markerImageUrl",
@@ -6867,12 +6860,6 @@
                   ]
                 },
                 "address": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "openingHours": {
                   "type": [
                     "string",
                     "null"
@@ -7009,7 +6996,6 @@
                 "name",
                 "description",
                 "address",
-                "openingHours",
                 "imageUrl",
                 "imageUrls",
                 "markerImageUrl",
@@ -7780,18 +7766,6 @@
                       "type": "null"
                     }
                   ]
-                },
-                "openingHours": {
-                  "default": null,
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "maxLength": 500
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "required": [
@@ -7839,19 +7813,6 @@
                           "type": "string",
                           "format": "uuid",
                           "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-                        },
-                        "durationSeconds": {
-                          "default": null,
-                          "anyOf": [
-                            {
-                              "type": "integer",
-                              "minimum": 0,
-                              "maximum": 9007199254740991
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
                         },
                         "transcript": {
                           "default": null,
@@ -8032,26 +7993,13 @@
                       "type": "null"
                     }
                   ]
-                },
-                "openingHours": {
-                  "default": null,
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "maxLength": 500
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "required": [
                 "locale",
                 "name",
                 "description",
-                "address",
-                "openingHours"
+                "address"
               ],
               "additionalProperties": false
             }
@@ -8095,19 +8043,6 @@
                           "type": "string",
                           "format": "uuid",
                           "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-                        },
-                        "durationSeconds": {
-                          "default": null,
-                          "anyOf": [
-                            {
-                              "type": "integer",
-                              "minimum": 0,
-                              "maximum": 9007199254740991
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
                         },
                         "transcript": {
                           "default": null,
@@ -8162,7 +8097,6 @@
                       "required": [
                         "locale",
                         "audioFileId",
-                        "durationSeconds",
                         "transcript",
                         "subtitles"
                       ],
@@ -8257,19 +8191,6 @@
                   "type": "string",
                   "format": "uuid",
                   "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-                },
-                "durationSeconds": {
-                  "default": null,
-                  "anyOf": [
-                    {
-                      "type": "integer",
-                      "minimum": 0,
-                      "maximum": 9007199254740991
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 },
                 "transcript": {
                   "default": null,
@@ -10775,12 +10696,6 @@
                     "null"
                   ]
                 },
-                "openingHours": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
                 "imageUrl": {
                   "type": [
                     "string",
@@ -10904,7 +10819,6 @@
                 "name",
                 "description",
                 "address",
-                "openingHours",
                 "imageUrl",
                 "imageUrls",
                 "markerImageUrl",
@@ -11285,12 +11199,6 @@
                           "null"
                         ]
                       },
-                      "openingHours": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      },
                       "imageUrl": {
                         "type": [
                           "string",
@@ -11414,7 +11322,6 @@
                       "name",
                       "description",
                       "address",
-                      "openingHours",
                       "imageUrl",
                       "imageUrls",
                       "markerImageUrl",

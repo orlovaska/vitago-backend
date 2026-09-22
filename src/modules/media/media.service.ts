@@ -5,6 +5,7 @@ import { pipeline } from 'node:stream/promises';
 import { Injectable } from '@nestjs/common';
 import { isUniqueViolation } from '../../platform/database';
 import { AppError } from '../../platform/http';
+import { audioDurationSeconds } from './audio-duration';
 import { ALLOWED_MEDIA_TYPES, isAllowedMediaType } from './media-types';
 import { type FileRow, type ListFilesQuery, MediaStore } from './media.store';
 import { FileStorage } from './storage/file-storage';
@@ -45,8 +46,16 @@ export class MediaService {
       // Content-addressed key: the same bytes of the same type always map to one file.
       const storageKey = `${sha256.slice(0, 2)}/${sha256}.${ALLOWED_MEDIA_TYPES[mimeType]}`;
 
+      const durationSeconds = await audioDurationSeconds(tempPath, mimeType);
+
       const existing = await this.store.findByKey(storageKey);
-      if (existing) return existing;
+      // Files are content-addressed, so the same bytes are never stored twice;
+      // a row uploaded before durations were measured is completed here.
+      if (existing) {
+        return existing.durationSeconds == null && durationSeconds != null
+          ? await this.store.setDuration(existing.id, durationSeconds)
+          : existing;
+      }
 
       await this.storage.save(storageKey, tempPath);
       try {
@@ -56,6 +65,7 @@ export class MediaService {
           mimeType,
           sizeBytes: size,
           sha256,
+          durationSeconds,
         });
       } catch (error) {
         // A concurrent upload of the same content won the race; its row is ours too.

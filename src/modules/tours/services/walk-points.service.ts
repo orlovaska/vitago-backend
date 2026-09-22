@@ -2,7 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { type Locale } from '../../../platform/i18n';
 import { MediaFacade } from '../../media';
 import { type AppPointRow, type Bbox, PointsStore } from '../stores/points.store';
-import { type PointContent, pointContent, pointFileIds } from './point-content';
+import {
+  audioSeconds as audioSecondsOf,
+  type PointContent,
+  pointContent,
+  pointFileIds,
+} from './point-content';
 
 /** What the walk planner needs to know about a point to choose it. */
 export interface WalkCandidate {
@@ -48,13 +53,18 @@ export class WalkPointsService {
     if (rows.length === 0) return [];
     const details = await this.points.details(rows);
 
+    // The length of the narration lives on the audio file, so the files of the
+    // recordings are resolved before the planner can weigh the points.
+    const files = await this.media.findMany(
+      details.audioTranslations.map((audio) => audio.audioFileId),
+    );
     const audioSeconds = new Map<string, number | null>();
     for (const row of rows) {
       const recording = details.audioTranslations.find(
         (audio) => audio.pointId === row.id && audio.locale === locale,
       );
       const fallback = details.audioTranslations.find((audio) => audio.pointId === row.id);
-      audioSeconds.set(row.id, (recording ?? fallback)?.durationSeconds ?? null);
+      audioSeconds.set(row.id, audioSecondsOf(files, (recording ?? fallback)?.audioFileId));
     }
     const categories = new Map<string, string[]>();
     for (const link of details.categoryLinks) {
@@ -84,11 +94,10 @@ export class WalkPointsService {
     const files = await this.media.findMany(
       pointFileIds(rows, details).filter((id): id is string => !!id),
     );
-    const urls = new Map([...files].map(([id, file]) => [id, file.url]));
     const byId = new Map(
       rows.map((row) => [
         row.id,
-        { ...pointContent(row, details, locale, urls), tourId: row.tourId },
+        { ...pointContent(row, details, locale, files), tourId: row.tourId },
       ]),
     );
     return pointIds.flatMap((id) => byId.get(id) ?? []);

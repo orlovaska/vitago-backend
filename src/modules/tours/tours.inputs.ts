@@ -71,7 +71,6 @@ export const pointAudioInputSchema = z.object({
       z.object({
         locale: localeSchema,
         audioFileId: fileId,
-        durationSeconds: z.number().int().min(0).nullable().default(null),
         transcript: z.string().max(50_000).nullable().default(null),
         subtitles: z.array(subtitleCueSchema).max(20_000).nullable().default(null),
       }),
@@ -98,7 +97,6 @@ export const pointInputSchema = z.object({
         name: z.string().min(1).max(200),
         description: z.string().max(20_000).nullable().default(null),
         address: z.string().max(500).nullable().default(null),
-        openingHours: z.string().max(500).nullable().default(null),
       }),
     )
     .min(1)

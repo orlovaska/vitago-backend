@@ -41,7 +41,8 @@ describe('content import', () => {
     expect(content.body.points[0]).toMatchObject({
       name: 'Эрмитаж',
       isFree: true,
-      audio: { durationSeconds: 40, subtitles: [{ startMs: 0, endMs: 800, text: 'Эрмитаж' }] },
+      // The length is measured from narration.mp3 on upload, not taken from the manifest.
+      audio: { durationSeconds: 1, subtitles: [{ startMs: 0, endMs: 800, text: 'Эрмитаж' }] },
     });
     expect(content.body.points[1].audio).toBeNull();
     expect(content.body.introAudioUrl).toMatch(/^\/v1\/media\//);

@@ -34,7 +34,6 @@
               {
                 "locale": "ru",
                 "file": "narration.mp3",
-                "durationSeconds": 40,
                 "subtitles": [{ "startMs": 0, "endMs": 800, "text": "Эрмитаж" }]
               }
             ]

@@ -141,7 +141,6 @@ export const pointTranslations = toursSchema.table(
     name: text().notNull(),
     description: text(),
     address: text(),
-    openingHours: text(),
   },
   (table) => [primaryKey({ columns: [table.pointId, table.locale] })],
 );
@@ -170,7 +169,6 @@ export const pointAudioTranslations = toursSchema.table(
       .references(() => pointAudio.pointId, { onDelete: 'cascade' }),
     locale: text().notNull(),
     audioFileId: uuid().notNull(),
-    durationSeconds: integer(),
     /** Full narration text. */
     transcript: text(),
     subtitles: jsonb().$type<SubtitleCue[]>(),

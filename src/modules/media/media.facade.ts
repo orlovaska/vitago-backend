@@ -11,6 +11,8 @@ export interface MediaFile {
   id: string;
   mimeType: string;
   sizeBytes: number;
+  /** Playing time of a recording, measured on upload; null for anything else. */
+  durationSeconds: number | null;
   /** Path of the public download endpoint, relative to the API origin. */
   url: string;
 }
@@ -31,7 +33,13 @@ export class MediaFacade {
     return new Map(
       rows.map((row) => [
         row.id,
-        { id: row.id, mimeType: row.mimeType, sizeBytes: row.sizeBytes, url: mediaUrl(row.id) },
+        {
+          id: row.id,
+          mimeType: row.mimeType,
+          sizeBytes: row.sizeBytes,
+          durationSeconds: row.durationSeconds,
+          url: mediaUrl(row.id),
+        },
       ]),
     );
   }
@@ -51,6 +59,12 @@ export class MediaFacade {
       originalName: basename(sourcePath),
       mimeType,
     });
-    return { id: row.id, mimeType: row.mimeType, sizeBytes: row.sizeBytes, url: mediaUrl(row.id) };
+    return {
+      id: row.id,
+      mimeType: row.mimeType,
+      sizeBytes: row.sizeBytes,
+      durationSeconds: row.durationSeconds,
+      url: mediaUrl(row.id),
+    };
   }
 }
