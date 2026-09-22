@@ -170,11 +170,13 @@
     {
       "type": "terms",
       "file": "../legal/terms.pdf",
+      "publicUrl": "https://vitagoguides.ru/legal/spb/terms",
       "requiresReconsent": true
     },
     {
       "type": "privacy",
       "file": "../legal/privacy.pdf",
+      "publicUrl": "https://vitagoguides.ru/legal/spb/privacy",
       "requiresReconsent": true
     }
   ],
