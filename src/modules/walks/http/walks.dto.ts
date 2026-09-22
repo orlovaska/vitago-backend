@@ -58,6 +58,7 @@ const walkPointSchema = z.object({
   id: z.uuid(),
   /** The tour this point belongs to; a walk mixes points from several. */
   tourId: z.uuid(),
+  /** Place in this walk, from 0 — not the position the point holds in its tour. */
   position: z.number().int(),
   latitude: z.number(),
   longitude: z.number(),

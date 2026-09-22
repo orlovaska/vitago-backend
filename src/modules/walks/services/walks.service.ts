@@ -288,10 +288,10 @@ export class WalksService {
         contents.map((p) => p.id),
       ),
     ]);
-    return contents.map((point) => ({
-      ...point,
-      accessible: point.isFree || purchased.has(point.tourId) || unlocked.has(point.id),
-    }));
+    return inWalkOrder(
+      contents,
+      (point) => point.isFree || purchased.has(point.tourId) || unlocked.has(point.id),
+    );
   }
 
   /**
@@ -400,6 +400,27 @@ export class WalksService {
 }
 
 /** The points a line was drawn for: their order and their coordinates. */
+/**
+ * Points of a walk in the walk's own order.
+ *
+ * The content of a point carries `position` — its place along the tour it
+ * belongs to. In a walk that number means nothing: the walk is assembled from
+ * points of several tours, two of them can hold the same position, and the
+ * order that matters is the one the route was drawn through. The app sorts by
+ * `position` everywhere — the list, the numbers on the map pins, the player
+ * queue — so it must be the place in this walk.
+ */
+export function inWalkOrder<T extends { position: number }>(
+  contents: readonly T[],
+  accessible: (point: T) => boolean,
+): (T & { accessible: boolean })[] {
+  return contents.map((point, index) => ({
+    ...point,
+    position: index,
+    accessible: accessible(point),
+  }));
+}
+
 function routeKey(
   start: { lat: number; lon: number },
   points: readonly { latitude: number; longitude: number }[],
