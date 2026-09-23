@@ -1,0 +1,5108 @@
+{
+  "openapi": "3.1.0",
+  "paths": {
+    "/v1/app": {
+      "get": {
+        "operationId": "AppsController_config",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientConfigDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/app/update": {
+      "get": {
+        "operationId": "AppsController_update",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "store",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "app_store",
+                "google_play",
+                "rustore"
+              ]
+            }
+          },
+          {
+            "name": "version",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "pattern": "^\\d{1,5}\\.\\d{1,5}\\.\\d{1,5}$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateInfoDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/app/installation": {
+      "put": {
+        "operationId": "AppsController_reportInstallation",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportInstallationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/auth/device": {
+      "post": {
+        "operationId": "AuthController_signInWithDevice",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceSignInDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceSignInResponseDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/auth/me": {
+      "get": {
+        "operationId": "AuthController_me",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/legal/documents": {
+      "get": {
+        "operationId": "LegalController_documents",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentDocumentListDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/legal/consent": {
+      "get": {
+        "operationId": "LegalController_consent",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsentStatusDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      },
+      "post": {
+        "operationId": "LegalController_accept",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptConsentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsentStatusDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/media/{id}": {
+      "get": {
+        "operationId": "MediaController_download",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File contents"
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/tours": {
+      "get": {
+        "operationId": "ToursController_list",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TourCardListDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/tours/{idOrSlug}": {
+      "get": {
+        "operationId": "ToursController_get",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idOrSlug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "minLength": 1,
+              "maxLength": 100,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TourContentDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/points/nearby": {
+      "get": {
+        "operationId": "ToursController_nearbyPoints",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lat",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minimum": -90,
+              "maximum": 90,
+              "type": "number"
+            }
+          },
+          {
+            "name": "lon",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minimum": -180,
+              "maximum": 180,
+              "type": "number"
+            }
+          },
+          {
+            "name": "radiusMeters",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 100,
+              "maximum": 10000,
+              "default": 2000,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NearbyPointListDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/categories": {
+      "get": {
+        "operationId": "ToursController_listCategories",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryListDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/favorites": {
+      "get": {
+        "operationId": "FavoritesController_list",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FavoritesDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/favorites/tours/{id}": {
+      "put": {
+        "operationId": "FavoritesController_addTour",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      },
+      "delete": {
+        "operationId": "FavoritesController_removeTour",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/favorites/points/{id}": {
+      "put": {
+        "operationId": "FavoritesController_addPoint",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      },
+      "delete": {
+        "operationId": "FavoritesController_removePoint",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/reviews/ratings": {
+      "get": {
+        "operationId": "ReviewsController_ratings",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RatingListDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/tours/{tourId}/reviews": {
+      "get": {
+        "operationId": "ReviewsController_list",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tourId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 200,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TourReviewsDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/tours/{tourId}/reviews/mine": {
+      "get": {
+        "operationId": "ReviewsController_own",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tourId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnReviewDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      },
+      "put": {
+        "operationId": "ReviewsController_save",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tourId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveReviewDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnReviewDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      },
+      "delete": {
+        "operationId": "ReviewsController_remove",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tourId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/promo-codes/quote": {
+      "post": {
+        "operationId": "PromotionsController_quote",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuoteRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/promo-codes/apply": {
+      "post": {
+        "operationId": "PromotionsController_apply",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuoteRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/promo-codes/claim": {
+      "post": {
+        "operationId": "PromotionsController_claim",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/payments/orders": {
+      "post": {
+        "operationId": "PaymentsController_createOrder",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckoutRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/payments/orders/{id}": {
+      "get": {
+        "operationId": "PaymentsController_orderStatus",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderStatusDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/payments/tours/access": {
+      "get": {
+        "operationId": "PaymentsController_allTourAccess",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TourAccessListDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/payments/tours/{tourId}/access": {
+      "get": {
+        "operationId": "PaymentsController_tourAccess",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tourId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TourAccessDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/payments/purchases": {
+      "get": {
+        "operationId": "PaymentsController_purchases",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseListDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/users/me": {
+      "delete": {
+        "operationId": "UsersController_deleteMe",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/walks/generate": {
+      "post": {
+        "operationId": "WalksController_generate",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateWalkDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalkDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/walks": {
+      "get": {
+        "operationId": "WalksController_list",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalkListDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/walks/{id}": {
+      "get": {
+        "operationId": "WalksController_get",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalkDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      },
+      "delete": {
+        "operationId": "WalksController_remove",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/walks/{id}/save": {
+      "post": {
+        "operationId": "WalksController_save",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalkDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/walks/{id}/points/{pointId}": {
+      "delete": {
+        "operationId": "WalksController_removePoint",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pointId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalkDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/v1/walks/{id}/unlock": {
+      "post": {
+        "operationId": "WalksController_unlock",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnlockWalkDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalkCheckoutDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Vitago API",
+    "description": "",
+    "version": "1",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "app",
+      "description": "Mobile application"
+    }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "user": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "ClientConfigDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "urlScheme": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapSatelliteStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapHybridStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapCenter": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "latitude": {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "longitude": {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  "zoom": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 20
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "latitude",
+                  "longitude",
+                  "zoom"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "paymentStores": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "app_store",
+                "google_play",
+                "rustore"
+              ]
+            }
+          },
+          "receiptEmailRequired": {
+            "type": "boolean"
+          },
+          "support": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "email",
+                    "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "telegramUrl": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 500,
+                    "format": "uri"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "vkUrl": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 500,
+                    "format": "uri"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "maxUrl": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 500,
+                    "format": "uri"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "email",
+              "telegramUrl",
+              "vkUrl",
+              "maxUrl"
+            ],
+            "additionalProperties": false
+          },
+          "loadingAnimationUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "accountRecoveryImageUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "legalDocuments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "versionId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "publicUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "fileUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "versionId",
+                "publicUrl",
+                "fileUrl"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "settings": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          }
+        },
+        "required": [
+          "id",
+          "slug",
+          "name",
+          "urlScheme",
+          "mapStyleUrl",
+          "mapSatelliteStyleUrl",
+          "mapHybridStyleUrl",
+          "mapCenter",
+          "paymentStores",
+          "receiptEmailRequired",
+          "support",
+          "loadingAnimationUrl",
+          "accountRecoveryImageUrl",
+          "legalDocuments",
+          "settings"
+        ],
+        "additionalProperties": false
+      },
+      "UpdateInfoDto_Output": {
+        "type": "object",
+        "properties": {
+          "latestVersion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "releaseNotes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "updateRequired": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "latestVersion",
+          "releaseNotes",
+          "updateRequired"
+        ],
+        "additionalProperties": false
+      },
+      "ReportInstallationDto": {
+        "type": "object",
+        "properties": {
+          "store": {
+            "type": "string",
+            "enum": [
+              "app_store",
+              "google_play",
+              "rustore"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d{1,5}\\.\\d{1,5}\\.\\d{1,5}$"
+          }
+        },
+        "required": [
+          "store",
+          "version"
+        ]
+      },
+      "DeviceSignInDto": {
+        "type": "object",
+        "properties": {
+          "secret": {
+            "type": "string",
+            "minLength": 32,
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "secret"
+        ]
+      },
+      "DeviceSignInResponseDto_Output": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "expiresIn": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "supportCode": {
+                "type": "string"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              }
+            },
+            "required": [
+              "id",
+              "supportCode",
+              "createdAt"
+            ],
+            "additionalProperties": false
+          },
+          "isNewUser": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "accessToken",
+          "expiresIn",
+          "user",
+          "isNewUser"
+        ],
+        "additionalProperties": false
+      },
+      "UserDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "supportCode": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          }
+        },
+        "required": [
+          "id",
+          "supportCode",
+          "createdAt"
+        ],
+        "additionalProperties": false
+      },
+      "CurrentDocumentListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "documentId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "terms",
+                    "privacy"
+                  ]
+                },
+                "publicUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "versionId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "publishedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "fileUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "documentId",
+                "type",
+                "publicUrl",
+                "versionId",
+                "publishedAt",
+                "fileUrl"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "ConsentStatusDto_Output": {
+        "type": "object",
+        "properties": {
+          "needsConsent": {
+            "type": "boolean"
+          },
+          "isUpdate": {
+            "type": "boolean"
+          },
+          "documents": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "documentId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "terms",
+                    "privacy"
+                  ]
+                },
+                "publicUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "versionId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "publishedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "fileUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "documentId",
+                "type",
+                "publicUrl",
+                "versionId",
+                "publishedAt",
+                "fileUrl"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "needsConsent",
+          "isUpdate",
+          "documents"
+        ],
+        "additionalProperties": false
+      },
+      "AcceptConsentDto": {
+        "type": "object",
+        "properties": {
+          "versionIds": {
+            "minItems": 1,
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        },
+        "required": [
+          "versionIds"
+        ]
+      },
+      "TourCardListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "slug": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "subtitle": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "summary": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "coverImageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "priceKopecks": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "distanceMeters": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "durationMinutes": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "pointCount": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "id",
+                "slug",
+                "title",
+                "subtitle",
+                "summary",
+                "coverImageUrl",
+                "priceKopecks",
+                "distanceMeters",
+                "durationMinutes",
+                "pointCount"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "TourContentDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "coverImageUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "priceKopecks": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "distanceMeters": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "durationMinutes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "pointCount": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "introAudioUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "imageUrls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mapViewport": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "center": {
+                    "type": "object",
+                    "properties": {
+                      "latitude": {
+                        "type": "number",
+                        "minimum": -90,
+                        "maximum": 90
+                      },
+                      "longitude": {
+                        "type": "number",
+                        "minimum": -180,
+                        "maximum": 180
+                      }
+                    },
+                    "required": [
+                      "latitude",
+                      "longitude"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "zoom": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 22
+                  },
+                  "bounds": {
+                    "type": "object",
+                    "properties": {
+                      "south": {
+                        "type": "number",
+                        "minimum": -90,
+                        "maximum": 90
+                      },
+                      "west": {
+                        "type": "number",
+                        "minimum": -180,
+                        "maximum": 180
+                      },
+                      "north": {
+                        "type": "number",
+                        "minimum": -90,
+                        "maximum": 90
+                      },
+                      "east": {
+                        "type": "number",
+                        "minimum": -180,
+                        "maximum": 180
+                      }
+                    },
+                    "required": [
+                      "south",
+                      "west",
+                      "north",
+                      "east"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "center",
+                  "zoom"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "route": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "LineString"
+                  },
+                  "coordinates": {
+                    "minItems": 2,
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "prefixItems": [
+                        {
+                          "type": "number",
+                          "minimum": -180,
+                          "maximum": 180
+                        },
+                        {
+                          "type": "number",
+                          "minimum": -90,
+                          "maximum": 90
+                        }
+                      ],
+                      "items": false,
+                      "minItems": 2,
+                      "maxItems": 2
+                    }
+                  }
+                },
+                "required": [
+                  "type",
+                  "coordinates"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "position": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "latitude": {
+                  "type": "number"
+                },
+                "longitude": {
+                  "type": "number"
+                },
+                "isFree": {
+                  "type": "boolean"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "address": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "imageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "imageUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "markerImageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "lockedMarkerImageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "categoryIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  }
+                },
+                "audio": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "url": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "autoplayRadiusMeters": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "durationSeconds": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "transcript": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "subtitles": {
+                          "anyOf": [
+                            {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "startMs": {
+                                    "type": "number"
+                                  },
+                                  "endMs": {
+                                    "type": "number"
+                                  },
+                                  "text": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "startMs",
+                                  "endMs",
+                                  "text"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "url",
+                        "autoplayRadiusMeters",
+                        "durationSeconds",
+                        "transcript",
+                        "subtitles"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "position",
+                "latitude",
+                "longitude",
+                "isFree",
+                "name",
+                "description",
+                "address",
+                "imageUrl",
+                "imageUrls",
+                "markerImageUrl",
+                "lockedMarkerImageUrl",
+                "categoryIds",
+                "audio"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "slug": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "iconImageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "slug",
+                "name",
+                "iconImageUrl"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "slug",
+          "title",
+          "subtitle",
+          "summary",
+          "coverImageUrl",
+          "priceKopecks",
+          "distanceMeters",
+          "durationMinutes",
+          "pointCount",
+          "description",
+          "introAudioUrl",
+          "imageUrls",
+          "mapViewport",
+          "route",
+          "points",
+          "categories"
+        ],
+        "additionalProperties": false
+      },
+      "NearbyPointListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "position": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "latitude": {
+                  "type": "number"
+                },
+                "longitude": {
+                  "type": "number"
+                },
+                "isFree": {
+                  "type": "boolean"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "address": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "imageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "imageUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "markerImageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "lockedMarkerImageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "categoryIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  }
+                },
+                "audio": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "url": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "autoplayRadiusMeters": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "durationSeconds": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "transcript": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "subtitles": {
+                          "anyOf": [
+                            {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "startMs": {
+                                    "type": "number"
+                                  },
+                                  "endMs": {
+                                    "type": "number"
+                                  },
+                                  "text": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "startMs",
+                                  "endMs",
+                                  "text"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "url",
+                        "autoplayRadiusMeters",
+                        "durationSeconds",
+                        "transcript",
+                        "subtitles"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "tourId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "distanceMeters": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "id",
+                "position",
+                "latitude",
+                "longitude",
+                "isFree",
+                "name",
+                "description",
+                "address",
+                "imageUrl",
+                "imageUrls",
+                "markerImageUrl",
+                "lockedMarkerImageUrl",
+                "categoryIds",
+                "audio",
+                "tourId",
+                "distanceMeters"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "CategoryListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "slug": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "iconImageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "slug",
+                "name",
+                "iconImageUrl"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "FavoritesDto_Output": {
+        "type": "object",
+        "properties": {
+          "tours": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "slug": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "subtitle": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "summary": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "coverImageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "priceKopecks": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "distanceMeters": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "durationMinutes": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "pointCount": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "id",
+                "slug",
+                "title",
+                "subtitle",
+                "summary",
+                "coverImageUrl",
+                "priceKopecks",
+                "distanceMeters",
+                "durationMinutes",
+                "pointCount"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "tourId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "imageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "tourId",
+                "name",
+                "imageUrl"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "tours",
+          "points"
+        ],
+        "additionalProperties": false
+      },
+      "RatingListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "tourId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "average": {
+                  "type": "number"
+                },
+                "count": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "tourId",
+                "average",
+                "count"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "TourReviewsDto_Output": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "object",
+            "properties": {
+              "tourId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "average": {
+                "type": "number"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "tourId",
+              "average",
+              "count"
+            ],
+            "additionalProperties": false
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "rating": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "text": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "authorName": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                }
+              },
+              "required": [
+                "id",
+                "rating",
+                "text",
+                "authorName",
+                "updatedAt"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "nextCursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "rating",
+          "items",
+          "nextCursor"
+        ],
+        "additionalProperties": false
+      },
+      "OwnReviewDto_Output": {
+        "type": "object",
+        "properties": {
+          "review": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "rating": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  "text": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "authorName": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "pending",
+                      "approved",
+                      "rejected"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "rating",
+                  "text",
+                  "authorName",
+                  "updatedAt",
+                  "status"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "review"
+        ],
+        "additionalProperties": false
+      },
+      "SaveReviewDto": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "text": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 3000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "authorName": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "rating"
+        ]
+      },
+      "QuoteRequestDto": {
+        "type": "object",
+        "properties": {
+          "tourId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          }
+        },
+        "required": [
+          "tourId",
+          "code"
+        ]
+      },
+      "QuoteDto_Output": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "discountPercent": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "priceKopecks": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "discountedPriceKopecks": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "code",
+          "discountPercent",
+          "priceKopecks",
+          "discountedPriceKopecks"
+        ],
+        "additionalProperties": false
+      },
+      "ClaimRequestDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "token"
+        ]
+      },
+      "ClaimDto_Output": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "discountPercent": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "tourId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "code",
+          "discountPercent",
+          "tourId"
+        ],
+        "additionalProperties": false
+      },
+      "CheckoutRequestDto": {
+        "type": "object",
+        "properties": {
+          "tourId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "store": {
+            "type": "string",
+            "enum": [
+              "app_store",
+              "google_play",
+              "rustore"
+            ]
+          },
+          "promoCode": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 200,
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          }
+        },
+        "required": [
+          "tourId",
+          "store"
+        ]
+      },
+      "CheckoutDto_Output": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "paid",
+              "failed",
+              "expired",
+              "refunded"
+            ]
+          },
+          "paymentUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "amountKopecks": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "pollIntervalMs": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "pollWindowMs": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "orderId",
+          "status",
+          "paymentUrl",
+          "amountKopecks",
+          "pollIntervalMs",
+          "pollWindowMs"
+        ],
+        "additionalProperties": false
+      },
+      "OrderStatusDto_Output": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "paid",
+              "failed",
+              "expired",
+              "refunded"
+            ]
+          },
+          "retryAfterMs": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "orderId",
+          "status",
+          "retryAfterMs"
+        ],
+        "additionalProperties": false
+      },
+      "TourAccessListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "tourId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "accessible": {
+                  "type": "boolean"
+                },
+                "purchased": {
+                  "type": "boolean"
+                },
+                "priceKopecks": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "discountedPriceKopecks": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "appliedPromoCode": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "discountPercent": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "discountPercent"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "shareCode": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "discountPercent": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "discountPercent"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "tourId",
+                "accessible",
+                "purchased",
+                "priceKopecks",
+                "discountedPriceKopecks",
+                "appliedPromoCode",
+                "shareCode"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "TourAccessDto_Output": {
+        "type": "object",
+        "properties": {
+          "tourId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "accessible": {
+            "type": "boolean"
+          },
+          "purchased": {
+            "type": "boolean"
+          },
+          "priceKopecks": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "discountedPriceKopecks": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "appliedPromoCode": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "discountPercent": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "code",
+                  "discountPercent"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "shareCode": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "discountPercent": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "code",
+                  "discountPercent"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "tourId",
+          "accessible",
+          "purchased",
+          "priceKopecks",
+          "discountedPriceKopecks",
+          "appliedPromoCode",
+          "shareCode"
+        ],
+        "additionalProperties": false
+      },
+      "PurchaseListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "tourId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "grantedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                }
+              },
+              "required": [
+                "tourId",
+                "grantedAt"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "GenerateWalkDto": {
+        "type": "object",
+        "properties": {
+          "durationMinutes": {
+            "type": "integer",
+            "minimum": 15,
+            "maximum": 600
+          },
+          "start": {
+            "type": "object",
+            "properties": {
+              "lat": {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90
+              },
+              "lon": {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
+              }
+            },
+            "required": [
+              "lat",
+              "lon"
+            ]
+          },
+          "endMode": {
+            "default": "same_as_start",
+            "type": "string",
+            "enum": [
+              "same_as_start",
+              "custom"
+            ]
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "lat": {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "lon": {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  }
+                },
+                "required": [
+                  "lat",
+                  "lon"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "categories": {
+            "default": "all",
+            "anyOf": [
+              {
+                "type": "string",
+                "const": "all"
+              },
+              {
+                "minItems": 1,
+                "maxItems": 50,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                }
+              }
+            ]
+          },
+          "area": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "Polygon"
+                  },
+                  "coordinates": {
+                    "minItems": 1,
+                    "maxItems": 1,
+                    "type": "array",
+                    "items": {
+                      "minItems": 4,
+                      "maxItems": 200,
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "number",
+                            "minimum": -180,
+                            "maximum": 180
+                          },
+                          {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          }
+                        ],
+                        "items": false,
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "type",
+                  "coordinates"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "durationMinutes",
+          "start"
+        ]
+      },
+      "WalkDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "saved",
+              "purchased"
+            ]
+          },
+          "expiresAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "requestedMinutes": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "start": {
+            "type": "object",
+            "properties": {
+              "lat": {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90
+              },
+              "lon": {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
+              }
+            },
+            "required": [
+              "lat",
+              "lon"
+            ],
+            "additionalProperties": false
+          },
+          "endMode": {
+            "type": "string",
+            "enum": [
+              "same_as_start",
+              "custom"
+            ]
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "lat": {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "lon": {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  }
+                },
+                "required": [
+                  "lat",
+                  "lon"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "categories": {
+            "anyOf": [
+              {
+                "type": "string",
+                "const": "all"
+              },
+              {
+                "minItems": 1,
+                "maxItems": 50,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                }
+              }
+            ]
+          },
+          "area": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "Polygon"
+                  },
+                  "coordinates": {
+                    "minItems": 1,
+                    "maxItems": 1,
+                    "type": "array",
+                    "items": {
+                      "minItems": 4,
+                      "maxItems": 200,
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "number",
+                            "minimum": -180,
+                            "maximum": 180
+                          },
+                          {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          }
+                        ],
+                        "items": false,
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "type",
+                  "coordinates"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "tourId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "position": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "latitude": {
+                  "type": "number"
+                },
+                "longitude": {
+                  "type": "number"
+                },
+                "isFree": {
+                  "type": "boolean"
+                },
+                "accessible": {
+                  "type": "boolean"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "address": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "imageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "imageUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "markerImageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "lockedMarkerImageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "categoryIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  }
+                },
+                "audio": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "url": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "autoplayRadiusMeters": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "durationSeconds": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "transcript": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "subtitles": {
+                          "anyOf": [
+                            {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "startMs": {
+                                    "type": "number"
+                                  },
+                                  "endMs": {
+                                    "type": "number"
+                                  },
+                                  "text": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "startMs",
+                                  "endMs",
+                                  "text"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "url",
+                        "autoplayRadiusMeters",
+                        "durationSeconds",
+                        "transcript",
+                        "subtitles"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "tourId",
+                "position",
+                "latitude",
+                "longitude",
+                "isFree",
+                "accessible",
+                "name",
+                "description",
+                "address",
+                "imageUrl",
+                "imageUrls",
+                "markerImageUrl",
+                "lockedMarkerImageUrl",
+                "categoryIds",
+                "audio"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "route": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "LineString"
+                  },
+                  "coordinates": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "prefixItems": [
+                        {
+                          "type": "number",
+                          "minimum": -180,
+                          "maximum": 180
+                        },
+                        {
+                          "type": "number",
+                          "minimum": -90,
+                          "maximum": 90
+                        }
+                      ],
+                      "items": false,
+                      "minItems": 2,
+                      "maxItems": 2
+                    }
+                  }
+                },
+                "required": [
+                  "type",
+                  "coordinates"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapViewport": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "center": {
+                    "type": "object",
+                    "properties": {
+                      "latitude": {
+                        "type": "number"
+                      },
+                      "longitude": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "latitude",
+                      "longitude"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "zoom": {
+                    "type": "number"
+                  },
+                  "bounds": {
+                    "type": "object",
+                    "properties": {
+                      "south": {
+                        "type": "number"
+                      },
+                      "west": {
+                        "type": "number"
+                      },
+                      "north": {
+                        "type": "number"
+                      },
+                      "east": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "south",
+                      "west",
+                      "north",
+                      "east"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "center",
+                  "zoom",
+                  "bounds"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "distanceMeters": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "walkingSeconds": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "visitSeconds": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "totalSeconds": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "walkUnlock": {
+            "type": "object",
+            "properties": {
+              "lockedCount": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "amountKopecks": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "lockedCount",
+              "amountKopecks"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "expiresAt",
+          "requestedMinutes",
+          "start",
+          "endMode",
+          "end",
+          "categories",
+          "area",
+          "points",
+          "route",
+          "mapViewport",
+          "distanceMeters",
+          "walkingSeconds",
+          "visitSeconds",
+          "totalSeconds"
+        ],
+        "additionalProperties": false
+      },
+      "WalkListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "active",
+                    "saved",
+                    "purchased"
+                  ]
+                },
+                "expiresAt": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "requestedMinutes": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "start": {
+                  "type": "object",
+                  "properties": {
+                    "lat": {
+                      "type": "number",
+                      "minimum": -90,
+                      "maximum": 90
+                    },
+                    "lon": {
+                      "type": "number",
+                      "minimum": -180,
+                      "maximum": 180
+                    }
+                  },
+                  "required": [
+                    "lat",
+                    "lon"
+                  ],
+                  "additionalProperties": false
+                },
+                "endMode": {
+                  "type": "string",
+                  "enum": [
+                    "same_as_start",
+                    "custom"
+                  ]
+                },
+                "end": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "lat": {
+                          "type": "number",
+                          "minimum": -90,
+                          "maximum": 90
+                        },
+                        "lon": {
+                          "type": "number",
+                          "minimum": -180,
+                          "maximum": 180
+                        }
+                      },
+                      "required": [
+                        "lat",
+                        "lon"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "categories": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "const": "all"
+                    },
+                    {
+                      "minItems": 1,
+                      "maxItems": 50,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                      }
+                    }
+                  ]
+                },
+                "area": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "Polygon"
+                        },
+                        "coordinates": {
+                          "minItems": 1,
+                          "maxItems": 1,
+                          "type": "array",
+                          "items": {
+                            "minItems": 4,
+                            "maxItems": 200,
+                            "type": "array",
+                            "items": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "number",
+                                  "minimum": -180,
+                                  "maximum": 180
+                                },
+                                {
+                                  "type": "number",
+                                  "minimum": -90,
+                                  "maximum": 90
+                                }
+                              ],
+                              "items": false,
+                              "minItems": 2,
+                              "maxItems": 2
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "coordinates"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "points": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                      },
+                      "tourId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                      },
+                      "position": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      "latitude": {
+                        "type": "number"
+                      },
+                      "longitude": {
+                        "type": "number"
+                      },
+                      "isFree": {
+                        "type": "boolean"
+                      },
+                      "accessible": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "address": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "imageUrl": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "imageUrls": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "markerImageUrl": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "lockedMarkerImageUrl": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "categoryIds": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                        }
+                      },
+                      "audio": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "autoplayRadiusMeters": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              },
+                              "durationSeconds": {
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": -9007199254740991,
+                                    "maximum": 9007199254740991
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "transcript": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "subtitles": {
+                                "anyOf": [
+                                  {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "startMs": {
+                                          "type": "number"
+                                        },
+                                        "endMs": {
+                                          "type": "number"
+                                        },
+                                        "text": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "startMs",
+                                        "endMs",
+                                        "text"
+                                      ],
+                                      "additionalProperties": false
+                                    }
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              }
+                            },
+                            "required": [
+                              "url",
+                              "autoplayRadiusMeters",
+                              "durationSeconds",
+                              "transcript",
+                              "subtitles"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "tourId",
+                      "position",
+                      "latitude",
+                      "longitude",
+                      "isFree",
+                      "accessible",
+                      "name",
+                      "description",
+                      "address",
+                      "imageUrl",
+                      "imageUrls",
+                      "markerImageUrl",
+                      "lockedMarkerImageUrl",
+                      "categoryIds",
+                      "audio"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "route": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "const": "LineString"
+                        },
+                        "coordinates": {
+                          "type": "array",
+                          "items": {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "number",
+                                "minimum": -180,
+                                "maximum": 180
+                              },
+                              {
+                                "type": "number",
+                                "minimum": -90,
+                                "maximum": 90
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 2,
+                            "maxItems": 2
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "coordinates"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "mapViewport": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "center": {
+                          "type": "object",
+                          "properties": {
+                            "latitude": {
+                              "type": "number"
+                            },
+                            "longitude": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "latitude",
+                            "longitude"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "zoom": {
+                          "type": "number"
+                        },
+                        "bounds": {
+                          "type": "object",
+                          "properties": {
+                            "south": {
+                              "type": "number"
+                            },
+                            "west": {
+                              "type": "number"
+                            },
+                            "north": {
+                              "type": "number"
+                            },
+                            "east": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "south",
+                            "west",
+                            "north",
+                            "east"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "center",
+                        "zoom",
+                        "bounds"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "distanceMeters": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "walkingSeconds": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "visitSeconds": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "totalSeconds": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "walkUnlock": {
+                  "type": "object",
+                  "properties": {
+                    "lockedCount": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "amountKopecks": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "lockedCount",
+                    "amountKopecks"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "id",
+                "status",
+                "expiresAt",
+                "requestedMinutes",
+                "start",
+                "endMode",
+                "end",
+                "categories",
+                "area",
+                "points",
+                "route",
+                "mapViewport",
+                "distanceMeters",
+                "walkingSeconds",
+                "visitSeconds",
+                "totalSeconds"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "UnlockWalkDto": {
+        "type": "object",
+        "properties": {
+          "store": {
+            "type": "string",
+            "enum": [
+              "app_store",
+              "google_play",
+              "rustore"
+            ]
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 200,
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          }
+        },
+        "required": [
+          "store"
+        ]
+      },
+      "WalkCheckoutDto_Output": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "paid",
+              "failed",
+              "expired",
+              "refunded"
+            ]
+          },
+          "paymentUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "amountKopecks": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "pollIntervalMs": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "pollWindowMs": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "orderId",
+          "status",
+          "paymentUrl",
+          "amountKopecks",
+          "pollIntervalMs",
+          "pollWindowMs"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

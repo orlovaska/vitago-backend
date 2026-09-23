@@ -8,6 +8,7 @@ export {
   ADMIN_TAG,
   APP_TAG,
   buildOpenApiDocument,
+  filterOpenApiByTag,
   serveOpenApiDocs,
   USER_AUTH,
 } from './openapi';
