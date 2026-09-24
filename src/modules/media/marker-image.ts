@@ -14,14 +14,15 @@ import sharp from 'sharp';
 export const MARKER_IMAGE = { size: 200, cornerRadius: 0.25 } as const;
 
 /** Bump when the drawing itself changes, so that existing markers are redrawn. */
-const RENDERER_VERSION = 1;
+const RENDERER_VERSION = 2;
 
 /** What a stored marker was made with; any difference means it is out of date. */
 export const MARKER_SPEC = `${MARKER_IMAGE.size}:${MARKER_IMAGE.cornerRadius}:v${RENDERER_VERSION}`;
 
 /**
- * Crops the photo to a square around its most salient part, scales it down
- * and cuts the corners, writing a PNG with transparency.
+ * Crops the middle square of the photo, scales it down and cuts the corners,
+ * writing a PNG with transparency. The crop is always centred: a "smart" crop
+ * wandered off to whatever part of a facade looked busiest.
  */
 export async function renderMarker(
   sourcePath: string,
@@ -37,7 +38,7 @@ export async function renderMarker(
   await sharp(sourcePath)
     // Phones store the camera's orientation in EXIF instead of turning the pixels.
     .rotate()
-    .resize(size, size, { fit: 'cover', position: sharp.strategy.attention })
+    .resize(size, size, { fit: 'cover', position: 'centre' })
     .ensureAlpha()
     .composite([{ input: mask, blend: 'dest-in' }])
     .png()
