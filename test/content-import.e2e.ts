@@ -41,7 +41,8 @@ describe('content import', () => {
     expect(content.body.points[0]).toMatchObject({
       name: 'Эрмитаж',
       isFree: true,
-      audio: { durationSeconds: 40, subtitles: [{ startMs: 0, endMs: 800, text: 'Эрмитаж' }] },
+      // The length is measured from narration.mp3 on upload, not taken from the manifest.
+      audio: { durationSeconds: 1, subtitles: [{ startMs: 0, endMs: 800, text: 'Эрмитаж' }] },
     });
     expect(content.body.points[1].audio).toBeNull();
     expect(content.body.introAudioUrl).toMatch(/^\/v1\/media\//);
@@ -53,7 +54,8 @@ describe('content import', () => {
       select (select count(*)::int from tours.tours) as tours,
              (select count(*)::int from tours.points) as points,
              (select count(*)::int from media.files) as files`;
-    expect(counts).toEqual({ tours: 1, points: 2, files: 2 });
+    // photo.png, narration.mp3 and the marker drawn from the photo.
+    expect(counts).toEqual({ tours: 1, points: 2, files: 3 });
     expect((await tours().expect(200)).body.items).toHaveLength(1);
   });
 });

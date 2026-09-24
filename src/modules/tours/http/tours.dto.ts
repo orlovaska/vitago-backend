@@ -40,10 +40,10 @@ const pointContentSchema = z.object({
   name: z.string(),
   description: z.string().nullable(),
   address: z.string().nullable(),
-  openingHours: z.string().nullable(),
   imageUrl: z.string().nullable(),
+  /** Carousel of the point page; the cover above is not repeated in it. */
+  imageUrls: z.array(z.string()),
   markerImageUrl: z.string().nullable(),
-  lockedMarkerImageUrl: z.string().nullable(),
   categoryIds: z.array(z.uuid()),
   audio: z
     .object({
@@ -81,6 +81,31 @@ export class CategoryListDto extends createZodDto(
 
 export class TourRefParamDto extends createZodDto(
   z.object({ idOrSlug: z.string().min(1).max(100) }),
+) {}
+
+/**
+ * Where the user stands and how far around to look. The radius is capped:
+ * "near you" stops meaning anything once it covers the whole city.
+ */
+export class NearbyPointsQueryDto extends createZodDto(
+  z.object({
+    lat: z.coerce.number().min(-90).max(90),
+    lon: z.coerce.number().min(-180).max(180),
+    radiusMeters: z.coerce.number().int().min(100).max(10_000).default(2_000),
+    limit: z.coerce.number().int().min(1).max(50).default(10),
+  }),
+) {}
+
+export class NearbyPointListDto extends createZodDto(
+  z.object({
+    items: z.array(
+      pointContentSchema.extend({
+        /** The tour the point belongs to: opening it needs one. */
+        tourId: z.uuid(),
+        distanceMeters: z.number().int(),
+      }),
+    ),
+  }),
 ) {}
 
 // ---- Admin ----

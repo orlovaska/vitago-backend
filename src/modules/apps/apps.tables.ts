@@ -28,6 +28,13 @@ export const apps = appsSchema.table('apps', {
   /** MapLibre style the app loads; swappable here without a release. */
   mapStyleUrl: text(),
   /**
+   * Optional second and third views of the same map: imagery, and imagery
+   * with street names over it. The app offers the switch only for the ones
+   * that are set, so a city without imagery simply has no such button.
+   */
+  mapSatelliteStyleUrl: text(),
+  mapHybridStyleUrl: text(),
+  /**
    * Centre of the city this app is about. The map opens here when the user
    * has no location, and a generated walk starts here. Kept with the app and
    * not in the build, so a city is set up without a release.

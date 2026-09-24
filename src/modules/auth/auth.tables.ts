@@ -1,5 +1,15 @@
-import { boolean, index, pgSchema, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  index,
+  integer,
+  pgSchema,
+  text,
+  timestamp,
+  unique,
+  uuid,
+} from 'drizzle-orm/pg-core';
 import { createdAt, primaryId } from '../../platform/database';
+import { ADMIN_PERMISSIONS, type SystemRole } from './admin-permissions';
 
 export const authSchema = pgSchema('auth');
 
@@ -36,10 +46,27 @@ export const userIdentities = authSchema.table(
   ],
 );
 
+export const adminPermission = authSchema.enum('admin_permission', ADMIN_PERMISSIONS);
+
+export const adminRoles = authSchema.table('admin_roles', {
+  id: primaryId(),
+  /** Set on the roles the migration seeds; null on roles a superadmin created. */
+  systemCode: text().$type<SystemRole>().unique(),
+  name: text().notNull().unique(),
+  /** Ignored for the superadmin, who holds every permission. */
+  permissions: adminPermission().array().notNull(),
+  createdAt: createdAt(),
+});
+
 export const admins = authSchema.table('admins', {
   id: primaryId(),
   login: text().notNull().unique(),
   passwordHash: text().notNull(),
+  roleId: uuid()
+    .notNull()
+    .references(() => adminRoles.id),
+  /** Goes into every token; raising it signs the administrator out everywhere. */
+  sessionVersion: integer().notNull().default(0),
   createdAt: createdAt(),
   disabledAt: timestamp({ withTimezone: true }),
 });

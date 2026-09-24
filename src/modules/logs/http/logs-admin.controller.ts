@@ -35,7 +35,7 @@ class LogEntriesDto extends createZodDto(
 class LogLevelDto extends createZodDto(z.object({ level: levelSchema })) {}
 
 @ApiTags(ADMIN_TAG)
-@AdminAuth()
+@AdminAuth('logs')
 @Controller('admin/logs')
 export class LogsAdminController {
   constructor(private readonly logs: LogsService) {}

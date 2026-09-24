@@ -71,7 +71,6 @@ export const pointAudioInputSchema = z.object({
       z.object({
         locale: localeSchema,
         audioFileId: fileId,
-        durationSeconds: z.number().int().min(0).nullable().default(null),
         transcript: z.string().max(50_000).nullable().default(null),
         subtitles: z.array(subtitleCueSchema).max(20_000).nullable().default(null),
       }),
@@ -85,9 +84,10 @@ export const pointInputSchema = z.object({
   latitude,
   longitude,
   isFree: z.boolean().default(false),
+  /** Cover photo of the point; the carousel is imageIds. The map marker is drawn from it. */
   imageId: fileId.nullable().default(null),
-  markerImageId: fileId.nullable().default(null),
-  lockedMarkerImageId: fileId.nullable().default(null),
+  /** Extra photos for the carousel on the point page, in display order. */
+  imageIds: z.array(fileId).max(20).default([]),
   translations: z
     .array(
       z.object({
@@ -95,7 +95,6 @@ export const pointInputSchema = z.object({
         name: z.string().min(1).max(200),
         description: z.string().max(20_000).nullable().default(null),
         address: z.string().max(500).nullable().default(null),
-        openingHours: z.string().max(500).nullable().default(null),
       }),
     )
     .min(1)

@@ -1,10 +1,14 @@
-import { createHash } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { createReadStream } from 'node:fs';
 import { rm, stat } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join, parse } from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { Injectable } from '@nestjs/common';
 import { isUniqueViolation } from '../../platform/database';
 import { AppError } from '../../platform/http';
+import { audioDurationSeconds } from './audio-duration';
+import { renderMarker } from './marker-image';
 import { ALLOWED_MEDIA_TYPES, isAllowedMediaType } from './media-types';
 import { type FileRow, type ListFilesQuery, MediaStore } from './media.store';
 import { FileStorage } from './storage/file-storage';
@@ -45,8 +49,16 @@ export class MediaService {
       // Content-addressed key: the same bytes of the same type always map to one file.
       const storageKey = `${sha256.slice(0, 2)}/${sha256}.${ALLOWED_MEDIA_TYPES[mimeType]}`;
 
+      const durationSeconds = await audioDurationSeconds(tempPath, mimeType);
+
       const existing = await this.store.findByKey(storageKey);
-      if (existing) return existing;
+      // Files are content-addressed, so the same bytes are never stored twice;
+      // a row uploaded before durations were measured is completed here.
+      if (existing) {
+        return existing.durationSeconds == null && durationSeconds != null
+          ? await this.store.setDuration(existing.id, durationSeconds)
+          : existing;
+      }
 
       await this.storage.save(storageKey, tempPath);
       try {
@@ -56,6 +68,7 @@ export class MediaService {
           mimeType,
           sizeBytes: size,
           sha256,
+          durationSeconds,
         });
       } catch (error) {
         // A concurrent upload of the same content won the race; its row is ours too.
@@ -65,6 +78,33 @@ export class MediaService {
     } finally {
       await rm(tempPath, { force: true });
     }
+  }
+
+  /**
+   * Draws the map marker of a photo and stores it like any other file. The
+   * drawing is deterministic, so the same photo always yields the same file.
+   */
+  async markerFrom(sourceId: string): Promise<FileRow> {
+    const source = await this.get(sourceId);
+    if (!source.mimeType.startsWith('image/')) {
+      throw AppError.badRequest('not_an_image', `File ${sourceId} is not an image`);
+    }
+    const tempPath = join(tmpdir(), `vitago-marker-${randomUUID()}.png`);
+    try {
+      await renderMarker(this.localPath(source), tempPath);
+    } catch (error) {
+      await rm(tempPath, { force: true });
+      const reason = error instanceof Error ? error.message : String(error);
+      throw AppError.badRequest(
+        'image_unreadable',
+        `File ${sourceId} cannot be read as an image: ${reason}`,
+      );
+    }
+    return this.ingest({
+      tempPath,
+      originalName: `marker-${parse(source.originalName).name}.png`,
+      mimeType: 'image/png',
+    });
   }
 
   async get(id: string): Promise<FileRow> {

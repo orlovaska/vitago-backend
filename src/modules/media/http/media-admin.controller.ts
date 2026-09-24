@@ -24,7 +24,7 @@ import { MediaService } from '../media.service';
 import { FileDto, FilePageDto, ListFilesQueryDto, toFileDto } from './media.dto';
 
 @ApiTags(ADMIN_TAG)
-@AdminAuth()
+@AdminAuth('content')
 @Controller('admin/media')
 export class MediaAdminController {
   constructor(private readonly media: MediaService) {}

@@ -150,6 +150,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -186,6 +189,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -226,6 +232,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -275,6 +284,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -305,6 +317,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -345,6 +360,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -394,6 +412,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -436,6 +457,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -556,6 +580,333 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/admins": {
+      "get": {
+        "operationId": "AuthAdminController_listAdmins",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAccountListDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      },
+      "post": {
+        "operationId": "AuthAdminController_createAdmin",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatedAdminDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/admins/{id}": {
+      "patch": {
+        "operationId": "AuthAdminController_updateAdmin",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAccountDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/admins/{id}/reset-password": {
+      "post": {
+        "operationId": "AuthAdminController_resetPassword",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneratedPasswordDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/roles": {
+      "get": {
+        "operationId": "AuthAdminController_listRoles",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleListDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      },
+      "post": {
+        "operationId": "AuthAdminController_createRole",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/roles/{id}": {
+      "patch": {
+        "operationId": "AuthAdminController_updateRole",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      },
+      "delete": {
+        "operationId": "AuthAdminController_removeRole",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -723,6 +1074,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -759,6 +1113,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -803,6 +1160,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -833,6 +1193,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -883,6 +1246,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -957,6 +1323,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1014,6 +1383,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1054,6 +1426,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1085,6 +1460,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1113,6 +1491,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1156,6 +1537,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1185,6 +1569,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1276,6 +1663,82 @@
         ]
       }
     },
+    "/v1/points/nearby": {
+      "get": {
+        "operationId": "ToursController_nearbyPoints",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lat",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minimum": -90,
+              "maximum": 90,
+              "type": "number"
+            }
+          },
+          {
+            "name": "lon",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minimum": -180,
+              "maximum": 180,
+              "type": "number"
+            }
+          },
+          {
+            "name": "radiusMeters",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 100,
+              "maximum": 10000,
+              "default": 2000,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NearbyPointListDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
     "/v1/categories": {
       "get": {
         "operationId": "ToursController_listCategories",
@@ -1338,6 +1801,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1374,6 +1840,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1414,6 +1883,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1463,6 +1935,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1493,6 +1968,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1544,6 +2022,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1587,6 +2068,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1626,6 +2110,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1675,6 +2162,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1705,6 +2195,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1756,6 +2249,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1787,6 +2283,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1815,6 +2314,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1852,6 +2354,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1903,6 +2408,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1933,6 +2441,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1973,6 +2484,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -2001,6 +2515,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -2533,6 +3050,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -2573,6 +3093,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -2612,6 +3135,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -2809,6 +3335,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -2845,6 +3374,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -2896,6 +3428,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -2926,6 +3461,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -2966,6 +3504,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -3293,6 +3834,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -3332,6 +3876,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -3373,6 +3920,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -3412,6 +3962,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -3444,6 +3997,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -3720,6 +4276,68 @@
         ]
       }
     },
+    "/v1/walks/{id}/points/{pointId}": {
+      "delete": {
+        "operationId": "WalksController_removePoint",
+        "parameters": [
+          {
+            "name": "X-Bundle-Id",
+            "in": "header",
+            "description": "Bundle id of the city app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pointId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalkDto_Output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or unknown X-Bundle-Id"
+          },
+          "401": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "user": []
+          }
+        ],
+        "tags": [
+          "app"
+        ]
+      }
+    },
     "/v1/walks/{id}/unlock": {
       "post": {
         "operationId": "WalksController_unlock",
@@ -3799,6 +4417,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -3830,6 +4451,9 @@
             "description": "Log file, one JSON object per line"
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -3907,6 +4531,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -3935,6 +4562,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -3965,6 +4595,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -4035,6 +4668,26 @@
             ]
           },
           "mapStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapSatelliteStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapHybridStyleUrl": {
             "anyOf": [
               {
                 "type": "string"
@@ -4227,6 +4880,8 @@
           "name",
           "urlScheme",
           "mapStyleUrl",
+          "mapSatelliteStyleUrl",
+          "mapHybridStyleUrl",
           "mapCenter",
           "paymentStores",
           "receiptEmailRequired",
@@ -4319,6 +4974,18 @@
                   ]
                 },
                 "mapStyleUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "mapSatelliteStyleUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "mapHybridStyleUrl": {
                   "type": [
                     "string",
                     "null"
@@ -4530,6 +5197,8 @@
                 "name",
                 "urlScheme",
                 "mapStyleUrl",
+                "mapSatelliteStyleUrl",
+                "mapHybridStyleUrl",
                 "mapCenter",
                 "paymentStores",
                 "receiptEmailRequired",
@@ -4583,6 +5252,32 @@
             ]
           },
           "mapStyleUrl": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapSatelliteStyleUrl": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapHybridStyleUrl": {
             "default": null,
             "anyOf": [
               {
@@ -4762,6 +5457,26 @@
             ]
           },
           "mapStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapSatelliteStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapHybridStyleUrl": {
             "anyOf": [
               {
                 "type": "string"
@@ -4985,6 +5700,8 @@
           "name",
           "urlScheme",
           "mapStyleUrl",
+          "mapSatelliteStyleUrl",
+          "mapHybridStyleUrl",
           "mapCenter",
           "paymentStores",
           "receiptEmailRequired",
@@ -5030,6 +5747,30 @@
             ]
           },
           "mapStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapSatelliteStyleUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mapHybridStyleUrl": {
             "anyOf": [
               {
                 "type": "string",
@@ -5435,11 +6176,63 @@
               },
               "login": {
                 "type": "string"
+              },
+              "role": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "systemCode": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "superadmin",
+                          "promoter",
+                          "content_manager"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "permissions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "content",
+                        "reviews",
+                        "promotions",
+                        "payments",
+                        "settings",
+                        "logs",
+                        "server",
+                        "admins"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "systemCode",
+                  "permissions"
+                ],
+                "additionalProperties": false
               }
             },
             "required": [
               "id",
-              "login"
+              "login",
+              "role"
             ],
             "additionalProperties": false
           }
@@ -5461,13 +6254,587 @@
           },
           "login": {
             "type": "string"
+          },
+          "role": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "name": {
+                "type": "string"
+              },
+              "systemCode": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "superadmin",
+                      "promoter",
+                      "content_manager"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "permissions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "content",
+                    "reviews",
+                    "promotions",
+                    "payments",
+                    "settings",
+                    "logs",
+                    "server",
+                    "admins"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "systemCode",
+              "permissions"
+            ],
+            "additionalProperties": false
           }
         },
         "required": [
           "id",
-          "login"
+          "login",
+          "role"
         ],
         "additionalProperties": false
+      },
+      "AdminAccountListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "login": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "systemCode": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "superadmin",
+                            "promoter",
+                            "content_manager"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "permissions": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "content",
+                          "reviews",
+                          "promotions",
+                          "payments",
+                          "settings",
+                          "logs",
+                          "server",
+                          "admins"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "systemCode",
+                    "permissions"
+                  ],
+                  "additionalProperties": false
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "disabledAt": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "login",
+                "role",
+                "createdAt",
+                "disabledAt"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "CreateAdminDto": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[A-Za-z0-9._@-]+$"
+          },
+          "roleId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "login",
+          "roleId"
+        ]
+      },
+      "CreatedAdminDto_Output": {
+        "type": "object",
+        "properties": {
+          "admin": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "login": {
+                "type": "string"
+              },
+              "role": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "systemCode": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "superadmin",
+                          "promoter",
+                          "content_manager"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "permissions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "content",
+                        "reviews",
+                        "promotions",
+                        "payments",
+                        "settings",
+                        "logs",
+                        "server",
+                        "admins"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "systemCode",
+                  "permissions"
+                ],
+                "additionalProperties": false
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              "disabledAt": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "login",
+              "role",
+              "createdAt",
+              "disabledAt"
+            ],
+            "additionalProperties": false
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "admin",
+          "password"
+        ],
+        "additionalProperties": false
+      },
+      "UpdateAdminDto": {
+        "type": "object",
+        "properties": {
+          "roleId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "disabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AdminAccountDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "login": {
+            "type": "string"
+          },
+          "role": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "name": {
+                "type": "string"
+              },
+              "systemCode": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "superadmin",
+                      "promoter",
+                      "content_manager"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "permissions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "content",
+                    "reviews",
+                    "promotions",
+                    "payments",
+                    "settings",
+                    "logs",
+                    "server",
+                    "admins"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "systemCode",
+              "permissions"
+            ],
+            "additionalProperties": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "disabledAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "login",
+          "role",
+          "createdAt",
+          "disabledAt"
+        ],
+        "additionalProperties": false
+      },
+      "GeneratedPasswordDto_Output": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "password"
+        ],
+        "additionalProperties": false
+      },
+      "RoleListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "systemCode": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "superadmin",
+                        "promoter",
+                        "content_manager"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "permissions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "content",
+                      "reviews",
+                      "promotions",
+                      "payments",
+                      "settings",
+                      "logs",
+                      "server",
+                      "admins"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "systemCode",
+                "permissions"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "assignablePermissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "content",
+                "reviews",
+                "promotions",
+                "payments",
+                "settings",
+                "logs",
+                "server",
+                "admins"
+              ]
+            }
+          }
+        },
+        "required": [
+          "items",
+          "assignablePermissions"
+        ],
+        "additionalProperties": false
+      },
+      "CreateRoleDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          },
+          "permissions": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "content",
+                "reviews",
+                "promotions",
+                "payments",
+                "settings",
+                "logs"
+              ]
+            }
+          }
+        },
+        "required": [
+          "name",
+          "permissions"
+        ]
+      },
+      "RoleDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "systemCode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "superadmin",
+                  "promoter",
+                  "content_manager"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "content",
+                "reviews",
+                "promotions",
+                "payments",
+                "settings",
+                "logs",
+                "server",
+                "admins"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "systemCode",
+          "permissions"
+        ],
+        "additionalProperties": false
+      },
+      "UpdateRoleDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          },
+          "permissions": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "content",
+                "reviews",
+                "promotions",
+                "payments",
+                "settings",
+                "logs"
+              ]
+            }
+          }
+        }
       },
       "CurrentDocumentListDto_Output": {
         "type": "object",
@@ -6392,25 +7759,19 @@
                     "null"
                   ]
                 },
-                "openingHours": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
                 "imageUrl": {
                   "type": [
                     "string",
                     "null"
                   ]
                 },
-                "markerImageUrl": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                "imageUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
                 },
-                "lockedMarkerImageUrl": {
+                "markerImageUrl": {
                   "type": [
                     "string",
                     "null"
@@ -6513,10 +7874,9 @@
                 "name",
                 "description",
                 "address",
-                "openingHours",
                 "imageUrl",
+                "imageUrls",
                 "markerImageUrl",
-                "lockedMarkerImageUrl",
                 "categoryIds",
                 "audio"
               ],
@@ -6574,6 +7934,190 @@
           "route",
           "points",
           "categories"
+        ],
+        "additionalProperties": false
+      },
+      "NearbyPointListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "position": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "latitude": {
+                  "type": "number"
+                },
+                "longitude": {
+                  "type": "number"
+                },
+                "isFree": {
+                  "type": "boolean"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "address": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "imageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "imageUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "markerImageUrl": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "categoryIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  }
+                },
+                "audio": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "url": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "autoplayRadiusMeters": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "durationSeconds": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "transcript": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "subtitles": {
+                          "anyOf": [
+                            {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "startMs": {
+                                    "type": "number"
+                                  },
+                                  "endMs": {
+                                    "type": "number"
+                                  },
+                                  "text": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "startMs",
+                                  "endMs",
+                                  "text"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "url",
+                        "autoplayRadiusMeters",
+                        "durationSeconds",
+                        "transcript",
+                        "subtitles"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "tourId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "distanceMeters": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "id",
+                "position",
+                "latitude",
+                "longitude",
+                "isFree",
+                "name",
+                "description",
+                "address",
+                "imageUrl",
+                "imageUrls",
+                "markerImageUrl",
+                "categoryIds",
+                "audio",
+                "tourId",
+                "distanceMeters"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
         ],
         "additionalProperties": false
       },
@@ -7252,31 +8796,15 @@
               }
             ]
           },
-          "markerImageId": {
-            "default": null,
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid",
-                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "lockedMarkerImageId": {
-            "default": null,
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid",
-                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-              },
-              {
-                "type": "null"
-              }
-            ]
+          "imageIds": {
+            "default": [],
+            "maxItems": 20,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
           },
           "translations": {
             "minItems": 1,
@@ -7309,18 +8837,6 @@
                   ]
                 },
                 "address": {
-                  "default": null,
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "maxLength": 500
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "openingHours": {
                   "default": null,
                   "anyOf": [
                     {
@@ -7378,19 +8894,6 @@
                           "type": "string",
                           "format": "uuid",
                           "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-                        },
-                        "durationSeconds": {
-                          "default": null,
-                          "anyOf": [
-                            {
-                              "type": "integer",
-                              "minimum": 0,
-                              "maximum": 9007199254740991
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
                         },
                         "transcript": {
                           "default": null,
@@ -7494,31 +8997,15 @@
               }
             ]
           },
-          "markerImageId": {
-            "default": null,
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid",
-                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "lockedMarkerImageId": {
-            "default": null,
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid",
-                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-              },
-              {
-                "type": "null"
-              }
-            ]
+          "imageIds": {
+            "type": "array",
+            "default": [],
+            "maxItems": 20,
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
           },
           "translations": {
             "type": "array",
@@ -7561,26 +9048,13 @@
                       "type": "null"
                     }
                   ]
-                },
-                "openingHours": {
-                  "default": null,
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "maxLength": 500
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               },
               "required": [
                 "locale",
                 "name",
                 "description",
-                "address",
-                "openingHours"
+                "address"
               ],
               "additionalProperties": false
             }
@@ -7624,19 +9098,6 @@
                           "type": "string",
                           "format": "uuid",
                           "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-                        },
-                        "durationSeconds": {
-                          "default": null,
-                          "anyOf": [
-                            {
-                              "type": "integer",
-                              "minimum": 0,
-                              "maximum": 9007199254740991
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
                         },
                         "transcript": {
                           "default": null,
@@ -7691,7 +9152,6 @@
                       "required": [
                         "locale",
                         "audioFileId",
-                        "durationSeconds",
                         "transcript",
                         "subtitles"
                       ],
@@ -7731,8 +9191,7 @@
           "longitude",
           "isFree",
           "imageId",
-          "markerImageId",
-          "lockedMarkerImageId",
+          "imageIds",
           "translations",
           "categoryIds",
           "audio",
@@ -7785,19 +9244,6 @@
                   "type": "string",
                   "format": "uuid",
                   "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-                },
-                "durationSeconds": {
-                  "default": null,
-                  "anyOf": [
-                    {
-                      "type": "integer",
-                      "minimum": 0,
-                      "maximum": 9007199254740991
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 },
                 "transcript": {
                   "default": null,
@@ -10303,25 +11749,19 @@
                     "null"
                   ]
                 },
-                "openingHours": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
                 "imageUrl": {
                   "type": [
                     "string",
                     "null"
                   ]
                 },
-                "markerImageUrl": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                "imageUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
                 },
-                "lockedMarkerImageUrl": {
+                "markerImageUrl": {
                   "type": [
                     "string",
                     "null"
@@ -10426,10 +11866,9 @@
                 "name",
                 "description",
                 "address",
-                "openingHours",
                 "imageUrl",
+                "imageUrls",
                 "markerImageUrl",
-                "lockedMarkerImageUrl",
                 "categoryIds",
                 "audio"
               ],
@@ -10806,25 +12245,19 @@
                           "null"
                         ]
                       },
-                      "openingHours": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      },
                       "imageUrl": {
                         "type": [
                           "string",
                           "null"
                         ]
                       },
-                      "markerImageUrl": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
+                      "imageUrls": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
                       },
-                      "lockedMarkerImageUrl": {
+                      "markerImageUrl": {
                         "type": [
                           "string",
                           "null"
@@ -10929,10 +12362,9 @@
                       "name",
                       "description",
                       "address",
-                      "openingHours",
                       "imageUrl",
+                      "imageUrls",
                       "markerImageUrl",
-                      "lockedMarkerImageUrl",
                       "categoryIds",
                       "audio"
                     ],

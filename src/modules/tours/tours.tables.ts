@@ -109,13 +109,37 @@ export const points = toursSchema.table(
     /** Available before the tour is bought, as a preview. */
     isFree: boolean().notNull().default(false),
     imageId: uuid(),
-    markerImageId: uuid(),
-    /** Marker shown while the point is not yet available to the user. */
-    lockedMarkerImageId: uuid(),
+    /** Map marker drawn by the server from imageId; never uploaded. */
+    markerId: uuid(),
+    /** The marker shape it was drawn with; a different one means it must be redrawn. */
+    markerSpec: text(),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
   (table) => [index().on(table.tourId, table.position)],
+);
+
+/**
+ * Every marker file the server drew (and the hand-made ones it replaced). A
+ * file here that no point uses any more is deleted from media. One photo in
+ * several tours yields one shared marker, so a file is kept while any point
+ * still refers to it.
+ */
+export const markerFiles = toursSchema.table('marker_files', {
+  fileId: uuid().primaryKey(),
+});
+
+/** Photo carousel of the point page, in display order; the cover is points.imageId. */
+export const pointImages = toursSchema.table(
+  'point_images',
+  {
+    pointId: uuid()
+      .notNull()
+      .references(() => points.id, { onDelete: 'cascade' }),
+    position: integer().notNull(),
+    fileId: uuid().notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.pointId, table.position] })],
 );
 
 export const pointTranslations = toursSchema.table(
@@ -128,7 +152,6 @@ export const pointTranslations = toursSchema.table(
     name: text().notNull(),
     description: text(),
     address: text(),
-    openingHours: text(),
   },
   (table) => [primaryKey({ columns: [table.pointId, table.locale] })],
 );
@@ -157,7 +180,6 @@ export const pointAudioTranslations = toursSchema.table(
       .references(() => pointAudio.pointId, { onDelete: 'cascade' }),
     locale: text().notNull(),
     audioFileId: uuid().notNull(),
-    durationSeconds: integer(),
     /** Full narration text. */
     transcript: text(),
     subtitles: jsonb().$type<SubtitleCue[]>(),

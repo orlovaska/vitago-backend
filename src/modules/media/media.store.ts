@@ -40,6 +40,16 @@ export class MediaStore {
     return row ?? null;
   }
 
+  /** Fills in the duration of a file stored before it was measured. */
+  async setDuration(id: string, durationSeconds: number): Promise<FileRow> {
+    const [row] = await this.db
+      .update(files)
+      .set({ durationSeconds })
+      .where(eq(files.id, id))
+      .returning();
+    return row!;
+  }
+
   async insert(file: NewFile): Promise<FileRow> {
     const [row] = await this.db.insert(files).values(file).returning();
     return row!;

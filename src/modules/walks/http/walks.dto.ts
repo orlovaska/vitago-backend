@@ -58,6 +58,7 @@ const walkPointSchema = z.object({
   id: z.uuid(),
   /** The tour this point belongs to; a walk mixes points from several. */
   tourId: z.uuid(),
+  /** Place in this walk, from 0 — not the position the point holds in its tour. */
   position: z.number().int(),
   latitude: z.number(),
   longitude: z.number(),
@@ -67,10 +68,10 @@ const walkPointSchema = z.object({
   name: z.string(),
   description: z.string().nullable(),
   address: z.string().nullable(),
-  openingHours: z.string().nullable(),
   imageUrl: z.string().nullable(),
+  /** Carousel of the point page; the cover above is not repeated in it. */
+  imageUrls: z.array(z.string()),
   markerImageUrl: z.string().nullable(),
-  lockedMarkerImageUrl: z.string().nullable(),
   categoryIds: z.array(z.uuid()),
   audio: z
     .object({
@@ -123,6 +124,10 @@ const walkSchema = z.object({
 
 export class WalkDto extends createZodDto(walkSchema) {}
 export class WalkListDto extends createZodDto(z.object({ items: z.array(walkSchema) })) {}
+
+export class WalkPointParamDto extends createZodDto(
+  z.object({ id: z.uuid(), pointId: z.uuid() }),
+) {}
 
 export class UnlockWalkDto extends createZodDto(
   z.object({

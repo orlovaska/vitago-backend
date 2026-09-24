@@ -10,7 +10,7 @@ import {
 } from 'drizzle-orm/pg-core';
 import { createdAt, primaryId } from '../../platform/database';
 import { type RouteGeometry } from '../routing';
-import { type Polygon } from './geo';
+import { type Polygon } from '../../platform/geo';
 
 export const walksSchema = pgSchema('walks');
 

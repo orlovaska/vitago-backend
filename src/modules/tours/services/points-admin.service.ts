@@ -6,6 +6,7 @@ import { CategoriesStore } from '../stores/categories.store';
 import { type PointRow, PointsStore } from '../stores/points.store';
 import { ToursStore } from '../stores/tours.store';
 import { type PointAudioInput, type PointInput } from '../tours.inputs';
+import { MarkersService } from './markers.service';
 
 @Injectable()
 export class PointsAdminService {
@@ -14,6 +15,7 @@ export class PointsAdminService {
     private readonly tours: ToursStore,
     private readonly categories: CategoriesStore,
     private readonly files: FileReferences,
+    private readonly markers: MarkersService,
   ) {}
 
   async get(id: string): Promise<PointRow> {
@@ -29,10 +31,12 @@ export class PointsAdminService {
       throw AppError.notFound('tour_not_found', `Tour ${tourId} not found`);
     }
     await this.validate(input);
+    const marker = await this.markers.fieldsFor(input.imageId);
     const point = await this.points.insert({
       tourId,
       position: await this.points.nextPosition(tourId),
       ...fields(input),
+      ...marker,
     });
     await this.writeParts(point.id, input);
     return point;
@@ -43,7 +47,8 @@ export class PointsAdminService {
   async replace(id: string, input: PointInput): Promise<PointRow> {
     await this.get(id);
     await this.validate(input);
-    const point = await this.points.update(id, fields(input));
+    const marker = await this.markers.fieldsFor(input.imageId);
+    const point = await this.points.update(id, { ...fields(input), ...marker });
     await this.writeParts(id, input);
     return point!;
   }
@@ -92,6 +97,7 @@ export class PointsAdminService {
   private async writeParts(pointId: string, input: PointInput): Promise<void> {
     await this.points.replaceTranslations(pointId, input.translations);
     await this.points.replaceCategories(pointId, input.categoryIds);
+    await this.points.replaceImages(pointId, input.imageIds);
     if (input.audio) {
       await this.points.putAudio(
         pointId,
@@ -106,8 +112,7 @@ export class PointsAdminService {
   private async validate(input: PointInput): Promise<void> {
     await this.files.assertExist([
       input.imageId,
-      input.markerImageId,
-      input.lockedMarkerImageId,
+      ...input.imageIds,
       ...(input.audio?.translations.map((translation) => translation.audioFileId) ?? []),
     ]);
     const categoryIds = [...new Set(input.categoryIds)];
@@ -124,7 +129,5 @@ function fields(input: PointInput) {
     longitude: input.longitude,
     isFree: input.isFree,
     imageId: input.imageId,
-    markerImageId: input.markerImageId,
-    lockedMarkerImageId: input.lockedMarkerImageId,
   };
 }

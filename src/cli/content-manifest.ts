@@ -16,8 +16,8 @@ const pointSchema = z.object({
   longitude,
   isFree: z.boolean().default(false),
   image: file.optional(),
-  marker: file.optional(),
-  lockedMarker: file.optional(),
+  /** Extra photos for the carousel on the point page, in display order. */
+  images: z.array(file).default([]),
   /** Category slugs. */
   categories: z.array(z.string()).default([]),
   translations: z.array(
@@ -26,7 +26,6 @@ const pointSchema = z.object({
       name: z.string(),
       description: z.string().optional(),
       address: z.string().optional(),
-      openingHours: z.string().optional(),
     }),
   ),
   audio: z
@@ -36,7 +35,6 @@ const pointSchema = z.object({
         z.object({
           locale,
           file,
-          durationSeconds: z.number().int().optional(),
           transcript: z.string().optional(),
           subtitles: z
             .array(z.object({ startMs: z.number(), endMs: z.number(), text: z.string() }))
@@ -85,6 +83,8 @@ export const contentManifestSchema = z.object({
     name: z.string(),
     urlScheme: z.string().optional(),
     mapStyleUrl: z.url().optional(),
+    mapSatelliteStyleUrl: z.url().optional(),
+    mapHybridStyleUrl: z.url().optional(),
     /** Центр города: сюда встаёт карта и отсюда начинается прогулка без геолокации. */
     centerLat: z.number().min(-90).max(90).optional(),
     centerLon: z.number().min(-180).max(180).optional(),
@@ -97,6 +97,22 @@ export const contentManifestSchema = z.object({
         slug: z.string(),
         position: z.number().int().default(0),
         translations: z.array(z.object({ locale, name: z.string() })),
+      }),
+    )
+    .default([]),
+  /**
+   * Terms of use and privacy policy. Each entry publishes its PDF as the
+   * current version; publicUrl is the web page the app links to when there
+   * is one, and without it the app opens the PDF itself.
+   */
+  legal: z
+    .array(
+      z.object({
+        type: z.enum(['terms', 'privacy']),
+        file,
+        publicUrl: z.url().optional(),
+        /** True when the change is substantial enough to ask for consent again. */
+        requiresReconsent: z.boolean().default(false),
       }),
     )
     .default([]),

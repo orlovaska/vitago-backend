@@ -10,6 +10,12 @@ export interface IssuedToken {
   expiresIn: number;
 }
 
+export interface VerifiedToken {
+  subject: string;
+  /** Session version the token was issued under; tokens issued before versions existed carry 0. */
+  version: number;
+}
+
 const ISSUER = 'vitago-api';
 const ALGORITHM = 'HS256';
 
@@ -30,9 +36,9 @@ export class TokensService {
     };
   }
 
-  async issue(audience: TokenAudience, subject: string): Promise<IssuedToken> {
+  async issue(audience: TokenAudience, subject: string, version = 0): Promise<IssuedToken> {
     const expiresIn = this.ttl[audience];
-    const accessToken = await new SignJWT()
+    const accessToken = await new SignJWT({ ver: version })
       .setProtectedHeader({ alg: ALGORITHM })
       .setIssuer(ISSUER)
       .setAudience(audience)
@@ -43,15 +49,16 @@ export class TokensService {
     return { accessToken, expiresIn };
   }
 
-  /** Returns the subject, or null for any invalid, expired or foreign token. */
-  async verify(audience: TokenAudience, token: string): Promise<string | null> {
+  /** Returns the subject and session version, or null for any invalid, expired or foreign token. */
+  async verify(audience: TokenAudience, token: string): Promise<VerifiedToken | null> {
     try {
       const { payload } = await jwtVerify(token, this.keys[audience], {
         issuer: ISSUER,
         audience,
         algorithms: [ALGORITHM],
       });
-      return payload.sub ?? null;
+      if (!payload.sub) return null;
+      return { subject: payload.sub, version: typeof payload.ver === 'number' ? payload.ver : 0 };
     } catch {
       return null;
     }

@@ -15,7 +15,7 @@ import {
 } from './promotions.dto';
 
 @ApiTags(ADMIN_TAG)
-@AdminAuth()
+@AdminAuth('promotions')
 @Controller('admin/promo-codes')
 export class PromotionsAdminController {
   constructor(private readonly promotions: PromotionsService) {}

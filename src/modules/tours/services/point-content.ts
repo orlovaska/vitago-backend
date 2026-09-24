@@ -1,4 +1,5 @@
 import { type Locale, pickTranslation } from '../../../platform/i18n';
+import { type MediaFile } from '../../media';
 import { type PointDetails, type PointRow } from '../stores/points.store';
 import { type SubtitleCue } from '../tours.tables';
 
@@ -12,10 +13,12 @@ export interface PointContent {
   name: string;
   description: string | null;
   address: string | null;
-  openingHours: string | null;
+  /** Cover photo, the one shown in lists and on the marker card. */
   imageUrl: string | null;
+  /** Carousel of the point page, in display order; the cover is not in it. */
+  imageUrls: string[];
+  /** Marker drawn by the server from the cover photo; the same for open and closed points. */
   markerImageUrl: string | null;
-  lockedMarkerImageUrl: string | null;
   categoryIds: string[];
   /** Null for a point without narration. */
   audio: {
@@ -27,8 +30,8 @@ export interface PointContent {
   } | null;
 }
 
-export function urlOf(urls: Map<string, string>, id: string | null | undefined): string | null {
-  return (id && urls.get(id)) || null;
+export function urlOf(files: Map<string, MediaFile>, id: string | null | undefined): string | null {
+  return (id && files.get(id)?.url) || null;
 }
 
 /**
@@ -39,7 +42,7 @@ export function pointContent(
   point: PointRow,
   details: PointDetails,
   locale: Locale,
-  urls: Map<string, string>,
+  files: Map<string, MediaFile>,
 ): PointContent {
   const translation = pickTranslation(
     details.translations.filter((row) => row.pointId === point.id),
@@ -61,18 +64,21 @@ export function pointContent(
     name: translation?.name ?? '',
     description: translation?.description ?? null,
     address: translation?.address ?? null,
-    openingHours: translation?.openingHours ?? null,
-    imageUrl: urlOf(urls, point.imageId),
-    markerImageUrl: urlOf(urls, point.markerImageId),
-    lockedMarkerImageUrl: urlOf(urls, point.lockedMarkerImageId),
+    imageUrl: urlOf(files, point.imageId),
+    imageUrls: details.images
+      .filter((image) => image.pointId === point.id)
+      .map((image) => urlOf(files, image.fileId))
+      .filter((url): url is string => url != null),
+    markerImageUrl: urlOf(files, point.markerId),
     categoryIds: details.categoryLinks
       .filter((link) => link.pointId === point.id)
       .map((link) => link.categoryId),
     audio: audio
       ? {
-          url: urlOf(urls, recording?.audioFileId),
+          url: urlOf(files, recording?.audioFileId),
           autoplayRadiusMeters: audio.autoplayRadiusMeters,
-          durationSeconds: recording?.durationSeconds ?? null,
+          // Measured on the file itself when it was uploaded, never entered by hand.
+          durationSeconds: audioSeconds(files, recording?.audioFileId),
           transcript: recording?.transcript ?? null,
           subtitles: recording?.subtitles ?? null,
         }
@@ -80,10 +86,19 @@ export function pointContent(
   };
 }
 
+/** Playing time of a recording, as measured when its file was uploaded. */
+export function audioSeconds(
+  files: Map<string, MediaFile>,
+  audioFileId: string | null | undefined,
+): number | null {
+  return audioFileId ? (files.get(audioFileId)?.durationSeconds ?? null) : null;
+}
+
 /** The media ids a set of points needs resolved into URLs. */
 export function pointFileIds(rows: PointRow[], details: PointDetails): (string | null)[] {
   return [
-    ...rows.flatMap((point) => [point.imageId, point.markerImageId, point.lockedMarkerImageId]),
+    ...rows.flatMap((point) => [point.imageId, point.markerId]),
+    ...details.images.map((image) => image.fileId),
     ...details.audioTranslations.map((audio) => audio.audioFileId),
   ];
 }

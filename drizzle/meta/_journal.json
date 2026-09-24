@@ -134,6 +134,55 @@
       "when": 1789971802183,
       "tag": "0018_walk_saved_at",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1790021553775,
+      "tag": "0019_point_images",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1790021915466,
+      "tag": "0020_app_map_views",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1790067245695,
+      "tag": "0021_drop_point_opening_hours",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1790067777420,
+      "tag": "0022_media_audio_duration",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1790260531929,
+      "tag": "0023_admin_roles",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1790264481929,
+      "tag": "0024_point_markers",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1790264491438,
+      "tag": "0025_drop_hand_made_markers",
+      "breakpoints": true
     }
   ]
 }

@@ -17,7 +17,7 @@ import {
 } from './legal.dto';
 
 @ApiTags(ADMIN_TAG)
-@AdminAuth()
+@AdminAuth('content')
 @Controller('admin/legal/documents')
 export class LegalAdminController {
   constructor(private readonly legal: LegalService) {}

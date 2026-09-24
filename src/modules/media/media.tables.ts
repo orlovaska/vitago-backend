@@ -1,4 +1,4 @@
-import { bigint, index, pgSchema, text } from 'drizzle-orm/pg-core';
+import { bigint, index, integer, pgSchema, text } from 'drizzle-orm/pg-core';
 import { createdAt, primaryId } from '../../platform/database';
 
 export const mediaSchema = pgSchema('media');
@@ -15,6 +15,8 @@ export const files = mediaSchema.table(
     sizeBytes: bigint({ mode: 'number' }).notNull(),
     /** Hex SHA-256 of the content: the ETag, and the key for skipping duplicate uploads. */
     sha256: text().notNull(),
+    /** Playing time of a recording, measured on upload; null for anything else. */
+    durationSeconds: integer(),
     createdAt: createdAt(),
   },
   (table) => [index().on(table.sha256), index().on(table.createdAt)],

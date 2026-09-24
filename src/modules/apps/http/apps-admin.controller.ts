@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from '@ne
 import { ApiTags } from '@nestjs/swagger';
 import { ZodResponse } from 'nestjs-zod';
 import { ADMIN_TAG, IdParamDto } from '../../../platform/http';
-import { AdminAuth } from '../../auth';
+import { AdminAuth, AdminPermissions } from '../../auth';
 import { AppsService } from '../apps.service';
 import {
   AdminAppDto,
@@ -19,12 +19,13 @@ import {
 } from './apps.dto';
 
 @ApiTags(ADMIN_TAG)
-@AdminAuth()
+@AdminAuth('content')
 @Controller('admin/apps')
 export class AppsAdminController {
   constructor(private readonly apps: AppsService) {}
 
   @Get()
+  @AdminPermissions('content', 'promotions')
   @ZodResponse({ status: 200, type: AdminAppListDto })
   async list() {
     return { items: (await this.apps.list()).map(toAdminApp) };
@@ -38,6 +39,7 @@ export class AppsAdminController {
   }
 
   @Get(':id')
+  @AdminPermissions('content', 'promotions')
   @ZodResponse({ status: 200, type: AdminAppDto })
   async get(@Param() { id }: IdParamDto) {
     return toAdminApp(await this.apps.get(id));

@@ -12,7 +12,7 @@ import {
 } from './reviews.dto';
 
 @ApiTags(ADMIN_TAG)
-@AdminAuth()
+@AdminAuth('reviews')
 @Controller('admin/reviews')
 export class ReviewsAdminController {
   constructor(private readonly reviews: ReviewsService) {}

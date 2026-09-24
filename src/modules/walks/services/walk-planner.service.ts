@@ -4,7 +4,13 @@ import { type Locale } from '../../../platform/i18n';
 import { type Coordinates, type RouteGeometry, RoutingFacade } from '../../routing';
 import { SettingsFacade } from '../../settings';
 import { ToursFacade, type WalkCandidate } from '../../tours';
-import { haversineMeters, type LatLon, pointInPolygon, type Polygon, polygonBbox } from '../geo';
+import {
+  haversineMeters,
+  type LatLon,
+  pointInPolygon,
+  type Polygon,
+  polygonBbox,
+} from '../../../platform/geo';
 import { minimumBudgetSeconds, selectPoints, worstPoint } from './walk-selection';
 
 export interface PlanRequest {

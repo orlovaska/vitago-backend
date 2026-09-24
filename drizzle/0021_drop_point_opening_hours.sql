@@ -1,0 +1,1 @@
+ALTER TABLE "tours"."point_translations" DROP COLUMN "opening_hours";

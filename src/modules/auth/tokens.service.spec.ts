@@ -14,7 +14,18 @@ describe('TokensService', () => {
   it('round-trips the subject for the same audience', async () => {
     const { accessToken, expiresIn } = await tokens.issue('app', 'user-1');
     expect(expiresIn).toBe(3600);
-    await expect(tokens.verify('app', accessToken)).resolves.toBe('user-1');
+    await expect(tokens.verify('app', accessToken)).resolves.toEqual({
+      subject: 'user-1',
+      version: 0,
+    });
+  });
+
+  it('carries the session version', async () => {
+    const { accessToken } = await tokens.issue('admin', 'admin-1', 3);
+    await expect(tokens.verify('admin', accessToken)).resolves.toEqual({
+      subject: 'admin-1',
+      version: 3,
+    });
   });
 
   it('never accepts an app token as an admin token', async () => {

@@ -12,7 +12,7 @@ import { RouteRequestDto, RoutingStatusDto, WalkingRouteDto } from './routing.dt
  * RoutingFacade; these endpoints only let an administrator try it.
  */
 @ApiTags(ADMIN_TAG)
-@AdminAuth()
+@AdminAuth('content')
 @Controller('admin/routing')
 export class RoutingAdminController {
   constructor(

@@ -89,8 +89,7 @@ export class TourEditorViews {
       longitude: point.longitude,
       isFree: point.isFree,
       imageId: point.imageId,
-      markerImageId: point.markerImageId,
-      lockedMarkerImageId: point.lockedMarkerImageId,
+      imageIds: details.images.map((image) => image.fileId),
       translations: details.translations.map(({ pointId: _pointId, ...rest }) => ({
         ...rest,
         locale: rest.locale as Locale,

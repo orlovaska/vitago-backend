@@ -2,10 +2,13 @@ import 'reflect-metadata';
 import { writeFileSync } from 'node:fs';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { configureHttp, buildOpenApiDocument } from './platform/http';
+import { APP_TAG, buildOpenApiDocument, configureHttp, filterOpenApiByTag } from './platform/http';
 
 /**
- * Writes the API contract to openapi.json for client type generation.
+ * Writes the API contract for client type generation: the full document, plus
+ * the `app` half beside it. The mobile app generates its types from the second
+ * one — the desktop contract has no business living in the application sources.
+ *
  * No database or real secrets are needed: nothing here connects or signs.
  */
 async function run(): Promise<void> {
@@ -17,10 +20,16 @@ async function run(): Promise<void> {
   configureHttp(app);
   const document = buildOpenApiDocument(app);
   const target = process.argv[2] ?? 'openapi.json';
-  writeFileSync(target, `${JSON.stringify(document, null, 2)}\n`);
+  // Same name with `.app` before the extension: one command keeps both files
+  // in step, so they can never describe different versions of the API.
+  const appTarget = target.replace(/(\.json)?$/, '.app.json');
+  writeFileSync(target, serialize(document));
+  writeFileSync(appTarget, serialize(filterOpenApiByTag(document, APP_TAG)));
   await app.close();
-  console.log(`OpenAPI document written to ${target}`);
+  console.log(`OpenAPI document written to ${target} and ${appTarget}`);
 }
+
+const serialize = (document: unknown): string => `${JSON.stringify(document, null, 2)}\n`;
 
 run().catch((error: unknown) => {
   console.error(error);

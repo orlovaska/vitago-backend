@@ -27,7 +27,7 @@ const toDto = (setting: SettingState) => ({
 });
 
 @ApiTags(ADMIN_TAG)
-@AdminAuth()
+@AdminAuth('settings')
 @Controller('admin/settings')
 export class SettingsAdminController {
   constructor(private readonly settings: SettingsService) {}

@@ -1,3 +1,4 @@
+import sharp from 'sharp';
 import request from 'supertest';
 import { type TestCityApp } from './apps';
 import { type TestApp } from './test-app';
@@ -18,6 +19,19 @@ export async function uploadFile(
       filename: `file-${uploadCounter}.${extension}`,
       contentType,
     })
+    .expect(201);
+  return response.body.id as string;
+}
+
+/** Uploads a real photo of one colour (markers are drawn from it) and returns its id. */
+export async function uploadPhoto(t: TestApp, admin: string, colour = '#3a7'): Promise<string> {
+  const bytes = await sharp({ create: { width: 64, height: 48, channels: 3, background: colour } })
+    .jpeg()
+    .toBuffer();
+  const response = await request(t.server)
+    .post('/v1/admin/media')
+    .set('authorization', admin)
+    .attach('file', bytes, { filename: `photo-${++uploadCounter}.jpg`, contentType: 'image/jpeg' })
     .expect(201);
   return response.body.id as string;
 }

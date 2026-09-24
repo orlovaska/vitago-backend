@@ -18,6 +18,13 @@ npm run admin -- create admin
 npm run dev             # http://localhost:3000, docs at /v1/docs
 ```
 
+## Content
+
+A city's tours, points, audio and photos live in `content/<city>/manifest.json` and are loaded with
+`npm run content:import -- content/<city>/manifest.json`. The import converges: repeating it brings
+the database to what the file says. [content/README.md](content/README.md) is the brief handed to
+whoever writes a tour — what to deliver and in what shape.
+
 ## Checks
 
 ```bash

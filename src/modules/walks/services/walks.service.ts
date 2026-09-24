@@ -7,7 +7,7 @@ import { PaymentsFacade, type StartedCheckout } from '../../payments';
 import { type RouteGeometry, RoutingFacade } from '../../routing';
 import { SettingsFacade } from '../../settings';
 import { ToursFacade, type WalkPointContent } from '../../tours';
-import { type Polygon } from '../geo';
+import { type Polygon } from '../../../platform/geo';
 import { type WalkRow, WalksStore } from '../walks.store';
 import { type PlanRequest, WalkPlannerService } from './walk-planner.service';
 import { walkPrice } from './walk-pricing';
@@ -154,6 +154,50 @@ export class WalksService {
     );
   }
 
+  /**
+   * Drops a point from the walk. The line is drawn again through what is
+   * left — that is `settle`'s job, and it happens on the next read anyway —
+   * and the price follows: a walk with one locked place fewer costs less.
+   *
+   * A paid walk keeps its price and its status: what was bought stays bought.
+   */
+  async removePoint(
+    userId: string,
+    appId: string,
+    locale: Locale,
+    id: string,
+    pointId: string,
+  ): Promise<WalkView> {
+    const row = await this.owned(userId, appId, id);
+    if (!row.pointIds.includes(pointId)) {
+      throw AppError.notFound('point_not_in_walk', `Point ${pointId} is not in this walk`);
+    }
+    if (row.pointIds.length <= 1) {
+      throw AppError.badRequest('walk_needs_a_point', 'A walk cannot be left without points');
+    }
+
+    const pointIds = row.pointIds.filter((current) => current !== pointId);
+    const points = await this.points(userId, pointIds, locale);
+    const lockedCount = points.filter((point) => !point.accessible).length;
+    // The time a place took goes with it: otherwise totalSeconds would keep
+    // counting narration the walk no longer has. Walking time and distance
+    // are settle's to recompute when it redraws the line.
+    const visitSeconds = await this.visitSeconds(points);
+    const fields =
+      row.status === 'purchased'
+        ? { pointIds, visitSeconds }
+        : {
+            pointIds,
+            visitSeconds,
+            lockedCount,
+            amountKopecks: walkPrice(lockedCount, await this.pricing()),
+          };
+
+    const updated = (await this.walks.update(id, fields)) ?? row;
+    const settled = await this.settle(updated, points);
+    return this.view(settled.row, points, settled.route);
+  }
+
   /** Keeps the walk for good. Saving an already saved walk changes nothing. */
   async save(userId: string, appId: string, locale: Locale, id: string): Promise<WalkView> {
     const row = await this.owned(userId, appId, id);
@@ -244,10 +288,10 @@ export class WalksService {
         contents.map((p) => p.id),
       ),
     ]);
-    return contents.map((point) => ({
-      ...point,
-      accessible: point.isFree || purchased.has(point.tourId) || unlocked.has(point.id),
-    }));
+    return inWalkOrder(
+      contents,
+      (point) => point.isFree || purchased.has(point.tourId) || unlocked.has(point.id),
+    );
   }
 
   /**
@@ -302,6 +346,23 @@ export class WalksService {
     }
   }
 
+  /**
+   * How long the places themselves take: the narration plus a fixed overhead
+   * each. The same formula the planner used — anything else and an edited
+   * walk would disagree with the time promised when it was built.
+   */
+  private async visitSeconds(points: readonly WalkPoint[]): Promise<number> {
+    const [defaultVisitSeconds, pointOverheadSeconds] = await Promise.all([
+      this.settings.get('walks.defaultVisitSeconds'),
+      this.settings.get('walks.pointOverheadSeconds'),
+    ]);
+    return points.reduce(
+      (total, point) =>
+        total + (point.audio?.durationSeconds ?? defaultVisitSeconds) + pointOverheadSeconds,
+      0,
+    );
+  }
+
   private async pricing() {
     const [mode, perPointKopecks, minKopecks, maxKopecks, tiers] = await Promise.all([
       this.settings.get('walks.pricing.mode'),
@@ -339,6 +400,27 @@ export class WalksService {
 }
 
 /** The points a line was drawn for: their order and their coordinates. */
+/**
+ * Points of a walk in the walk's own order.
+ *
+ * The content of a point carries `position` — its place along the tour it
+ * belongs to. In a walk that number means nothing: the walk is assembled from
+ * points of several tours, two of them can hold the same position, and the
+ * order that matters is the one the route was drawn through. The app sorts by
+ * `position` everywhere — the list, the numbers on the map pins, the player
+ * queue — so it must be the place in this walk.
+ */
+export function inWalkOrder<T extends { position: number }>(
+  contents: readonly T[],
+  accessible: (point: T) => boolean,
+): (T & { accessible: boolean })[] {
+  return contents.map((point, index) => ({
+    ...point,
+    position: index,
+    accessible: accessible(point),
+  }));
+}
+
 function routeKey(
   start: { lat: number; lon: number },
   points: readonly { latitude: number; longitude: number }[],

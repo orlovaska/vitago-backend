@@ -5,6 +5,7 @@ import { type INestApplicationContext } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../app.module';
 import { AppsFacade } from '../modules/apps';
+import { LegalFacade } from '../modules/legal';
 import { MediaFacade } from '../modules/media';
 import { type PointInput, type TourInput, ToursFacade } from '../modules/tours';
 import { loadDotEnvFile } from '../platform/config';
@@ -44,8 +45,20 @@ export class ContentImporter {
   async run(manifest: ContentManifest): Promise<{ appId: string; tours: number; points: number }> {
     const apps = this.app.get(AppsFacade);
     const tours = this.app.get(ToursFacade);
+    const legal = this.app.get(LegalFacade);
 
     const app = await apps.upsert(manifest.app);
+
+    for (const document of manifest.legal) {
+      const { published } = await legal.publishDocument({
+        appId: app.id,
+        type: document.type,
+        publicUrl: document.publicUrl ?? null,
+        fileId: (await this.file(document.file))!,
+        requiresReconsent: document.requiresReconsent,
+      });
+      console.log(`  legal: ${document.type}${published ? '' : ' (unchanged)'}`);
+    }
     const categoryIds = new Map<string, string>();
     for (const category of manifest.categories) {
       categoryIds.set(
@@ -104,18 +117,18 @@ export class ContentImporter {
       audioTranslations.push({
         locale: recording.locale,
         audioFileId: (await this.file(recording.file))!,
-        durationSeconds: recording.durationSeconds ?? null,
         transcript: recording.transcript ?? null,
         subtitles: recording.subtitles ?? null,
       });
     }
+    const imageIds = [];
+    for (const image of point.images) imageIds.push((await this.file(image))!);
     return {
       latitude: point.latitude,
       longitude: point.longitude,
       isFree: point.isFree,
       imageId: await this.file(point.image),
-      markerImageId: await this.file(point.marker),
-      lockedMarkerImageId: await this.file(point.lockedMarker),
+      imageIds,
       categoryIds: point.categories.map((slug) => {
         const id = categoryIds.get(slug);
         if (!id) throw new Error(`Unknown category "${slug}"`);
@@ -126,7 +139,6 @@ export class ContentImporter {
         name: translation.name,
         description: translation.description ?? null,
         address: translation.address ?? null,
-        openingHours: translation.openingHours ?? null,
       })),
       audio: point.audio
         ? {
