@@ -7777,12 +7777,6 @@
                     "null"
                   ]
                 },
-                "lockedMarkerImageUrl": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
                 "categoryIds": {
                   "type": "array",
                   "items": {
@@ -7883,7 +7877,6 @@
                 "imageUrl",
                 "imageUrls",
                 "markerImageUrl",
-                "lockedMarkerImageUrl",
                 "categoryIds",
                 "audio"
               ],
@@ -8004,12 +7997,6 @@
                     "null"
                   ]
                 },
-                "lockedMarkerImageUrl": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
                 "categoryIds": {
                   "type": "array",
                   "items": {
@@ -8120,7 +8107,6 @@
                 "imageUrl",
                 "imageUrls",
                 "markerImageUrl",
-                "lockedMarkerImageUrl",
                 "categoryIds",
                 "audio",
                 "tourId",
@@ -8820,32 +8806,6 @@
               "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
             }
           },
-          "markerImageId": {
-            "default": null,
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid",
-                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "lockedMarkerImageId": {
-            "default": null,
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid",
-                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
           "translations": {
             "minItems": 1,
             "type": "array",
@@ -9047,32 +9007,6 @@
               "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
             }
           },
-          "markerImageId": {
-            "default": null,
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid",
-                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "lockedMarkerImageId": {
-            "default": null,
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid",
-                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
           "translations": {
             "type": "array",
             "minItems": 1,
@@ -9258,8 +9192,6 @@
           "isFree",
           "imageId",
           "imageIds",
-          "markerImageId",
-          "lockedMarkerImageId",
           "translations",
           "categoryIds",
           "audio",
@@ -11835,12 +11767,6 @@
                     "null"
                   ]
                 },
-                "lockedMarkerImageUrl": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
                 "categoryIds": {
                   "type": "array",
                   "items": {
@@ -11943,7 +11869,6 @@
                 "imageUrl",
                 "imageUrls",
                 "markerImageUrl",
-                "lockedMarkerImageUrl",
                 "categoryIds",
                 "audio"
               ],
@@ -12338,12 +12263,6 @@
                           "null"
                         ]
                       },
-                      "lockedMarkerImageUrl": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      },
                       "categoryIds": {
                         "type": "array",
                         "items": {
@@ -12446,7 +12365,6 @@
                       "imageUrl",
                       "imageUrls",
                       "markerImageUrl",
-                      "lockedMarkerImageUrl",
                       "categoryIds",
                       "audio"
                     ],

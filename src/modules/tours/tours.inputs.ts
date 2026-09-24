@@ -84,12 +84,10 @@ export const pointInputSchema = z.object({
   latitude,
   longitude,
   isFree: z.boolean().default(false),
-  /** Cover photo of the point; the carousel is imageIds. */
+  /** Cover photo of the point; the carousel is imageIds. The map marker is drawn from it. */
   imageId: fileId.nullable().default(null),
   /** Extra photos for the carousel on the point page, in display order. */
   imageIds: z.array(fileId).max(20).default([]),
-  markerImageId: fileId.nullable().default(null),
-  lockedMarkerImageId: fileId.nullable().default(null),
   translations: z
     .array(
       z.object({

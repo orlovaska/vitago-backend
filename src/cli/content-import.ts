@@ -129,8 +129,6 @@ export class ContentImporter {
       isFree: point.isFree,
       imageId: await this.file(point.image),
       imageIds,
-      markerImageId: await this.file(point.marker),
-      lockedMarkerImageId: await this.file(point.lockedMarker),
       categoryIds: point.categories.map((slug) => {
         const id = categoryIds.get(slug);
         if (!id) throw new Error(`Unknown category "${slug}"`);

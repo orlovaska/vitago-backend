@@ -222,8 +222,6 @@
           "longitude": 30.3156,
           "isFree": true,
           "image": "photos/dvortsovaya-ploshchad.jpg",
-          "marker": "markers/dvortsovaya-ploshchad.png",
-          "lockedMarker": "markers/dvortsovaya-ploshchad-locked.png",
           "categories": [
             "viewpoints"
           ],
@@ -511,8 +509,6 @@
           "longitude": 30.3146,
           "isFree": true,
           "image": "photos/ermitazh.jpg",
-          "marker": "markers/ermitazh.png",
-          "lockedMarker": "markers/ermitazh-locked.png",
           "categories": [
             "museums"
           ],
@@ -810,8 +806,6 @@
           "longitude": 30.308,
           "isFree": false,
           "image": "photos/dvortsovyy-most.jpg",
-          "marker": "markers/dvortsovyy-most.png",
-          "lockedMarker": "markers/dvortsovyy-most-locked.png",
           "categories": [
             "architecture"
           ],
@@ -1089,8 +1083,6 @@
           "longitude": 30.3065,
           "isFree": false,
           "image": "photos/strelka-vo.jpg",
-          "marker": "markers/strelka-vo.png",
-          "lockedMarker": "markers/strelka-vo-locked.png",
           "categories": [
             "viewpoints"
           ],
@@ -1388,8 +1380,6 @@
           "longitude": 30.3078,
           "isFree": false,
           "image": "photos/rostralnye-kolonny.jpg",
-          "marker": "markers/rostralnye-kolonny.png",
-          "lockedMarker": "markers/rostralnye-kolonny-locked.png",
           "categories": [
             "architecture"
           ],
@@ -1662,8 +1652,6 @@
           "longitude": 30.3167,
           "isFree": false,
           "image": "photos/petropavlovskaya-krepost.jpg",
-          "marker": "markers/petropavlovskaya-krepost.png",
-          "lockedMarker": "markers/petropavlovskaya-krepost-locked.png",
           "categories": [
             "history"
           ],
@@ -2001,8 +1989,6 @@
           "longitude": 30.3268,
           "isFree": false,
           "image": "photos/troitskiy-most.jpg",
-          "marker": "markers/troitskiy-most.png",
-          "lockedMarker": "markers/troitskiy-most-locked.png",
           "categories": [
             "architecture"
           ],
@@ -2285,8 +2271,6 @@
           "longitude": 30.3356,
           "isFree": false,
           "image": "photos/letniy-sad.jpg",
-          "marker": "markers/letniy-sad.png",
-          "lockedMarker": "markers/letniy-sad-locked.png",
           "categories": [
             "parks"
           ],
@@ -2594,8 +2578,6 @@
           "longitude": 30.3288,
           "isFree": false,
           "image": "photos/spas-na-krovi.jpg",
-          "marker": "markers/spas-na-krovi.png",
-          "lockedMarker": "markers/spas-na-krovi-locked.png",
           "categories": [
             "religion"
           ],
@@ -2933,8 +2915,6 @@
           "longitude": 30.3245,
           "isFree": false,
           "image": "photos/kazanskiy-sobor.jpg",
-          "marker": "markers/kazanskiy-sobor.png",
-          "lockedMarker": "markers/kazanskiy-sobor-locked.png",
           "categories": [
             "religion"
           ],
@@ -3257,8 +3237,6 @@
           "longitude": 30.3061,
           "isFree": false,
           "image": "photos/isaakievskiy-sobor.jpg",
-          "marker": "markers/isaakievskiy-sobor.png",
-          "lockedMarker": "markers/isaakievskiy-sobor-locked.png",
           "categories": [
             "religion"
           ],
@@ -3571,8 +3549,6 @@
           "longitude": 30.3086,
           "isFree": false,
           "image": "photos/admiralteystvo.jpg",
-          "marker": "markers/admiralteystvo.png",
-          "lockedMarker": "markers/admiralteystvo-locked.png",
           "categories": [
             "architecture"
           ],
@@ -3923,8 +3899,6 @@
           "longitude": 30.3086,
           "isFree": true,
           "image": "photos/admiralteystvo.jpg",
-          "marker": "markers/admiralteystvo.png",
-          "lockedMarker": "markers/admiralteystvo-locked.png",
           "categories": [
             "architecture"
           ],
@@ -4237,8 +4211,6 @@
           "longitude": 30.3245,
           "isFree": true,
           "image": "photos/kazanskiy-sobor.jpg",
-          "marker": "markers/kazanskiy-sobor.png",
-          "lockedMarker": "markers/kazanskiy-sobor-locked.png",
           "categories": [
             "religion"
           ],
@@ -4561,8 +4533,6 @@
           "longitude": 30.3264,
           "isFree": false,
           "image": "photos/dom-zingera.jpg",
-          "marker": "markers/dom-zingera.png",
-          "lockedMarker": "markers/dom-zingera-locked.png",
           "categories": [
             "architecture"
           ],
@@ -4865,8 +4835,6 @@
           "longitude": 30.3324,
           "isFree": false,
           "image": "photos/gostinyy-dvor.jpg",
-          "marker": "markers/gostinyy-dvor.png",
-          "lockedMarker": "markers/gostinyy-dvor-locked.png",
           "categories": [
             "shopping"
           ],
@@ -5144,8 +5112,6 @@
           "longitude": 30.3369,
           "isFree": false,
           "image": "photos/aleksandrinskiy-teatr.jpg",
-          "marker": "markers/aleksandrinskiy-teatr.png",
-          "lockedMarker": "markers/aleksandrinskiy-teatr-locked.png",
           "categories": [
             "culture"
           ],
@@ -5423,8 +5389,6 @@
           "longitude": 30.3435,
           "isFree": false,
           "image": "photos/anichkov-most.jpg",
-          "marker": "markers/anichkov-most.png",
-          "lockedMarker": "markers/anichkov-most-locked.png",
           "categories": [
             "architecture"
           ],
@@ -5742,8 +5706,6 @@
           "longitude": 30.3609,
           "isFree": false,
           "image": "photos/ploshchad-vosstaniya.jpg",
-          "marker": "markers/ploshchad-vosstaniya.png",
-          "lockedMarker": "markers/ploshchad-vosstaniya-locked.png",
           "categories": [
             "transport"
           ],
@@ -6021,8 +5983,6 @@
           "longitude": 30.3621,
           "isFree": false,
           "image": "photos/moskovskiy-vokzal.jpg",
-          "marker": "markers/moskovskiy-vokzal.png",
-          "lockedMarker": "markers/moskovskiy-vokzal-locked.png",
           "categories": [
             "transport"
           ],
@@ -6363,8 +6323,6 @@
           "longitude": 30.3138,
           "isFree": true,
           "image": "photos/zimniy-dvorets.jpg",
-          "marker": "markers/zimniy-dvorets.png",
-          "lockedMarker": "markers/zimniy-dvorets-locked.png",
           "categories": [
             "architecture"
           ],
@@ -6677,8 +6635,6 @@
           "longitude": 30.3146,
           "isFree": true,
           "image": "photos/ermitazh.jpg",
-          "marker": "markers/ermitazh.png",
-          "lockedMarker": "markers/ermitazh-locked.png",
           "categories": [
             "museums"
           ],
@@ -6976,8 +6932,6 @@
           "longitude": 30.3162,
           "isFree": false,
           "image": "photos/malyy-ermitazh.jpg",
-          "marker": "markers/malyy-ermitazh.png",
-          "lockedMarker": "markers/malyy-ermitazh-locked.png",
           "categories": [
             "museums"
           ],
@@ -7270,8 +7224,6 @@
           "longitude": 30.3268,
           "isFree": false,
           "image": "photos/mramornyy-dvorets.jpg",
-          "marker": "markers/mramornyy-dvorets.png",
-          "lockedMarker": "markers/mramornyy-dvorets-locked.png",
           "categories": [
             "architecture"
           ],
@@ -7534,8 +7486,6 @@
           "longitude": 30.338,
           "isFree": false,
           "image": "photos/mikhaylovskiy-zamok.jpg",
-          "marker": "markers/mikhaylovskiy-zamok.png",
-          "lockedMarker": "markers/mikhaylovskiy-zamok-locked.png",
           "categories": [
             "history"
           ],
@@ -7853,8 +7803,6 @@
           "longitude": 30.3322,
           "isFree": false,
           "image": "photos/russkiy-muzey.jpg",
-          "marker": "markers/russkiy-muzey.png",
-          "lockedMarker": "markers/russkiy-muzey-locked.png",
           "categories": [
             "museums"
           ],
@@ -8142,8 +8090,6 @@
           "longitude": 30.3403,
           "isFree": false,
           "image": "photos/anichkov-dvorets.jpg",
-          "marker": "markers/anichkov-dvorets.png",
-          "lockedMarker": "markers/anichkov-dvorets-locked.png",
           "categories": [
             "architecture"
           ],
@@ -8421,8 +8367,6 @@
           "longitude": 30.3205,
           "isFree": false,
           "image": "photos/stroganovskiy-dvorets.jpg",
-          "marker": "markers/stroganovskiy-dvorets.png",
-          "lockedMarker": "markers/stroganovskiy-dvorets-locked.png",
           "categories": [
             "architecture"
           ],
@@ -8735,8 +8679,6 @@
           "longitude": 30.2989,
           "isFree": false,
           "image": "photos/yusupovskiy-dvorets.jpg",
-          "marker": "markers/yusupovskiy-dvorets.png",
-          "lockedMarker": "markers/yusupovskiy-dvorets-locked.png",
           "categories": [
             "history"
           ],
@@ -9059,8 +9001,6 @@
           "longitude": 30.2932,
           "isFree": false,
           "image": "photos/menshikovskiy-dvorets.jpg",
-          "marker": "markers/menshikovskiy-dvorets.png",
-          "lockedMarker": "markers/menshikovskiy-dvorets-locked.png",
           "categories": [
             "history"
           ],
@@ -9376,8 +9316,6 @@
           "longitude": 30.289,
           "isFree": true,
           "image": "photos/sfinksy.jpg",
-          "marker": "markers/sfinksy.png",
-          "lockedMarker": "markers/sfinksy-locked.png",
           "categories": [
             "memorials"
           ],
@@ -9685,8 +9623,6 @@
           "longitude": 30.2932,
           "isFree": true,
           "image": "photos/menshikovskiy-dvorets.jpg",
-          "marker": "markers/menshikovskiy-dvorets.png",
-          "lockedMarker": "markers/menshikovskiy-dvorets-locked.png",
           "categories": [
             "history"
           ],
@@ -9964,8 +9900,6 @@
           "longitude": 30.304,
           "isFree": false,
           "image": "photos/zoologicheskiy-muzey.jpg",
-          "marker": "markers/zoologicheskiy-muzey.png",
-          "lockedMarker": "markers/zoologicheskiy-muzey-locked.png",
           "categories": [
             "museums"
           ],
@@ -10263,8 +10197,6 @@
           "longitude": 30.3046,
           "isFree": false,
           "image": "photos/kunstkamera.jpg",
-          "marker": "markers/kunstkamera.png",
-          "lockedMarker": "markers/kunstkamera-locked.png",
           "categories": [
             "museums"
           ],
@@ -10527,8 +10459,6 @@
           "longitude": 30.3048,
           "isFree": false,
           "image": "photos/birzha.jpg",
-          "marker": "markers/birzha.png",
-          "lockedMarker": "markers/birzha-locked.png",
           "categories": [
             "architecture"
           ],
@@ -10841,8 +10771,6 @@
           "longitude": 30.3078,
           "isFree": false,
           "image": "photos/rostralnye-kolonny.jpg",
-          "marker": "markers/rostralnye-kolonny.png",
-          "lockedMarker": "markers/rostralnye-kolonny-locked.png",
           "categories": [
             "architecture"
           ],
@@ -11115,8 +11043,6 @@
           "longitude": 30.3167,
           "isFree": false,
           "image": "photos/petropavlovskaya-krepost.jpg",
-          "marker": "markers/petropavlovskaya-krepost.png",
-          "lockedMarker": "markers/petropavlovskaya-krepost-locked.png",
           "categories": [
             "history"
           ],
@@ -11492,8 +11418,6 @@
           "longitude": 30.3318,
           "isFree": true,
           "image": "photos/marsovo-pole.jpg",
-          "marker": "markers/marsovo-pole.png",
-          "lockedMarker": "markers/marsovo-pole-locked.png",
           "categories": [
             "parks"
           ],
@@ -11806,8 +11730,6 @@
           "longitude": 30.3356,
           "isFree": true,
           "image": "photos/letniy-sad.jpg",
-          "marker": "markers/letniy-sad.png",
-          "lockedMarker": "markers/letniy-sad-locked.png",
           "categories": [
             "parks"
           ],
@@ -12115,8 +12037,6 @@
           "longitude": 30.3374,
           "isFree": false,
           "image": "photos/letniy-dvorets.jpg",
-          "marker": "markers/letniy-dvorets.png",
-          "lockedMarker": "markers/letniy-dvorets-locked.png",
           "categories": [
             "history"
           ],
@@ -12379,8 +12299,6 @@
           "longitude": 30.3417,
           "isFree": false,
           "image": "photos/panteleymonovskiy-most.jpg",
-          "marker": "markers/panteleymonovskiy-most.png",
-          "lockedMarker": "markers/panteleymonovskiy-most-locked.png",
           "categories": [
             "architecture"
           ],
@@ -12728,8 +12646,6 @@
           "longitude": 30.338,
           "isFree": false,
           "image": "photos/mikhaylovskiy-zamok.jpg",
-          "marker": "markers/mikhaylovskiy-zamok.png",
-          "lockedMarker": "markers/mikhaylovskiy-zamok-locked.png",
           "categories": [
             "history"
           ],
@@ -13047,8 +12963,6 @@
           "longitude": 30.334,
           "isFree": false,
           "image": "photos/mikhaylovskiy-sad.jpg",
-          "marker": "markers/mikhaylovskiy-sad.png",
-          "lockedMarker": "markers/mikhaylovskiy-sad-locked.png",
           "categories": [
             "parks"
           ],
@@ -13394,8 +13308,6 @@
           "longitude": 30.3288,
           "isFree": true,
           "image": "photos/spas-na-krovi.jpg",
-          "marker": "markers/spas-na-krovi.png",
-          "lockedMarker": "markers/spas-na-krovi-locked.png",
           "categories": [
             "religion"
           ],
@@ -13733,8 +13645,6 @@
           "longitude": 30.3245,
           "isFree": true,
           "image": "photos/kazanskiy-sobor.jpg",
-          "marker": "markers/kazanskiy-sobor.png",
-          "lockedMarker": "markers/kazanskiy-sobor-locked.png",
           "categories": [
             "religion"
           ],
@@ -14057,8 +13967,6 @@
           "longitude": 30.3156,
           "isFree": false,
           "image": "photos/dvortsovaya-ploshchad.jpg",
-          "marker": "markers/dvortsovaya-ploshchad.png",
-          "lockedMarker": "markers/dvortsovaya-ploshchad-locked.png",
           "categories": [
             "viewpoints"
           ],
@@ -14346,8 +14254,6 @@
           "longitude": 30.3086,
           "isFree": false,
           "image": "photos/admiralteystvo.jpg",
-          "marker": "markers/admiralteystvo.png",
-          "lockedMarker": "markers/admiralteystvo-locked.png",
           "categories": [
             "architecture"
           ],
@@ -14660,8 +14566,6 @@
           "longitude": 30.3061,
           "isFree": false,
           "image": "photos/isaakievskiy-sobor.jpg",
-          "marker": "markers/isaakievskiy-sobor.png",
-          "lockedMarker": "markers/isaakievskiy-sobor-locked.png",
           "categories": [
             "religion"
           ],
@@ -15012,8 +14916,6 @@
           "longitude": 30.3167,
           "isFree": true,
           "image": "photos/petropavlovskaya-krepost.jpg",
-          "marker": "markers/petropavlovskaya-krepost.png",
-          "lockedMarker": "markers/petropavlovskaya-krepost-locked.png",
           "categories": [
             "history"
           ],
@@ -15351,8 +15253,6 @@
           "longitude": 30.3164,
           "isFree": true,
           "image": "photos/petropavlovskiy-sobor.jpg",
-          "marker": "markers/petropavlovskiy-sobor.png",
-          "lockedMarker": "markers/petropavlovskiy-sobor-locked.png",
           "categories": [
             "religion"
           ],
@@ -15710,8 +15610,6 @@
           "longitude": 30.3135,
           "isFree": true,
           "image": "photos/artilleriyskiy-muzey.jpg",
-          "marker": "markers/artilleriyskiy-muzey.png",
-          "lockedMarker": "markers/artilleriyskiy-muzey-locked.png",
           "categories": [
             "museums"
           ],
@@ -16009,8 +15907,6 @@
           "longitude": 30.3208,
           "isFree": false,
           "image": "photos/ioannovskiy-most.jpg",
-          "marker": "markers/ioannovskiy-most.png",
-          "lockedMarker": "markers/ioannovskiy-most-locked.png",
           "categories": [
             "architecture"
           ],
@@ -16318,8 +16214,6 @@
           "longitude": 30.3065,
           "isFree": false,
           "image": "photos/strelka-vo.jpg",
-          "marker": "markers/strelka-vo.png",
-          "lockedMarker": "markers/strelka-vo-locked.png",
           "categories": [
             "viewpoints"
           ],
@@ -16617,8 +16511,6 @@
           "longitude": 30.3078,
           "isFree": false,
           "image": "photos/rostralnye-kolonny.jpg",
-          "marker": "markers/rostralnye-kolonny.png",
-          "lockedMarker": "markers/rostralnye-kolonny-locked.png",
           "categories": [
             "architecture"
           ],
@@ -16891,8 +16783,6 @@
           "longitude": 30.3048,
           "isFree": false,
           "image": "photos/birzha.jpg",
-          "marker": "markers/birzha.png",
-          "lockedMarker": "markers/birzha-locked.png",
           "categories": [
             "architecture"
           ],
@@ -17205,8 +17095,6 @@
           "longitude": 30.304,
           "isFree": false,
           "image": "photos/zoologicheskiy-muzey.jpg",
-          "marker": "markers/zoologicheskiy-muzey.png",
-          "lockedMarker": "markers/zoologicheskiy-muzey-locked.png",
           "categories": [
             "museums"
           ],
@@ -17504,8 +17392,6 @@
           "longitude": 30.3046,
           "isFree": false,
           "image": "photos/kunstkamera.jpg",
-          "marker": "markers/kunstkamera.png",
-          "lockedMarker": "markers/kunstkamera-locked.png",
           "categories": [
             "museums"
           ],
@@ -17768,8 +17654,6 @@
           "longitude": 30.2932,
           "isFree": false,
           "image": "photos/menshikovskiy-dvorets.jpg",
-          "marker": "markers/menshikovskiy-dvorets.png",
-          "lockedMarker": "markers/menshikovskiy-dvorets-locked.png",
           "categories": [
             "history"
           ],
@@ -18047,8 +17931,6 @@
           "longitude": 30.29,
           "isFree": false,
           "image": "photos/akademiya-khudozhestv.jpg",
-          "marker": "markers/akademiya-khudozhestv.png",
-          "lockedMarker": "markers/akademiya-khudozhestv-locked.png",
           "categories": [
             "culture"
           ],
@@ -18366,8 +18248,6 @@
           "longitude": 30.289,
           "isFree": false,
           "image": "photos/sfinksy.jpg",
-          "marker": "markers/sfinksy.png",
-          "lockedMarker": "markers/sfinksy-locked.png",
           "categories": [
             "memorials"
           ],
@@ -18675,8 +18555,6 @@
           "longitude": 30.2896,
           "isFree": false,
           "image": "photos/blagoveshchenskiy-most.jpg",
-          "marker": "markers/blagoveshchenskiy-most.png",
-          "lockedMarker": "markers/blagoveshchenskiy-most-locked.png",
           "categories": [
             "architecture"
           ],
@@ -18999,8 +18877,6 @@
           "longitude": 30.29,
           "isFree": false,
           "image": "photos/novaya-gollandiya.jpg",
-          "marker": "markers/novaya-gollandiya.png",
-          "lockedMarker": "markers/novaya-gollandiya-locked.png",
           "categories": [
             "entertainment"
           ],
@@ -19288,8 +19164,6 @@
           "longitude": 30.296,
           "isFree": false,
           "image": "photos/mariinskiy-teatr.jpg",
-          "marker": "markers/mariinskiy-teatr.png",
-          "lockedMarker": "markers/mariinskiy-teatr-locked.png",
           "categories": [
             "culture"
           ],
@@ -19577,8 +19451,6 @@
           "longitude": 30.2988,
           "isFree": false,
           "image": "photos/nikolskiy-sobor.jpg",
-          "marker": "markers/nikolskiy-sobor.png",
-          "lockedMarker": "markers/nikolskiy-sobor-locked.png",
           "categories": [
             "religion"
           ],
@@ -19866,8 +19738,6 @@
           "longitude": 30.2989,
           "isFree": false,
           "image": "photos/yusupovskiy-dvorets.jpg",
-          "marker": "markers/yusupovskiy-dvorets.png",
-          "lockedMarker": "markers/yusupovskiy-dvorets-locked.png",
           "categories": [
             "history"
           ],
@@ -20190,8 +20060,6 @@
           "longitude": 30.304,
           "isFree": false,
           "image": "photos/pochtamtskiy-most.jpg",
-          "marker": "markers/pochtamtskiy-most.png",
-          "lockedMarker": "markers/pochtamtskiy-most-locked.png",
           "categories": [
             "architecture"
           ],
@@ -20459,8 +20327,6 @@
           "longitude": 30.3038,
           "isFree": false,
           "image": "photos/manezh.jpg",
-          "marker": "markers/manezh.png",
-          "lockedMarker": "markers/manezh-locked.png",
           "categories": [
             "culture"
           ],
@@ -20728,8 +20594,6 @@
           "longitude": 30.3022,
           "isFree": false,
           "image": "photos/mednyy-vsadnik.jpg",
-          "marker": "markers/mednyy-vsadnik.png",
-          "lockedMarker": "markers/mednyy-vsadnik-locked.png",
           "categories": [
             "memorials"
           ],
@@ -21042,8 +20906,6 @@
           "longitude": 30.3061,
           "isFree": false,
           "image": "photos/isaakievskiy-sobor.jpg",
-          "marker": "markers/isaakievskiy-sobor.png",
-          "lockedMarker": "markers/isaakievskiy-sobor-locked.png",
           "categories": [
             "religion"
           ],
@@ -21356,8 +21218,6 @@
           "longitude": 30.3086,
           "isFree": false,
           "image": "photos/admiralteystvo.jpg",
-          "marker": "markers/admiralteystvo.png",
-          "lockedMarker": "markers/admiralteystvo-locked.png",
           "categories": [
             "architecture"
           ],
@@ -21670,8 +21530,6 @@
           "longitude": 30.3105,
           "isFree": false,
           "image": "photos/aleksandrovskiy-sad.jpg",
-          "marker": "markers/aleksandrovskiy-sad.png",
-          "lockedMarker": "markers/aleksandrovskiy-sad-locked.png",
           "categories": [
             "parks"
           ],
@@ -21939,8 +21797,6 @@
           "longitude": 30.308,
           "isFree": false,
           "image": "photos/dvortsovyy-most.jpg",
-          "marker": "markers/dvortsovyy-most.png",
-          "lockedMarker": "markers/dvortsovyy-most-locked.png",
           "categories": [
             "architecture"
           ],
@@ -22218,8 +22074,6 @@
           "longitude": 30.3138,
           "isFree": false,
           "image": "photos/zimniy-dvorets.jpg",
-          "marker": "markers/zimniy-dvorets.png",
-          "lockedMarker": "markers/zimniy-dvorets-locked.png",
           "categories": [
             "architecture"
           ],
@@ -22532,8 +22386,6 @@
           "longitude": 30.3146,
           "isFree": false,
           "image": "photos/ermitazh.jpg",
-          "marker": "markers/ermitazh.png",
-          "lockedMarker": "markers/ermitazh-locked.png",
           "categories": [
             "museums"
           ],
@@ -22831,8 +22683,6 @@
           "longitude": 30.3162,
           "isFree": false,
           "image": "photos/malyy-ermitazh.jpg",
-          "marker": "markers/malyy-ermitazh.png",
-          "lockedMarker": "markers/malyy-ermitazh-locked.png",
           "categories": [
             "museums"
           ],
@@ -23125,8 +22975,6 @@
           "longitude": 30.3156,
           "isFree": false,
           "image": "photos/dvortsovaya-ploshchad.jpg",
-          "marker": "markers/dvortsovaya-ploshchad.png",
-          "lockedMarker": "markers/dvortsovaya-ploshchad-locked.png",
           "categories": [
             "viewpoints"
           ],
@@ -23414,8 +23262,6 @@
           "longitude": 30.3185,
           "isFree": false,
           "image": "photos/dvortsovaya-naberezhnaya.jpg",
-          "marker": "markers/dvortsovaya-naberezhnaya.png",
-          "lockedMarker": "markers/dvortsovaya-naberezhnaya-locked.png",
           "categories": [
             "viewpoints"
           ],
@@ -23693,8 +23539,6 @@
           "longitude": 30.3268,
           "isFree": false,
           "image": "photos/mramornyy-dvorets.jpg",
-          "marker": "markers/mramornyy-dvorets.png",
-          "lockedMarker": "markers/mramornyy-dvorets-locked.png",
           "categories": [
             "architecture"
           ],
@@ -23957,8 +23801,6 @@
           "longitude": 30.3268,
           "isFree": false,
           "image": "photos/troitskiy-most.jpg",
-          "marker": "markers/troitskiy-most.png",
-          "lockedMarker": "markers/troitskiy-most-locked.png",
           "categories": [
             "architecture"
           ],
@@ -24241,8 +24083,6 @@
           "longitude": 30.3318,
           "isFree": false,
           "image": "photos/marsovo-pole.jpg",
-          "marker": "markers/marsovo-pole.png",
-          "lockedMarker": "markers/marsovo-pole-locked.png",
           "categories": [
             "parks"
           ],
@@ -24555,8 +24395,6 @@
           "longitude": 30.3356,
           "isFree": false,
           "image": "photos/letniy-sad.jpg",
-          "marker": "markers/letniy-sad.png",
-          "lockedMarker": "markers/letniy-sad-locked.png",
           "categories": [
             "parks"
           ],
@@ -24864,8 +24702,6 @@
           "longitude": 30.3374,
           "isFree": false,
           "image": "photos/letniy-dvorets.jpg",
-          "marker": "markers/letniy-dvorets.png",
-          "lockedMarker": "markers/letniy-dvorets-locked.png",
           "categories": [
             "history"
           ],
@@ -25128,8 +24964,6 @@
           "longitude": 30.3417,
           "isFree": false,
           "image": "photos/panteleymonovskiy-most.jpg",
-          "marker": "markers/panteleymonovskiy-most.png",
-          "lockedMarker": "markers/panteleymonovskiy-most-locked.png",
           "categories": [
             "architecture"
           ],
@@ -25477,8 +25311,6 @@
           "longitude": 30.338,
           "isFree": false,
           "image": "photos/mikhaylovskiy-zamok.jpg",
-          "marker": "markers/mikhaylovskiy-zamok.png",
-          "lockedMarker": "markers/mikhaylovskiy-zamok-locked.png",
           "categories": [
             "history"
           ],
@@ -25796,8 +25628,6 @@
           "longitude": 30.334,
           "isFree": false,
           "image": "photos/mikhaylovskiy-sad.jpg",
-          "marker": "markers/mikhaylovskiy-sad.png",
-          "lockedMarker": "markers/mikhaylovskiy-sad-locked.png",
           "categories": [
             "parks"
           ],
@@ -26105,8 +25935,6 @@
           "longitude": 30.3288,
           "isFree": false,
           "image": "photos/spas-na-krovi.jpg",
-          "marker": "markers/spas-na-krovi.png",
-          "lockedMarker": "markers/spas-na-krovi-locked.png",
           "categories": [
             "religion"
           ],
@@ -26444,8 +26272,6 @@
           "longitude": 30.3322,
           "isFree": false,
           "image": "photos/russkiy-muzey.jpg",
-          "marker": "markers/russkiy-muzey.png",
-          "lockedMarker": "markers/russkiy-muzey-locked.png",
           "categories": [
             "museums"
           ],
@@ -26733,8 +26559,6 @@
           "longitude": 30.331,
           "isFree": false,
           "image": "photos/mikhaylovskiy-dvorets.jpg",
-          "marker": "markers/mikhaylovskiy-dvorets.png",
-          "lockedMarker": "markers/mikhaylovskiy-dvorets-locked.png",
           "categories": [
             "architecture"
           ],
@@ -27032,8 +26856,6 @@
           "longitude": 30.33,
           "isFree": false,
           "image": "photos/mikhaylovskiy-teatr.jpg",
-          "marker": "markers/mikhaylovskiy-teatr.png",
-          "lockedMarker": "markers/mikhaylovskiy-teatr-locked.png",
           "categories": [
             "culture"
           ],
@@ -27341,8 +27163,6 @@
           "longitude": 30.3318,
           "isFree": false,
           "image": "photos/ploshchad-iskusstv.jpg",
-          "marker": "markers/ploshchad-iskusstv.png",
-          "lockedMarker": "markers/ploshchad-iskusstv-locked.png",
           "categories": [
             "culture"
           ],
@@ -27645,8 +27465,6 @@
           "longitude": 30.3264,
           "isFree": false,
           "image": "photos/dom-zingera.jpg",
-          "marker": "markers/dom-zingera.png",
-          "lockedMarker": "markers/dom-zingera-locked.png",
           "categories": [
             "architecture"
           ],
@@ -27949,8 +27767,6 @@
           "longitude": 30.3245,
           "isFree": false,
           "image": "photos/kazanskiy-sobor.jpg",
-          "marker": "markers/kazanskiy-sobor.png",
-          "lockedMarker": "markers/kazanskiy-sobor-locked.png",
           "categories": [
             "religion"
           ],
@@ -28273,8 +28089,6 @@
           "longitude": 30.3205,
           "isFree": false,
           "image": "photos/stroganovskiy-dvorets.jpg",
-          "marker": "markers/stroganovskiy-dvorets.png",
-          "lockedMarker": "markers/stroganovskiy-dvorets-locked.png",
           "categories": [
             "architecture"
           ],
@@ -28587,8 +28401,6 @@
           "longitude": 30.32,
           "isFree": false,
           "image": "photos/sennaya-ploshchad.jpg",
-          "marker": "markers/sennaya-ploshchad.png",
-          "lockedMarker": "markers/sennaya-ploshchad-locked.png",
           "categories": [
             "transport"
           ],
@@ -28851,8 +28663,6 @@
           "longitude": 30.332,
           "isFree": false,
           "image": "photos/apraksin-dvor.jpg",
-          "marker": "markers/apraksin-dvor.png",
-          "lockedMarker": "markers/apraksin-dvor-locked.png",
           "categories": [
             "shopping"
           ],
@@ -29135,8 +28945,6 @@
           "longitude": 30.3324,
           "isFree": false,
           "image": "photos/gostinyy-dvor.jpg",
-          "marker": "markers/gostinyy-dvor.png",
-          "lockedMarker": "markers/gostinyy-dvor-locked.png",
           "categories": [
             "shopping"
           ],
@@ -29414,8 +29222,6 @@
           "longitude": 30.3355,
           "isFree": false,
           "image": "photos/publichnaya-biblioteka.jpg",
-          "marker": "markers/publichnaya-biblioteka.png",
-          "lockedMarker": "markers/publichnaya-biblioteka-locked.png",
           "categories": [
             "culture"
           ],
@@ -29678,8 +29484,6 @@
           "longitude": 30.3369,
           "isFree": false,
           "image": "photos/aleksandrinskiy-teatr.jpg",
-          "marker": "markers/aleksandrinskiy-teatr.png",
-          "lockedMarker": "markers/aleksandrinskiy-teatr-locked.png",
           "categories": [
             "culture"
           ],
@@ -29957,8 +29761,6 @@
           "longitude": 30.3403,
           "isFree": false,
           "image": "photos/anichkov-dvorets.jpg",
-          "marker": "markers/anichkov-dvorets.png",
-          "lockedMarker": "markers/anichkov-dvorets-locked.png",
           "categories": [
             "architecture"
           ],
@@ -30236,8 +30038,6 @@
           "longitude": 30.3435,
           "isFree": false,
           "image": "photos/anichkov-most.jpg",
-          "marker": "markers/anichkov-most.png",
-          "lockedMarker": "markers/anichkov-most-locked.png",
           "categories": [
             "architecture"
           ],
@@ -30555,8 +30355,6 @@
           "longitude": 30.345,
           "isFree": false,
           "image": "photos/dvorets-beloselskikh.jpg",
-          "marker": "markers/dvorets-beloselskikh.png",
-          "lockedMarker": "markers/dvorets-beloselskikh-locked.png",
           "categories": [
             "architecture"
           ],
@@ -30859,8 +30657,6 @@
           "longitude": 30.3438,
           "isFree": false,
           "image": "photos/pyat-uglov.jpg",
-          "marker": "markers/pyat-uglov.png",
-          "lockedMarker": "markers/pyat-uglov-locked.png",
           "categories": [
             "viewpoints"
           ],
@@ -31123,8 +30919,6 @@
           "longitude": 30.3475,
           "isFree": false,
           "image": "photos/vladimirskiy-sobor.jpg",
-          "marker": "markers/vladimirskiy-sobor.png",
-          "lockedMarker": "markers/vladimirskiy-sobor-locked.png",
           "categories": [
             "religion"
           ],
@@ -31402,8 +31196,6 @@
           "longitude": 30.3487,
           "isFree": false,
           "image": "photos/muzey-dostoevskogo.jpg",
-          "marker": "markers/muzey-dostoevskogo.png",
-          "lockedMarker": "markers/muzey-dostoevskogo-locked.png",
           "categories": [
             "museums"
           ],
@@ -31731,8 +31523,6 @@
           "longitude": 30.3609,
           "isFree": false,
           "image": "photos/ploshchad-vosstaniya.jpg",
-          "marker": "markers/ploshchad-vosstaniya.png",
-          "lockedMarker": "markers/ploshchad-vosstaniya-locked.png",
           "categories": [
             "transport"
           ],
@@ -32010,8 +31800,6 @@
           "longitude": 30.3621,
           "isFree": false,
           "image": "photos/moskovskiy-vokzal.jpg",
-          "marker": "markers/moskovskiy-vokzal.png",
-          "lockedMarker": "markers/moskovskiy-vokzal-locked.png",
           "categories": [
             "transport"
           ],
@@ -32314,8 +32102,6 @@
           "longitude": 30.363,
           "isFree": false,
           "image": "photos/ligovskiy-prospekt.jpg",
-          "marker": "markers/ligovskiy-prospekt.png",
-          "lockedMarker": "markers/ligovskiy-prospekt-locked.png",
           "categories": [
             "transport"
           ],
@@ -32583,8 +32369,6 @@
           "longitude": 30.37,
           "isFree": false,
           "image": "photos/obvodnyy-kanal.jpg",
-          "marker": "markers/obvodnyy-kanal.png",
-          "lockedMarker": "markers/obvodnyy-kanal-locked.png",
           "categories": [
             "viewpoints"
           ],
@@ -32857,8 +32641,6 @@
           "longitude": 30.3855,
           "isFree": false,
           "image": "photos/ploshchad-nevskogo.jpg",
-          "marker": "markers/ploshchad-nevskogo.png",
-          "lockedMarker": "markers/ploshchad-nevskogo-locked.png",
           "categories": [
             "viewpoints"
           ],
@@ -33136,8 +32918,6 @@
           "longitude": 30.3878,
           "isFree": false,
           "image": "photos/lavra.jpg",
-          "marker": "markers/lavra.png",
-          "lockedMarker": "markers/lavra-locked.png",
           "categories": [
             "religion"
           ],

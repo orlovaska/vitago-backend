@@ -54,7 +54,8 @@ describe('content import', () => {
       select (select count(*)::int from tours.tours) as tours,
              (select count(*)::int from tours.points) as points,
              (select count(*)::int from media.files) as files`;
-    expect(counts).toEqual({ tours: 1, points: 2, files: 2 });
+    // photo.png, narration.mp3 and the marker drawn from the photo.
+    expect(counts).toEqual({ tours: 1, points: 2, files: 3 });
     expect((await tours().expect(200)).body.items).toHaveLength(1);
   });
 });

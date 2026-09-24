@@ -6,6 +6,7 @@ import { FileReferences } from './file-references';
 import { ToursAdminController } from './http/tours-admin.controller';
 import { ToursController } from './http/tours.controller';
 import { CategoriesService } from './services/categories.service';
+import { MarkersService } from './services/markers.service';
 import { NearbyPointsService } from './services/nearby-points.service';
 import { PointsAdminService } from './services/points-admin.service';
 import { TourEditorViews } from './services/tour-editor-views';
@@ -15,6 +16,7 @@ import { TourReader } from './services/tour-reader.service';
 import { ToursAdminService } from './services/tours-admin.service';
 import { WalkPointsService } from './services/walk-points.service';
 import { CategoriesStore } from './stores/categories.store';
+import { MarkersStore } from './stores/markers.store';
 import { PointsStore } from './stores/points.store';
 import { ToursStore } from './stores/tours.store';
 import { ToursFacade } from './tours.facade';
@@ -27,9 +29,11 @@ import { ToursFacade } from './tours.facade';
     ToursStore,
     PointsStore,
     CategoriesStore,
+    MarkersStore,
     FileReferences,
     ToursAdminService,
     PointsAdminService,
+    MarkersService,
     CategoriesService,
     NearbyPointsService,
     RouteLineService,

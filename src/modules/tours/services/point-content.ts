@@ -17,8 +17,8 @@ export interface PointContent {
   imageUrl: string | null;
   /** Carousel of the point page, in display order; the cover is not in it. */
   imageUrls: string[];
+  /** Marker drawn by the server from the cover photo; the same for open and closed points. */
   markerImageUrl: string | null;
-  lockedMarkerImageUrl: string | null;
   categoryIds: string[];
   /** Null for a point without narration. */
   audio: {
@@ -69,8 +69,7 @@ export function pointContent(
       .filter((image) => image.pointId === point.id)
       .map((image) => urlOf(files, image.fileId))
       .filter((url): url is string => url != null),
-    markerImageUrl: urlOf(files, point.markerImageId),
-    lockedMarkerImageUrl: urlOf(files, point.lockedMarkerImageId),
+    markerImageUrl: urlOf(files, point.markerId),
     categoryIds: details.categoryLinks
       .filter((link) => link.pointId === point.id)
       .map((link) => link.categoryId),
@@ -98,7 +97,7 @@ export function audioSeconds(
 /** The media ids a set of points needs resolved into URLs. */
 export function pointFileIds(rows: PointRow[], details: PointDetails): (string | null)[] {
   return [
-    ...rows.flatMap((point) => [point.imageId, point.markerImageId, point.lockedMarkerImageId]),
+    ...rows.flatMap((point) => [point.imageId, point.markerId]),
     ...details.images.map((image) => image.fileId),
     ...details.audioTranslations.map((audio) => audio.audioFileId),
   ];

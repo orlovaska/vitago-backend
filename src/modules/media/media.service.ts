@@ -1,11 +1,14 @@
-import { createHash } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { createReadStream } from 'node:fs';
 import { rm, stat } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join, parse } from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { Injectable } from '@nestjs/common';
 import { isUniqueViolation } from '../../platform/database';
 import { AppError } from '../../platform/http';
 import { audioDurationSeconds } from './audio-duration';
+import { renderMarker } from './marker-image';
 import { ALLOWED_MEDIA_TYPES, isAllowedMediaType } from './media-types';
 import { type FileRow, type ListFilesQuery, MediaStore } from './media.store';
 import { FileStorage } from './storage/file-storage';
@@ -75,6 +78,33 @@ export class MediaService {
     } finally {
       await rm(tempPath, { force: true });
     }
+  }
+
+  /**
+   * Draws the map marker of a photo and stores it like any other file. The
+   * drawing is deterministic, so the same photo always yields the same file.
+   */
+  async markerFrom(sourceId: string): Promise<FileRow> {
+    const source = await this.get(sourceId);
+    if (!source.mimeType.startsWith('image/')) {
+      throw AppError.badRequest('not_an_image', `File ${sourceId} is not an image`);
+    }
+    const tempPath = join(tmpdir(), `vitago-marker-${randomUUID()}.png`);
+    try {
+      await renderMarker(this.localPath(source), tempPath);
+    } catch (error) {
+      await rm(tempPath, { force: true });
+      const reason = error instanceof Error ? error.message : String(error);
+      throw AppError.badRequest(
+        'image_unreadable',
+        `File ${sourceId} cannot be read as an image: ${reason}`,
+      );
+    }
+    return this.ingest({
+      tempPath,
+      originalName: `marker-${parse(source.originalName).name}.png`,
+      mimeType: 'image/png',
+    });
   }
 
   async get(id: string): Promise<FileRow> {

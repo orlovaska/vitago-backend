@@ -169,6 +169,20 @@
       "when": 1790260531929,
       "tag": "0023_admin_roles",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1790264481929,
+      "tag": "0024_point_markers",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1790264491438,
+      "tag": "0025_drop_hand_made_markers",
+      "breakpoints": true
     }
   ]
 }

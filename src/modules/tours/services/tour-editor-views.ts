@@ -90,8 +90,6 @@ export class TourEditorViews {
       isFree: point.isFree,
       imageId: point.imageId,
       imageIds: details.images.map((image) => image.fileId),
-      markerImageId: point.markerImageId,
-      lockedMarkerImageId: point.lockedMarkerImageId,
       translations: details.translations.map(({ pointId: _pointId, ...rest }) => ({
         ...rest,
         locale: rest.locale as Locale,

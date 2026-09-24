@@ -18,8 +18,6 @@ const pointSchema = z.object({
   image: file.optional(),
   /** Extra photos for the carousel on the point page, in display order. */
   images: z.array(file).default([]),
-  marker: file.optional(),
-  lockedMarker: file.optional(),
   /** Category slugs. */
   categories: z.array(z.string()).default([]),
   translations: z.array(
