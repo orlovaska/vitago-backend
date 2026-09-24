@@ -1,12 +1,16 @@
 import request from 'supertest';
-import { AuthFacade } from '../../src/modules/auth';
+import { AuthFacade, type SystemRole } from '../../src/modules/auth';
 import { type TestApp } from './test-app';
 
 /** Creates an administrator (if needed) and returns a Bearer header value. */
-export async function adminBearer(t: TestApp, login = 'test-admin'): Promise<string> {
+export async function adminBearer(
+  t: TestApp,
+  login = 'test-admin',
+  role: SystemRole = 'superadmin',
+): Promise<string> {
   const password = 'test-admin-password-123';
   try {
-    await t.app.get(AuthFacade).createAdmin(login, password);
+    await t.app.get(AuthFacade).createAdmin(login, { role, password });
   } catch {
     // Already created earlier in this test file.
   }

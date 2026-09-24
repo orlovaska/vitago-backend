@@ -17,7 +17,7 @@ import {
 } from './payments.dto';
 
 @ApiTags(ADMIN_TAG)
-@AdminAuth()
+@AdminAuth('payments')
 @Controller('admin')
 export class PaymentsAdminController {
   constructor(private readonly payments: PaymentsAdminService) {}

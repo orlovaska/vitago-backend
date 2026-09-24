@@ -5,7 +5,7 @@ import { APP_TAG, AppError } from '../../../platform/http';
 import { CurrentUserId, UserAuth } from '../guards';
 import { DeviceProvider } from '../providers/device.provider';
 import { SignInService } from '../sign-in.service';
-import { type UserRow, UsersStore } from '../users.store';
+import { type UserRow, UsersStore } from '../stores/users.store';
 import { DeviceSignInDto, DeviceSignInResponseDto, UserDto } from './auth.dto';
 
 const toUserDto = (user: UserRow) => ({

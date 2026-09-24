@@ -15,7 +15,9 @@ npm run db:migrate     # apply migrations (built output; the API never migrates 
 npm run openapi:export # regenerate openapi.json and openapi.app.json (after build); commit both with
                        # every API change. The second file is the `app`-tagged half, and the mobile
                        # app generates its types from it — the admin contract is not its business.
-npm run admin -- create <login>   # create an administrator (prints a generated password)
+npm run admin -- create <login> [role]  # create an administrator, superadmin by default (prints a generated password)
+npm run admin -- reset <login>          # generate a new password; ends the admin's sessions
+npm run admin -- role <login> <role>    # give a system role: superadmin | promoter | content_manager
 ```
 
 ## Architecture: modular monolith
@@ -54,6 +56,7 @@ Rules, enforced by `npm run arch` (dependency-cruiser), ESLint and `test/arch`:
 - Configuration: add every variable to `src/platform/config/env.schema.ts`; never read `process.env` elsewhere. Secrets go into `SECRET_KEYS` so production refuses weak values.
 - Transactions: stores take `@InjectDb() private readonly txHost: DbTxHost` and use `txHost.tx`. Wrap multi-step writes in `@Transactional()`; nested facade calls join it automatically.
 - Ids: `primaryId()` from `platform/database` (Postgres 18 `uuidv7()`). Money: integer kopecks.
+- Admin routes: every `*-admin.controller.ts` names its permission, `@AdminAuth('content')`; `@AdminPermissions(...)` overrides it on one route. The catalog and the system roles live in `modules/auth/admin-permissions.ts` (a new permission needs a migration: it is a Postgres enum). `test/arch/admin-permissions.test.ts` rejects a bare `@AdminAuth()` outside `admin/auth/me`.
 - HTTP: DTOs are zod schemas via `createZodDto`; errors are problem+json — throw `AppError` with a stable `code`. PATCH bodies use `patchSchema()`: zod 4 fills defaults even inside `.partial()`.
 - App-specific routes carry `@RequiresApp()` (X-Bundle-Id, 400 when missing or unknown) and read `@CurrentApp()`. Content language comes from `@RequestLocale()`.
 - Runtime-tunable client behaviour belongs in `modules/settings/settings.catalog.ts`, never in the app.

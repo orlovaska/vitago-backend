@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query } from
 import { ApiTags } from '@nestjs/swagger';
 import { ZodResponse } from 'nestjs-zod';
 import { ADMIN_TAG, IdParamDto } from '../../../platform/http';
-import { AdminAuth } from '../../auth';
+import { AdminAuth, AdminPermissions } from '../../auth';
 import { CategoriesService } from '../services/categories.service';
 import { PointsAdminService } from '../services/points-admin.service';
 import {
@@ -35,7 +35,7 @@ const toTourEditor = (view: TourEditorView) => ({
 const toPointEditor = (view: PointEditorView) => view;
 
 @ApiTags(ADMIN_TAG)
-@AdminAuth()
+@AdminAuth('content')
 @Controller('admin')
 export class ToursAdminController {
   constructor(
@@ -48,6 +48,7 @@ export class ToursAdminController {
   // ---- Tours ----
 
   @Get('tours')
+  @AdminPermissions('content', 'promotions')
   @ZodResponse({ status: 200, type: AdminTourListDto })
   async listTours(@Query() { appId }: ListToursQueryDto) {
     const tours = await this.views.list(appId);
@@ -71,6 +72,7 @@ export class ToursAdminController {
   }
 
   @Get('tours/:id')
+  @AdminPermissions('content', 'promotions')
   @ZodResponse({ status: 200, type: TourEditorDto })
   async getTour(@Param() { id }: IdParamDto) {
     return toTourEditor(await this.views.tour(id));

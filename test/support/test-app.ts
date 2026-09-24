@@ -26,6 +26,9 @@ export interface TestApp {
 
 class Rollback extends Error {}
 
+/** Tables whose rows migrations seed; the API needs them and cannot recreate them. */
+const SEEDED_TABLES = ['auth.admin_roles'];
+
 export async function createTestApp(
   options: { env?: Record<string, string> } = {},
 ): Promise<TestApp> {
@@ -55,12 +58,15 @@ export async function createTestApp(
         select format('%I.%I', table_schema, table_name) as name
         from information_schema.tables
         where table_type = 'BASE TABLE'
-          and table_schema not in ('pg_catalog', 'information_schema', 'drizzle', 'public')`;
+          and table_schema not in ('pg_catalog', 'information_schema', 'drizzle', 'public')
+          and format('%I.%I', table_schema, table_name) not in ${sql(SEEDED_TABLES)}`;
       if (tables.length > 0) {
         await sql.unsafe(
           `truncate ${tables.map((table) => table.name).join(', ')} restart identity cascade`,
         );
       }
+      // Keep the rows migrations seeded, drop the ones tests added.
+      await sql`delete from auth.admin_roles where system_code is null`;
     },
     async inRollback<T>(fn: () => Promise<T>): Promise<T> {
       let result: T | undefined;

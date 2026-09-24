@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { type DbTxHost, InjectDb, isUniqueViolation } from '../../platform/database';
 import { type AuthProvider } from './providers/auth-provider';
 import { type IssuedToken, TokensService } from './tokens.service';
-import { type UserRow, UsersStore } from './users.store';
+import { type UserRow, UsersStore } from './stores/users.store';
 
 export interface SignInResult extends IssuedToken {
   user: UserRow;

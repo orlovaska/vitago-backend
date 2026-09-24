@@ -1,9 +1,9 @@
 import { randomInt } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { and, eq } from 'drizzle-orm';
-import { type DbTxHost, InjectDb } from '../../platform/database';
-import { userIdentities, users } from './auth.tables';
-import { type IdentityProviderName } from './providers/auth-provider';
+import { type DbTxHost, InjectDb } from '../../../platform/database';
+import { userIdentities, users } from '../auth.tables';
+import { type IdentityProviderName } from '../providers/auth-provider';
 
 export type UserRow = typeof users.$inferSelect;
 

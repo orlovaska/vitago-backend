@@ -89,7 +89,7 @@ describe('auth', () => {
     const password = 'correct horse battery staple';
 
     beforeEach(async () => {
-      await t.app.get(AuthFacade).createAdmin(login, password);
+      await t.app.get(AuthFacade).createAdmin(login, { password });
     });
 
     it('issues an admin token that opens admin routes only', async () => {
@@ -102,7 +102,11 @@ describe('auth', () => {
       await request(t.server)
         .get('/v1/admin/auth/me')
         .set('authorization', `Bearer ${token}`)
-        .expect(200, { id: response.body.admin.id, login });
+        .expect(200, response.body.admin);
+      expect(response.body.admin).toMatchObject({
+        login,
+        role: { systemCode: 'superadmin', permissions: expect.arrayContaining(['admins']) },
+      });
       await request(t.server)
         .get('/v1/auth/me')
         .set('authorization', `Bearer ${token}`)

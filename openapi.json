@@ -150,6 +150,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -186,6 +189,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -226,6 +232,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -275,6 +284,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -305,6 +317,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -345,6 +360,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -394,6 +412,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -436,6 +457,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -556,6 +580,333 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/admins": {
+      "get": {
+        "operationId": "AuthAdminController_listAdmins",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAccountListDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      },
+      "post": {
+        "operationId": "AuthAdminController_createAdmin",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatedAdminDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/admins/{id}": {
+      "patch": {
+        "operationId": "AuthAdminController_updateAdmin",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAccountDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/admins/{id}/reset-password": {
+      "post": {
+        "operationId": "AuthAdminController_resetPassword",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneratedPasswordDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/roles": {
+      "get": {
+        "operationId": "AuthAdminController_listRoles",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleListDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      },
+      "post": {
+        "operationId": "AuthAdminController_createRole",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/roles/{id}": {
+      "patch": {
+        "operationId": "AuthAdminController_updateRole",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleDto_Output"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "admin": []
+          }
+        ],
+        "tags": [
+          "admin"
+        ]
+      },
+      "delete": {
+        "operationId": "AuthAdminController_removeRole",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -723,6 +1074,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -759,6 +1113,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -803,6 +1160,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -833,6 +1193,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -883,6 +1246,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -957,6 +1323,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1014,6 +1383,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1054,6 +1426,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1085,6 +1460,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1113,6 +1491,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1156,6 +1537,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1185,6 +1569,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1414,6 +1801,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1450,6 +1840,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1490,6 +1883,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1539,6 +1935,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1569,6 +1968,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1620,6 +2022,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1663,6 +2068,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1702,6 +2110,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1751,6 +2162,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1781,6 +2195,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1832,6 +2249,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1863,6 +2283,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -1891,6 +2314,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1928,6 +2354,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -1979,6 +2408,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -2009,6 +2441,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -2049,6 +2484,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -2077,6 +2515,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -2609,6 +3050,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -2649,6 +3093,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -2688,6 +3135,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -2885,6 +3335,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -2921,6 +3374,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -2972,6 +3428,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -3002,6 +3461,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -3042,6 +3504,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -3369,6 +3834,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -3408,6 +3876,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -3449,6 +3920,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -3488,6 +3962,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -3520,6 +3997,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -3937,6 +4417,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -3968,6 +4451,9 @@
             "description": "Log file, one JSON object per line"
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -4045,6 +4531,9 @@
           },
           "401": {
             "description": ""
+          },
+          "403": {
+            "description": ""
           }
         },
         "security": [
@@ -4073,6 +4562,9 @@
             }
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -4103,6 +4595,9 @@
             "description": ""
           },
           "401": {
+            "description": ""
+          },
+          "403": {
             "description": ""
           }
         },
@@ -5681,11 +6176,63 @@
               },
               "login": {
                 "type": "string"
+              },
+              "role": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "systemCode": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "superadmin",
+                          "promoter",
+                          "content_manager"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "permissions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "content",
+                        "reviews",
+                        "promotions",
+                        "payments",
+                        "settings",
+                        "logs",
+                        "server",
+                        "admins"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "systemCode",
+                  "permissions"
+                ],
+                "additionalProperties": false
               }
             },
             "required": [
               "id",
-              "login"
+              "login",
+              "role"
             ],
             "additionalProperties": false
           }
@@ -5707,13 +6254,587 @@
           },
           "login": {
             "type": "string"
+          },
+          "role": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "name": {
+                "type": "string"
+              },
+              "systemCode": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "superadmin",
+                      "promoter",
+                      "content_manager"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "permissions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "content",
+                    "reviews",
+                    "promotions",
+                    "payments",
+                    "settings",
+                    "logs",
+                    "server",
+                    "admins"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "systemCode",
+              "permissions"
+            ],
+            "additionalProperties": false
           }
         },
         "required": [
           "id",
-          "login"
+          "login",
+          "role"
         ],
         "additionalProperties": false
+      },
+      "AdminAccountListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "login": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "systemCode": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "superadmin",
+                            "promoter",
+                            "content_manager"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "permissions": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "content",
+                          "reviews",
+                          "promotions",
+                          "payments",
+                          "settings",
+                          "logs",
+                          "server",
+                          "admins"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "systemCode",
+                    "permissions"
+                  ],
+                  "additionalProperties": false
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "disabledAt": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "login",
+                "role",
+                "createdAt",
+                "disabledAt"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "CreateAdminDto": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[A-Za-z0-9._@-]+$"
+          },
+          "roleId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "login",
+          "roleId"
+        ]
+      },
+      "CreatedAdminDto_Output": {
+        "type": "object",
+        "properties": {
+          "admin": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "login": {
+                "type": "string"
+              },
+              "role": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "systemCode": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "superadmin",
+                          "promoter",
+                          "content_manager"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "permissions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "content",
+                        "reviews",
+                        "promotions",
+                        "payments",
+                        "settings",
+                        "logs",
+                        "server",
+                        "admins"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "systemCode",
+                  "permissions"
+                ],
+                "additionalProperties": false
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              "disabledAt": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "login",
+              "role",
+              "createdAt",
+              "disabledAt"
+            ],
+            "additionalProperties": false
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "admin",
+          "password"
+        ],
+        "additionalProperties": false
+      },
+      "UpdateAdminDto": {
+        "type": "object",
+        "properties": {
+          "roleId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "disabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AdminAccountDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "login": {
+            "type": "string"
+          },
+          "role": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "name": {
+                "type": "string"
+              },
+              "systemCode": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "superadmin",
+                      "promoter",
+                      "content_manager"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "permissions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "content",
+                    "reviews",
+                    "promotions",
+                    "payments",
+                    "settings",
+                    "logs",
+                    "server",
+                    "admins"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "systemCode",
+              "permissions"
+            ],
+            "additionalProperties": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "disabledAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "login",
+          "role",
+          "createdAt",
+          "disabledAt"
+        ],
+        "additionalProperties": false
+      },
+      "GeneratedPasswordDto_Output": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "password"
+        ],
+        "additionalProperties": false
+      },
+      "RoleListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "systemCode": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "superadmin",
+                        "promoter",
+                        "content_manager"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "permissions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "content",
+                      "reviews",
+                      "promotions",
+                      "payments",
+                      "settings",
+                      "logs",
+                      "server",
+                      "admins"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "systemCode",
+                "permissions"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "assignablePermissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "content",
+                "reviews",
+                "promotions",
+                "payments",
+                "settings",
+                "logs",
+                "server",
+                "admins"
+              ]
+            }
+          }
+        },
+        "required": [
+          "items",
+          "assignablePermissions"
+        ],
+        "additionalProperties": false
+      },
+      "CreateRoleDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          },
+          "permissions": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "content",
+                "reviews",
+                "promotions",
+                "payments",
+                "settings",
+                "logs"
+              ]
+            }
+          }
+        },
+        "required": [
+          "name",
+          "permissions"
+        ]
+      },
+      "RoleDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "systemCode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "superadmin",
+                  "promoter",
+                  "content_manager"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "content",
+                "reviews",
+                "promotions",
+                "payments",
+                "settings",
+                "logs",
+                "server",
+                "admins"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "systemCode",
+          "permissions"
+        ],
+        "additionalProperties": false
+      },
+      "UpdateRoleDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          },
+          "permissions": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "content",
+                "reviews",
+                "promotions",
+                "payments",
+                "settings",
+                "logs"
+              ]
+            }
+          }
+        }
       },
       "CurrentDocumentListDto_Output": {
         "type": "object",

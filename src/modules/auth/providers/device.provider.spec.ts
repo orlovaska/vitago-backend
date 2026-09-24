@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { AppConfig, loadEnv } from '../../../platform/config';
-import { generateSupportCode } from '../users.store';
+import { generateSupportCode } from '../stores/users.store';
 import { DeviceProvider } from './device.provider';
 
 const providerWithPepper = (pepper: string) =>
