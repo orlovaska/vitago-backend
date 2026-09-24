@@ -62,6 +62,31 @@ describe('renderMarker', () => {
     expect(await alphaAt(rounded, 12, 12)).toBe(255);
   });
 
+  it('crops the middle of the photo, not its busiest part', async () => {
+    // A wide photo: plain red on the left, detailed on the right. The middle
+    // square takes one half of each, whatever looks more interesting.
+    const noise = Buffer.alloc(200 * 200 * 3);
+    for (let i = 0; i < noise.length; i += 1) noise[i] = (i * 7919) % 256;
+    const wide = join(dir, 'wide.png');
+    await sharp({ create: { width: 400, height: 200, channels: 3, background: '#f00' } })
+      .composite([
+        { input: noise, raw: { width: 200, height: 200, channels: 3 }, left: 200, top: 0 },
+      ])
+      .png()
+      .toFile(wide);
+
+    const out = join(dir, 'centred.png');
+    await renderMarker(wide, out, { size: 100, cornerRadius: 0 });
+
+    const { data, info } = await sharp(out).raw().toBuffer({ resolveWithObject: true });
+    const pixel = (x: number, y: number) => [
+      ...data.subarray((y * info.width + x) * 4, (y * info.width + x) * 4 + 3),
+    ];
+    expect(pixel(10, 50)).toEqual([255, 0, 0]);
+    expect(pixel(40, 50)).toEqual([255, 0, 0]);
+    expect(pixel(60, 50)).not.toEqual([255, 0, 0]);
+  });
+
   it('rejects a file that is not an image', async () => {
     const text = join(dir, 'not-an-image.jpg');
     await writeFile(text, 'hello');
