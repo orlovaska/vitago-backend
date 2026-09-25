@@ -14,4 +14,14 @@ export interface AppContext {
 export abstract class AppDirectory {
   abstract findByBundleId(bundleId: string): Promise<AppContext | null>;
   abstract findById(id: string): Promise<AppContext | null>;
+  /** For public links, whose path names the city rather than the bundle. */
+  abstract findBySlug(slug: string): Promise<AppLinkTarget | null>;
+}
+
+/** What a public link needs to hand the visitor over to the app. */
+export interface AppLinkTarget extends AppContext {
+  /** Store name of the app, shown on its pages. */
+  name: string;
+  /** The app's own URL scheme, e.g. `audio-guide-spb`; null when it has none. */
+  urlScheme: string | null;
 }

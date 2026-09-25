@@ -3,8 +3,10 @@ import { AuthModule } from '../auth';
 import { MediaModule } from '../media';
 import { RoutingModule } from '../routing';
 import { FileReferences } from './file-references';
+import { TourShareController } from './http/tour-share.controller';
 import { ToursAdminController } from './http/tours-admin.controller';
 import { ToursController } from './http/tours.controller';
+import { AppStoreLinks } from './services/app-store-links';
 import { CategoriesService } from './services/categories.service';
 import { MarkersService } from './services/markers.service';
 import { NearbyPointsService } from './services/nearby-points.service';
@@ -24,9 +26,10 @@ import { ToursFacade } from './tours.facade';
 /** Tours, their points with optional narration, and point categories. */
 @Module({
   imports: [AuthModule, MediaModule, RoutingModule],
-  controllers: [ToursController, ToursAdminController],
+  controllers: [ToursController, ToursAdminController, TourShareController],
   providers: [
     ToursStore,
+    AppStoreLinks,
     PointsStore,
     CategoriesStore,
     MarkersStore,
