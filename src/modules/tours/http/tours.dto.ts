@@ -84,15 +84,17 @@ export class TourRefParamDto extends createZodDto(
 ) {}
 
 /**
- * Where the user stands and how far around to look. The radius is capped:
- * "near you" stops meaning anything once it covers the whole city.
+ * Where the user stands. The radius and the number of points come from the
+ * settings `points.nearbyRadiusMeters` and `points.nearbyMaxPoints`; the app
+ * may ask for less, and anything above them is cut down to them: "near you"
+ * stops meaning anything once it covers the whole city.
  */
 export class NearbyPointsQueryDto extends createZodDto(
   z.object({
     lat: z.coerce.number().min(-90).max(90),
     lon: z.coerce.number().min(-180).max(180),
-    radiusMeters: z.coerce.number().int().min(100).max(10_000).default(2_000),
-    limit: z.coerce.number().int().min(1).max(50).default(10),
+    radiusMeters: z.coerce.number().int().min(100).max(10_000).optional(),
+    limit: z.coerce.number().int().min(1).max(50).optional(),
   }),
 ) {}
 

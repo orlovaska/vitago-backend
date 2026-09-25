@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { type Bbox, haversineMeters, type LatLon } from '../../../platform/geo';
 import { type Locale } from '../../../platform/i18n';
+import { SettingsFacade } from '../../settings';
 import { type WalkPointContent, WalkPointsService } from './walk-points.service';
 
 /** A point of the app with how far it is from where the user stands. */
@@ -8,10 +9,14 @@ export interface NearbyPoint extends WalkPointContent {
   distanceMeters: number;
 }
 
+/**
+ * Radius and limit are optional: without them the settings decide, and a
+ * larger value than the settings allow is cut down to them.
+ */
 export interface NearbyQuery {
   at: LatLon;
-  radiusMeters: number;
-  limit: number;
+  radiusMeters?: number;
+  limit?: number;
 }
 
 /** Metres in one degree of latitude; longitude shrinks towards the poles. */
@@ -45,11 +50,21 @@ function bboxAround(at: LatLon, radiusMeters: number): Bbox {
  */
 @Injectable()
 export class NearbyPointsService {
-  constructor(private readonly walkPoints: WalkPointsService) {}
+  constructor(
+    private readonly walkPoints: WalkPointsService,
+    private readonly settings: SettingsFacade,
+  ) {}
 
   async near(appId: string, locale: Locale, query: NearbyQuery): Promise<NearbyPoint[]> {
+    const [maxRadius, maxPoints] = await Promise.all([
+      this.settings.get('points.nearbyRadiusMeters'),
+      this.settings.get('points.nearbyMaxPoints'),
+    ]);
+    const radiusMeters = Math.min(query.radiusMeters ?? maxRadius, maxRadius);
+    const limit = Math.min(query.limit ?? maxPoints, maxPoints);
+
     const candidates = await this.walkPoints.candidates(appId, locale, {
-      bbox: bboxAround(query.at, query.radiusMeters),
+      bbox: bboxAround(query.at, radiusMeters),
     });
 
     const closest = candidates
@@ -63,9 +78,9 @@ export class NearbyPointsService {
         ),
       }))
       // The rectangle keeps its corners, which lie outside the circle.
-      .filter((candidate) => candidate.distanceMeters <= query.radiusMeters)
+      .filter((candidate) => candidate.distanceMeters <= radiusMeters)
       .sort((a, b) => a.distanceMeters - b.distanceMeters)
-      .slice(0, query.limit);
+      .slice(0, limit);
     if (closest.length === 0) return [];
 
     const distances = new Map(closest.map((item) => [item.id, item.distanceMeters]));

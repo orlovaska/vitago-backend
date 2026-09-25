@@ -1703,7 +1703,6 @@
             "schema": {
               "minimum": 100,
               "maximum": 10000,
-              "default": 2000,
               "type": "integer"
             }
           },
@@ -1714,7 +1713,6 @@
             "schema": {
               "minimum": 1,
               "maximum": 50,
-              "default": 10,
               "type": "integer"
             }
           }

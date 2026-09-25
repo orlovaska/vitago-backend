@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { DEFAULT_LOCALE } from '../../../platform/i18n';
+import type { SettingsFacade } from '../../settings';
 import { NearbyPointsService } from './nearby-points.service';
 import type { WalkCandidate, WalkPointContent, WalkPointsService } from './walk-points.service';
 
@@ -20,14 +21,27 @@ const candidate = (id: string, lat: number, lon: number): WalkCandidate => ({
 const content = (id: string): WalkPointContent =>
   ({ id, tourId: 'tour-1', name: id }) as unknown as WalkPointContent;
 
-function service(candidates: WalkCandidate[]) {
+/** Ceilings well above what the older cases ask, so only the query decides there. */
+const WIDE = { radiusMeters: 10_000, maxPoints: 50 };
+
+function service(candidates: WalkCandidate[], limits = WIDE) {
   const contents = vi.fn((ids: readonly string[]) => Promise.resolve(ids.map(content)));
   const walkPoints = {
     candidates: vi.fn(() => Promise.resolve(candidates)),
     contents,
   } as unknown as WalkPointsService;
-  return { service: new NearbyPointsService(walkPoints), walkPoints, contents };
+  const values: Record<string, number> = {
+    'points.nearbyRadiusMeters': limits.radiusMeters,
+    'points.nearbyMaxPoints': limits.maxPoints,
+  };
+  const settings = {
+    get: vi.fn((key: string) => Promise.resolve(values[key])),
+  } as unknown as SettingsFacade;
+  return { service: new NearbyPointsService(walkPoints, settings), walkPoints, contents };
 }
+
+/** 0.001° of latitude is about 111 m. */
+const north = (id: string, degrees: number) => candidate(id, AT.lat + degrees, AT.lon);
 
 describe('NearbyPointsService', () => {
   it('answers nearest first', async () => {
@@ -91,5 +105,42 @@ describe('NearbyPointsService', () => {
 
     expect(found).toEqual([]);
     expect(contents).not.toHaveBeenCalled();
+  });
+
+  it('without a radius and a limit the settings decide', async () => {
+    const { service: nearby } = service(
+      [north('a', 0.001), north('b', 0.002), north('c', 0.003), north('beyond', 0.0095)],
+      { radiusMeters: 1000, maxPoints: 2 },
+    );
+
+    const found = await nearby.near(APP, DEFAULT_LOCALE, { at: AT });
+
+    expect(found.map((point) => point.id)).toEqual(['a', 'b']);
+  });
+
+  it('the app cannot ask for more than the settings allow', async () => {
+    const { service: nearby } = service(
+      [north('a', 0.001), north('b', 0.002), north('c', 0.003), north('beyond', 0.0095)],
+      { radiusMeters: 1000, maxPoints: 3 },
+    );
+
+    const found = await nearby.near(APP, DEFAULT_LOCALE, {
+      at: AT,
+      radiusMeters: 5000,
+      limit: 10,
+    });
+
+    expect(found.map((point) => point.id)).toEqual(['a', 'b', 'c']);
+  });
+
+  it('the app may ask for less than the settings allow', async () => {
+    const { service: nearby } = service([north('near', 0.002), north('middle', 0.006)], {
+      radiusMeters: 1000,
+      maxPoints: 15,
+    });
+
+    const found = await nearby.near(APP, DEFAULT_LOCALE, { at: AT, radiusMeters: 500 });
+
+    expect(found.map((point) => point.id)).toEqual(['near']);
   });
 });

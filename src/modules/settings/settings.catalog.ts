@@ -68,6 +68,20 @@ export const SETTINGS = {
     default: 1_800_000,
     public: false,
   }),
+  'points.nearbyRadiusMeters': define({
+    description:
+      'How far from the user a point still counts as “near you” on the home screen, in metres. The app may ask for less, never for more.',
+    schema: z.number().int().min(100).max(10_000),
+    default: 1000,
+    public: false,
+  }),
+  'points.nearbyMaxPoints': define({
+    description:
+      'Most points the “near you” list returns, nearest first. The app may ask for fewer, never for more.',
+    schema: z.number().int().min(1).max(50),
+    default: 15,
+    public: false,
+  }),
   'walks.defaultVisitSeconds': define({
     description:
       'Time counted for a point of a generated walk without narration: looking at it takes a while too.',
