@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { type AppContext, AppDirectory } from '../../platform/app-context';
+import { type AppContext, AppDirectory, type AppLinkTarget } from '../../platform/app-context';
 import { type AppInput, type AppRow, AppsStore, type Store } from './apps.store';
 import { AppsService } from './apps.service';
 
@@ -57,6 +57,12 @@ export class AppsFacade {
     const app = await this.service.findByBundleId(bundleId);
     return app && toSummary(app);
   }
+
+  /** Used by the AppDirectory binding; see AppsDirectory. */
+  async findBySlug(slug: string): Promise<AppSummary | null> {
+    const app = await this.store.findBySlug(slug);
+    return app && toSummary(app);
+  }
 }
 
 /** Implementation of the platform AppDirectory port, bound in AppModule. */
@@ -72,5 +78,9 @@ export class AppsDirectory extends AppDirectory {
 
   findById(id: string): Promise<AppContext | null> {
     return this.apps.findById(id);
+  }
+
+  findBySlug(slug: string): Promise<AppLinkTarget | null> {
+    return this.apps.findBySlug(slug);
   }
 }

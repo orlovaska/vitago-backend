@@ -91,6 +91,10 @@ export const envSchema = z.object({
     .default('usn_income'),
   /** Public URL of POST /v1/payments/tbank/notifications, registered with each order. */
   PAYMENT_NOTIFICATION_URL: z.url().optional(),
+  /** Public site; shared tour links are <base>/app/<slug>/tours/<tour>. */
+  PUBLIC_SITE_URL: z.url().default('https://vitagoguides.ru'),
+  /** Public API origin, for absolute media links on pages other sites read (link previews). */
+  PUBLIC_API_URL: z.url().default('https://api.vitagoguides.ru'),
   /** Site with the payment result page: <base>/app/<slug>/payment-result. */
   PAYMENT_RETURN_BASE_URL: z.url().default('https://vitagoguides.ru'),
   /** Lifetime of a payment link; unpaid orders expire after it. */

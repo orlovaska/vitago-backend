@@ -12,6 +12,9 @@ class FakeDirectory extends AppDirectory {
   findById() {
     return Promise.resolve(null);
   }
+  findBySlug() {
+    return Promise.resolve(null);
+  }
 }
 
 function contextFor(headers: Record<string, string>) {
